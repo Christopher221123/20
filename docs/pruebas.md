@@ -1,4 +1,22 @@
-# Pruebas (Fase 5 · Prompt 5)
+# Pruebas (rehacer desde cero · rama `rehacer`)
+
+## Paso 0 · Paleta y tokens (24/11)
+- El autor eligió la paleta C "Papel y crayón" entre cuatro (A Ciruela y vela, B Cacao y lila, C Papel y crayón, D Buganvilla).
+- Tokens en `src/index.html` (`:root`): papel #fbf3e4, papel-2 #f4e7cf, tinta #4a1650 (12,5:1), tinta-suave #6b3f6f (7,4:1), morado #8a3a8f (6,2:1), rosado-tinta #a8446c (5,1:1); rosado #e07ba0, rosado-claro #f6c9d8, dorado #e6c77e y dorado-palido #f3e3b5 solo decorativos (menos de 4,5:1).
+- Letra: Caveat 600 (a mano) y Newsreader 400 normal e itálica, incrustadas y recortadas a los caracteres del español (licencia OFL). Espacios en base 4. Curvas: sale (.23,1,.32,1), mueve (.77,0,.175,1), cae (.55,0,.85,.35). Duraciones: 140, 240, 520, 900 y 1600 ms.
+- `index.html` se arma con `python3 tools/build.py` desde `src/` (fuentes, rough.js y grano del papel).
+
+## Parte 1 · Contador (24/11) · pendiente de aprobación
+- Fichas de calendario con dos cartas detrás (dibujadas una vez, sin repintar). Al cambiar, una copia de la hoja vieja gira desde su argolla y cae (solo transform y opacity, 900 ms). Días aparece solo si falta 1 día o más.
+- Simulación: faltan 2 horas al cargar; `?faltan=SEGUNDOS` o `#faltan-N` para probar otra cuenta.
+- Botón "Desbloquear": apagado con "aún no" (`aria-disabled`, contorno punteado); con `?abierto=1` o `#abierto` se activa (morado con halo que respira). **No es seguridad.** Al tocarlo activo solo avisa que la apertura llega en la Parte 2.
+- Texto para lector de pantalla (no visible): "Faltan N horas, N minutos", se actualiza cada minuto; en cero, "La cuenta está en cero." (texto de interfaz nuevo, a revisar por el autor).
+- Resultados: capturas en 390×844, 820×1180 y 1440×900, con y sin movimiento reducido: 0 errores. Cuenta a cero correcta. Teclado: Tab llega al botón; Enter con el botón apagado no hace nada. Botón 220×69 px. 86 nodos SVG. Peso 98,8 KB (fuentes ~57 KB, rough.js ~27 KB).
+- Fluidez (Chromium sin tarjeta gráfica, CPU 4 veces más lenta, solo comparativa): 60 cuadros por segundo de media, ningún cuadro de más de 25 ms en 300. **No verificado en una tablet real.**
+- Movimiento reducido: la hoja no cae; el número cambia directo y el halo queda quieto.
+
+## Historial de la versión anterior (rama `respaldo/version-1`)
+
 
 ## Versión 4 · crayón y fluidez (24/11, a pedido del autor)
 - Trazo de crayón: rough.js 4.6.6 (licencia MIT, incluido dentro de `index.html`, sin conexión externa) vuelve a dibujar cada línea a mano, dos pasadas, la segunda con grano. Trazo más fino (1,15).
