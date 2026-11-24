@@ -12,6 +12,7 @@
     --texto: #5a3a44;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
   body {
     font-family: "Georgia", serif;
     background: linear-gradient(160deg, var(--crema), #fde3ea);
@@ -26,6 +27,7 @@
     opacity: 0.6;
     animation: subir linear forwards;
     pointer-events: none;
+    z-index: 0;
   }
   @keyframes subir {
     to { transform: translateY(-110vh) rotate(25deg); opacity: 0; }
@@ -74,7 +76,56 @@
     0%, 100% { transform: scale(1); }
     50% { transform: scale(1.2); }
   }
-  #linea { display: none; }
+
+  /* Línea de tiempo (se muestra al desbloquear) */
+  #linea { display: none; position: relative; z-index: 1; padding: 4rem 1.5rem 6rem; }
+  #linea h2 { text-align: center; font-weight: normal; font-size: clamp(1.8rem, 5vw, 2.6rem); margin-bottom: 3rem; }
+  .eje {
+    position: relative;
+    max-width: 680px;
+    margin: 0 auto;
+    padding-left: 2.2rem;
+  }
+  .eje::before {
+    content: "";
+    position: absolute;
+    left: 0.6rem;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: linear-gradient(var(--rosa), var(--rosa-fuerte));
+    border-radius: 2px;
+  }
+  .hito {
+    position: relative;
+    margin-bottom: 2.6rem;
+    opacity: 0;
+    transform: translateX(-24px);
+    transition: opacity 0.9s ease, transform 0.9s ease;
+  }
+  .hito.visible { opacity: 1; transform: translateX(0); }
+  .hito::before {
+    content: "💗";
+    position: absolute;
+    left: -2.1rem;
+    top: 0.1rem;
+    font-size: 1.1rem;
+  }
+  .hito time {
+    display: block;
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--rosa-fuerte);
+  }
+  .hito h3 { font-weight: normal; font-size: 1.35rem; margin: 0.2rem 0 0.4rem; }
+  .hito p { line-height: 1.6; }
+  .cierre {
+    text-align: center;
+    margin-top: 4rem;
+    font-size: 1.2rem;
+    line-height: 1.7;
+  }
 </style>
 </head>
 <body>
@@ -92,7 +143,9 @@
 </main>
 
 <section id="linea">
-  <!-- La línea de tiempo se carga desde timeline.js cuando llegue el día. -->
+  <h2>Nuestra historia</h2>
+  <div class="eje" id="eje"></div>
+  <p class="cierre">Cada etapa que hemos vivido es un recuerdo que guardo con cariño. Y lo que viene, también lo quiero vivir contigo.</p>
 </section>
 
 <script src="timeline.js"></script>
@@ -107,11 +160,37 @@
     segundos: document.getElementById("segundos"),
   };
 
+  function formatearFecha(iso) {
+    if (!iso.includes("-")) return iso; // solo año o etiqueta general
+    const [y, m, d] = iso.split("-").map(Number);
+    const meses = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
+    return `${d} de ${meses[m - 1]} de ${y}`;
+  }
+
+  function renderizarLinea() {
+    const eje = document.getElementById("eje");
+    (typeof HITOS !== "undefined" ? HITOS : []).forEach((h) => {
+      const div = document.createElement("div");
+      div.className = "hito";
+      div.innerHTML = `<time>${formatearFecha(h.fecha)}</time><h3></h3><p></p>`;
+      div.querySelector("h3").textContent = h.titulo;
+      div.querySelector("p").textContent = h.texto;
+      eje.appendChild(div);
+    });
+    const obs = new IntersectionObserver((entradas) => {
+      entradas.forEach((e) => {
+        if (e.isIntersecting) { e.target.classList.add("visible"); obs.unobserve(e.target); }
+      });
+    }, { threshold: 0.2 });
+    eje.querySelectorAll(".hito").forEach((n) => obs.observe(n));
+  }
+
   function actualizar() {
     const diff = DESBLOQUEO - Date.now();
     if (diff <= 0) {
       document.getElementById("cuenta").style.display = "none";
       document.getElementById("linea").style.display = "block";
+      renderizarLinea();
       clearInterval(intervalo);
       return;
     }
