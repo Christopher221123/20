@@ -14,7 +14,7 @@ res('sin librerías (<script src>)', '<script src' not in html)
 fuente = open('docs/texto-final.md', encoding='utf-8').read()
 bloque = re.search(r'const F=\[(.*?)\n\];', html, re.S).group(1)
 textos = re.findall(r"t:'((?:[^'\\]|\\.)*)'", bloque)
-lineas = [x for l in re.findall(r"l:\[(.*?)\]\}", bloque, re.S) for x in re.findall(r"'((?:[^'\\]|\\.)*)'", l)]
+lineas = re.findall(r'<span class="v">(.*?)</span>', html)
 malos = [t for t in textos + lineas if t not in fuente]
 res(f'{len(textos)} fragmentos y {len(lineas)} líneas de estrofa son literales de texto-final.md', not malos, str(malos[:3]))
 res('portada: dos líneas literales', all(s in fuente for s in ['Esto se canta bajito, y es tuyo.', 'Hoy el cielo se pone más bonito por ti.']))

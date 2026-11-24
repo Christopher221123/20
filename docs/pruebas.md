@@ -1,5 +1,16 @@
 # Pruebas (Fase 5 · Prompt 5)
 
+## Versión 2 · rediseño minimalista de líneas (24/11, a pedido del autor)
+Cuatro secciones: 1) contador central (única vista hasta desbloquear); 2) "Feliz cumpleaños" que se abre desde el centro hacia afuera, con las personas alrededor del mensaje en una sola composición; 3) el día con el deslizador, los textos escritos dentro del cielo de la escena (sin caja aparte); 4) la carta con las 4 estrofas.
+- Dibujo: solo líneas SVG (trazo 1,5), rellenos mínimos para las luces. El efecto de dibujarse usa `stroke-dashoffset` con `pathLength="1"` (desviación consciente de "solo transform y opacity"; es barato). La apertura usa `clip-path` en círculo.
+- No se usó ningún plugin ni MCP: lo que había (Icons8, SVG.new, Stewdio) añade imágenes externas o librerías.
+- Resultados v2: 43 KB; 295 a 311 nodos SVG (las personas se reparten según el ancho, máx. ~54); recorrido completo sin fallos en celular, computador y tablet con movimiento reducido; 0 errores; objetos de 45 px o más; textos literales comprobados por script.
+- Mientras está cerrada, el resto de la página está oculto e `inert` (no se llega con Tab).
+- Decisiones nuevas: tras el desbloqueo el contador desaparece; la carta está debajo del día y se llega bajando o sola después de la lámpara (N7); cada estrofa aparece al llegar a ella; en la carta no hay firma ni encabezado (no están en `texto-final.md`).
+- Sin verificar: tablet real, 60 fps, lector de pantalla. El contraste baja un momento mientras el cielo pasa de atardecer a noche (t ≈ 0,64–0,70); en las paradas está sobre 4,5:1.
+
+## Versión 1 (histórico)
+
 Estado: construcción terminada, pendiente de la revisión del autor en su tablet real.
 Fecha de las pruebas: 24/11/2026. Navegador: Chromium (Playwright) en el entorno de trabajo, no en un aparato real.
 
