@@ -16,7 +16,7 @@ Estado: borrador. Falta que el autor elija qué símbolos se quedan. Lo no verif
 
 ### Cielito (atardecer)
 - **Erich Fromm, *El arte de amar*.** El amor como preocupación activa por la vida de lo que se ama. Verificado en paráfrasis; falta la cita exacta en español de la edición que elija el autor.
-- **Carl Jung, *Recuerdos, sueños, pensamientos*(o *Modern Man in Search of a Soul*, 1933).** Dos personalidades que se encuentran se transforman mutuamente. La idea está verificada en inglés. La traducción al español no está verificada.
+- **Carl Jung, *Modern Man in Search of a Soul* (1933).** Dos personalidades que se encuentran se transforman mutuamente. La idea está verificada en inglés. La traducción al español no está verificada.
 
 ### Negrita (noche)
 - **Rainer Maria Rilke, *Cartas a un joven poeta*, carta VII (Roma, 14 de mayo de 1904).** Dos soledades que se protegen, se deslindan y se saludan. Verificado en la edición del Ministerio de Educación de Colombia (2016). Esa edición no nombra al traductor.
