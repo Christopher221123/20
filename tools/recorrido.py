@@ -1,0 +1,50 @@
+"""Recorrido completo con clics reales. Uso: python3 tools/recorrido.py <carpeta> [url]"""
+import sys, os
+from playwright.sync_api import sync_playwright
+out = sys.argv[1]; os.makedirs(out, exist_ok=True)
+base = sys.argv[2] if len(sys.argv) > 2 else 'file://' + os.path.abspath('index.html')
+def run(nombre, vp, rm):
+    fallos = []
+    with sync_playwright() as p:
+        b = p.chromium.launch(); c = b.new_context(viewport=vp, reduced_motion=rm, has_touch=False)
+        pg = c.new_page(); errs = []
+        pg.on('console', lambda m: errs.append(m.text) if m.type == 'error' else None)
+        pg.on('pageerror', lambda e: errs.append(str(e)))
+        pg.goto(base + '?abierto=1&fase=dia'); pg.wait_for_timeout(300)
+        def ir(t):
+            box = pg.locator('#linea').bounding_box()
+            pg.mouse.click(box['x'] + 22 + t * (box['width'] - 44), box['y'] + 22); pg.wait_for_timeout(250)
+        def tocar(sel):
+            try: pg.click(sel + ' .hit', timeout=2500)
+            except Exception as e: fallos.append(f'{sel}: {str(e).splitlines()[0]}')
+            pg.wait_for_timeout(200)
+        def shot(n): pg.screenshot(path=f'{out}/{nombre}-{n}.png')
+        ir(.1); tocar('#o-s1'); tocar('#o-s3'); shot('s-alba')
+        ir(.29)
+        for s in ('#o-s2', '#o-s4', '#o-s5'): tocar(s)
+        pg.wait_for_timeout(900); shot('s-medio')
+        ir(.45)
+        for s in ('#o-c2', '#o-c3a', '#o-c3b', '#o-c3c', '#o-c4', '#o-c5'): tocar(s)
+        pg.wait_for_timeout(900); shot('c-tarde'); ir(.55); ir(.65); shot('c-sol')
+        ir(.85)
+        for s in ('#o-n2a', '#o-n3a', '#o-n3b', '#o-n4', '#o-n5'): tocar(s)
+        pg.wait_for_timeout(2600); shot('n-noche'); tocar('#o-n7')
+        pg.wait_for_timeout(3200)
+        fase = pg.evaluate("document.getElementById('app').dataset.fase")
+        if fase != 'cierre': fallos.append('no llegó al cierre: ' + fase)
+        for s in ('#o-e1', '#o-e2', '#o-e3', '#o-e4'): tocar(s)
+        pg.wait_for_timeout(1200); shot('final')
+        textos = pg.evaluate("document.querySelectorAll('#texto p').length")
+        estrofas = pg.evaluate("document.querySelectorAll('#estrofas p').length")
+        puntos = pg.evaluate("document.querySelectorAll('#dots i.on').length")
+        volver = pg.evaluate("!document.getElementById('volver').hidden")
+        if textos != 20: fallos.append(f'textos={textos} (esperado 20)')
+        if estrofas != 4: fallos.append(f'estrofas={estrofas}')
+        if puntos != 24: fallos.append(f'puntos={puntos}')
+        if not volver: fallos.append('falta "volver"')
+        nodos = pg.evaluate("document.querySelectorAll('svg *').length")
+        print(nombre, 'nodos', nodos, 'errores', errs, 'FALLOS', fallos or 'ninguno')
+        b.close()
+run('pc', {'width': 1440, 'height': 900}, 'no-preference')
+run('celular', {'width': 390, 'height': 844}, 'no-preference')
+run('tablet-rm', {'width': 820, 'height': 1180}, 'reduce')

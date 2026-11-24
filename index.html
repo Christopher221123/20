@@ -17,85 +17,133 @@
 #app[data-mov="cielito"]{--acento:var(--rosa)}
 #app[data-mov="negrita"]{--acento:var(--mor)}
 *{box-sizing:border-box}
-html,body{margin:0;background:var(--cacao);color:var(--crema);font-family:var(--serif);
-  -webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--cacao);color:var(--crema);font-family:var(--serif);-webkit-tap-highlight-color:transparent}
 body{min-height:100vh;min-height:100dvh}
-#app{display:grid;grid-template-columns:minmax(0,1fr);max-width:720px;margin:0 auto;min-height:100dvh;
-  grid-template-rows:auto 1fr}
-.stage{position:relative;width:100%;aspect-ratio:400/440;container-type:inline-size;background:var(--cacao);overflow:hidden}
+#app{display:grid;grid-template-columns:minmax(0,1fr);max-width:720px;margin:0 auto;min-height:100dvh;grid-template-rows:auto 1fr}
+.stage{position:relative;width:100%;aspect-ratio:400/440;container-type:inline-size;background:var(--cacao);overflow:hidden;touch-action:manipulation}
 .stage svg{display:block;width:100%;height:100%}
-.panel{padding:18px 20px calc(24px + env(safe-area-inset-bottom));background:var(--cacao2);
-  border-top:1px solid #4a3224}
+.panel{padding:18px 20px 0;background:var(--cacao2);border-top:1px solid #4a3224}
 button{font:inherit;color:inherit}
 :focus-visible{outline:3px solid var(--acento);outline-offset:3px}
+[hidden]{display:none!important}
 
 /* fases */
-#app[data-fase="portada"] #g-escena,#app[data-fase="portada"] #p-dia{opacity:0;visibility:hidden}
-#app[data-fase="portada"] #p-dia{display:none}
-#app[data-fase="dia"] #g-portada,#app[data-fase="dia"] #cartel,#app[data-fase="dia"] #p-portada{opacity:0;visibility:hidden}
-#app[data-fase="dia"] #p-portada{display:none}
-#g-escena,#g-portada{transition:opacity .6s}
-@media (prefers-reduced-motion:reduce){#g-escena,#g-portada{transition:opacity .15s}}
+#g-escena,#g-portada,#g-final{transition:opacity .8s}
+#app:not([data-fase="portada"]) #g-portada,#app:not([data-fase="portada"]) #cartel{opacity:0;visibility:hidden}
+#app:not([data-fase="dia"]) #g-escena{opacity:0;visibility:hidden}
+#app:not([data-fase="cierre"]) #g-final{opacity:0;visibility:hidden}
+#app:not([data-fase="portada"]) #p-portada,#app:not([data-fase="dia"]) #p-dia,#app:not([data-fase="cierre"]) #p-final{display:none}
 
 /* portada */
 #glow,#cartel-g{opacity:0;transition:opacity 1.2s}
 #app[data-luz="1"] #glow,#app[data-luz="1"] #cartel-g{opacity:1}
-#cartel{position:absolute;left:7.5%;width:85%;top:8.2%;height:19.5%;margin:0;display:flex;
-  align-items:center;justify-content:center;text-align:center;font-weight:400;font-style:italic;
-  font-size:9.4cqw;color:var(--dorado);letter-spacing:.01em;opacity:0;visibility:hidden;transition:opacity 1.2s .3s}
-#app[data-luz="1"] #cartel{opacity:1;visibility:visible}
+#cartel{position:absolute;left:7.5%;width:85%;top:8.2%;height:19.5%;margin:0;display:flex;align-items:center;justify-content:center;
+  text-align:center;font-weight:400;font-style:italic;font-size:9.4cqw;color:var(--dorado);opacity:0;visibility:hidden;transition:opacity 1.2s .3s}
+#app[data-luz="1"][data-fase="portada"] #cartel{opacity:1;visibility:visible}
 .ola{animation:ola 2.4s ease-in-out infinite}
 @keyframes ola{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
-
-#p-portada{text-align:center}
+#p-portada{text-align:center;padding-bottom:24px}
 .contador{display:flex;justify-content:center;gap:18px;margin:6px 0 18px;font-family:var(--sans)}
 .contador div{min-width:52px}
 .contador b{display:block;font:300 2rem/1 var(--serif);color:var(--crema);font-variant-numeric:tabular-nums}
 .contador small{font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--suave)}
-.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;min-width:48px;padding:0 28px;
-  border-radius:999px;border:1.5px solid var(--dorado);background:var(--dorado);color:#2a1710;font-size:1.05rem;cursor:pointer}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;min-width:48px;padding:0 28px;border-radius:999px;
+  border:1.5px solid var(--dorado);background:var(--dorado);color:#2a1710;font-size:1.05rem;cursor:pointer}
 .btn[aria-disabled="true"]{background:transparent;color:var(--suave);border-color:#5a4030;cursor:default}
 .btn.suave{background:transparent;color:var(--dorado)}
 .aun{margin:10px 0 0;font-size:.95rem;color:var(--suave);font-style:italic}
 #lineas p{margin:.2em 0;font-size:1.15rem;line-height:1.5}
 #lineas .btn{margin-top:16px}
-[hidden]{display:none!important}
 
-/* día */
-#texto{min-height:7.2em;font-size:1.2rem;line-height:1.55}
-#texto p{margin:0 0 .6em;animation:entra .5s both}
+/* texto, puntos y línea del día */
+#texto,#estrofas{min-height:5.5em;max-height:max(5.5em,calc(100dvh - min(100vw,720px)*1.1 - 178px));overflow-y:auto;font-size:1.2rem;line-height:1.55;overscroll-behavior:contain}
+#texto p,#estrofas p{margin:0 0 .7em;animation:entra .6s both}
+#texto p{display:none}
+#app[data-mov="solecito"] #texto p[data-mov="solecito"],#app[data-mov="cielito"] #texto p[data-mov="cielito"],#app[data-mov="negrita"] #texto p[data-mov="negrita"]{display:block}
+#estrofas p{margin-bottom:1em;font-style:italic}
 @keyframes entra{from{opacity:0}to{opacity:1}}
-.dots{display:flex;justify-content:center;gap:18px;margin:10px 0 14px}
+.control{position:sticky;bottom:0;background:var(--cacao2);padding:6px 0 calc(12px + env(safe-area-inset-bottom))}
+#p-final{padding-bottom:calc(24px + env(safe-area-inset-bottom))}
+.dots{display:flex;justify-content:center;gap:18px;margin:6px 0 12px}
 .dots div{display:flex;gap:6px}
 .dots i{width:8px;height:8px;border-radius:50%;border:1.5px solid var(--suave);opacity:.8}
 .dots i.on{background:var(--acento);border-color:var(--acento);opacity:1}
 .linea{position:relative;height:44px;touch-action:none;cursor:pointer;user-select:none;-webkit-user-select:none}
 .riel{position:absolute;left:22px;right:22px;top:17px;height:10px;border-radius:5px;
   background:linear-gradient(90deg,#f0b050 0%,#f8eed2 30%,#e0607a 55%,#4a2a55 85%,#2d1a38 100%)}
-.pulgar{position:absolute;left:0;top:0;width:44px;height:44px;border-radius:50%;background:var(--crema);
-  border:3px solid var(--acento);box-shadow:0 0 0 2px #1f120d}
+.pulgar{position:absolute;left:0;top:0;width:44px;height:44px;border-radius:50%;background:var(--crema);border:3px solid var(--acento);box-shadow:0 0 0 2px #1f120d}
+.pulgar::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:2px solid var(--acento);opacity:0}
+.pulgar.llama::after{animation:resp 2.2s ease-in-out infinite}
 .movs{display:flex;justify-content:space-between;padding:2px 14px 0;font:.78rem var(--sans);color:var(--suave);letter-spacing:.08em}
+.volver{display:inline-block;margin-top:6px;padding:12px 4px;min-height:44px;background:none;border:0;color:var(--suave);font-size:.95rem;font-style:italic;text-decoration:underline;text-underline-offset:4px;cursor:pointer}
 
-/* personajes: caminar */
-.pa,.pb{transform-box:fill-box;transform-origin:50% 0;animation:paso .7s ease-in-out infinite alternate}
+/* objetos tocables */
+.obj{cursor:pointer;outline:none}
+.obj[data-sweep]{touch-action:none}
+.hit{fill:#000;fill-opacity:0;stroke:var(--acento);stroke-opacity:0}
+.obj:focus-visible .hit{stroke-opacity:1;stroke-width:3}
+.halo{fill:none;stroke:var(--acento);stroke-width:2;opacity:0;pointer-events:none;transform-box:fill-box;transform-origin:center}
+.sig .halo{animation:resp 2.2s ease-in-out infinite}
+@keyframes resp{0%,100%{opacity:.25;transform:scale(.92)}50%{opacity:.95;transform:scale(1.18)}}
+.fx,.fx *{transform-box:fill-box}
+
+/* caminar */
+.pa,.pb{transform-box:fill-box;transform-origin:50% 0;animation:paso .7s ease-in-out infinite alternate;--g:16deg}
 .pb{animation-direction:alternate-reverse}
-.pa{--g:16deg}.pb{--g:16deg}
 @keyframes paso{from{transform:rotate(calc(var(--g)*-1))}to{transform:rotate(var(--g))}}
 .rebote{animation:reb .35s ease-in-out infinite alternate}
 @keyframes reb{from{transform:translateY(0)}to{transform:translateY(-1.6px)}}
+#concha.salta .rebote{animation:salto .5s ease-out 2}
+@keyframes salto{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+
+/* estados de los objetos */
+#o-s1 .rayos{opacity:0;transition:opacity 1s}#o-s1.on .rayos{opacity:.55}
+#o-s2 .cab{transform-origin:center;transition:transform .9s}#o-s2.on .cab{transform:rotate(70deg) scale(1.15)}
+#o-s4 .tapa{transform-origin:0 100%;transition:transform .7s}#o-s4.on .tapa{transform:rotate(-58deg)}
+#o-s4 .bri{opacity:0;transition:opacity .7s}#o-s4.on .bri{opacity:.9}
+#o-s5 .it{transition:transform 1s,opacity 1s}#o-s5.on .it{transform:translateX(38px);opacity:.3}
+#o-c2 .mia{transform:translateY(18px);transition:transform .9s}#o-c2.on .mia{transform:translateY(0)}
+#o-c2 .ext{stroke-opacity:0;transition:stroke-opacity .8s}#o-c2.on .ext{stroke-opacity:1}
+.vap{opacity:0;transition:opacity .8s}.on .vap{opacity:.8}
+#o-c3b .cob{transform-origin:center;transition:transform .6s}#o-c3b.on .cob{transform:rotate(-6deg) translateY(-2px)}
+#o-c3c .pan{transform-origin:center;transition:transform .6s}#o-c3c.on .pan{transform:scale(1.15)}
+#o-c4 .pg{transition:opacity .7s}#o-c4.on .pg{opacity:0}
+#o-c5 .mk{transition:opacity 1s}#o-c5.on .mk{opacity:0}
+.ring{opacity:0;transform-origin:center}
+.guino .ring{animation:guino .9s ease-in-out 3}
+@keyframes guino{0%,100%{opacity:0;transform:scale(.6)}50%{opacity:.9;transform:scale(1.4)}}
+.orb{transition:transform 1.6s}#o-n3a.on .orb{transform:translateX(62px)}#o-n3b.on .orb{transform:translateX(-62px)}
+#guir.on .bu{animation:titila 1.4s ease-in-out infinite alternate}
+@keyframes titila{from{opacity:.45}to{opacity:1}}
+.lz{opacity:0;transition:opacity 1.2s}.on .lz{opacity:1}
+#haz{opacity:0;transform-origin:0 50%;transform:scaleX(.25);transition:transform 2.4s,opacity 2.4s}#haz.on{opacity:.45;transform:scaleX(1)}
+/* final */
+.vg{opacity:.4;transition:opacity 1s}.vg.on{opacity:1}
+#e2.on .barco{animation:barco 10s ease-in-out 1}
+@keyframes barco{0%,100%{transform:translateX(0) scale(1)}50%{transform:translateX(-34px) scale(.75)}}
+#e3.on .nota{animation:flota 2.6s ease-in-out infinite alternate}
+@keyframes flota{from{transform:translateY(0)}to{transform:translateY(-8px)}}
+#e4 .puerta{transform-origin:0 50%;transition:transform 1s}#e4.on .puerta{transform:scaleX(.3)}
+#e4 .lz,#e1 .lz{transition:opacity 1.2s}
+
 .pausa *{animation-play-state:paused!important}
 @media (prefers-reduced-motion:reduce){
-  .ola,.pa,.pb,.rebote{animation:none}
-  #texto p{animation:none}
+  *{transition-duration:.15s!important;transition-delay:0s!important}
+  .ola,.pa,.pb,.rebote,.nota,#guir.on .bu,#texto p,#estrofas p{animation:none!important}
+  #concha.salta .rebote,#e2.on .barco,.guino .ring,.pulgar.llama::after{animation:none!important}
+  .sig .halo{animation:none;opacity:.85}
+  .pulgar.llama::after{opacity:.85}
+  .guino .ring{opacity:.9}
+  #e2.on .barco{transform:translateX(-12px)}
 }
 
 /* computador: escena grande al centro, texto a un lado */
 @media (min-width:980px) and (min-height:560px){
-  #app{max-width:none;grid-template-columns:auto minmax(300px,380px);justify-content:center;grid-template-rows:1fr;
-    align-items:center;gap:48px;padding:0 40px}
+  #app{max-width:none;grid-template-columns:auto minmax(300px,380px);justify-content:center;grid-template-rows:1fr;align-items:center;gap:48px;padding:0 40px}
   .stage{width:min(58vw,calc(92vh*400/440));border-radius:14px;box-shadow:0 0 0 1px #4a3224}
   .panel{border:0;background:transparent;padding:0}
-  #texto{font-size:1.35rem}
+  .control{background:transparent;position:static}
+  #texto,#estrofas{font-size:1.3rem;max-height:62vh}
 }
 </style>
 </head>
@@ -109,10 +157,11 @@ button{font:inherit;color:inherit}
   <linearGradient id="gNoon" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a8d0e0"/><stop offset="1" stop-color="#f8eed2"/></linearGradient>
   <linearGradient id="gDusk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9c3b58"/><stop offset=".55" stop-color="#e0607a"/><stop offset="1" stop-color="#f29a6a"/></linearGradient>
   <linearGradient id="gNight" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1d1030"/><stop offset="1" stop-color="#4a2a55"/></linearGradient>
+  <linearGradient id="gFin" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2d1a38"/><stop offset="1" stop-color="#3a2218"/></linearGradient>
   <radialGradient id="gSol"><stop offset="0" stop-color="#ffe29a" stop-opacity=".85"/><stop offset="1" stop-color="#ffe29a" stop-opacity="0"/></radialGradient>
   <radialGradient id="gBrillo"><stop offset="0" stop-color="#ffb36b" stop-opacity=".95"/><stop offset="1" stop-color="#ff8a5c" stop-opacity="0"/></radialGradient>
   <radialGradient id="gLuz"><stop offset="0" stop-color="#f2b45a" stop-opacity=".75"/><stop offset="1" stop-color="#c98a3a" stop-opacity="0"/></radialGradient>
-  <clipPath id="cp-paisaje"><use href="#montL"/><use href="#montC"/><use href="#suelo"/><use href="#camino"/></clipPath>
+  <clipPath id="cp-paisaje"><use href="#montL"/><use href="#montC"/><use href="#suelo"/><use href="#camino"/><use href="#casas"/><use href="#techos"/></clipPath>
   <symbol id="pers" viewBox="0 0 10 22"><circle cx="5" cy="4" r="3.4" fill="var(--piel)"/><path d="M1 22V11Q1 8 5 8T9 11V22Z" fill="var(--ropa)"/></symbol>
 </defs>
 
@@ -124,7 +173,7 @@ button{font:inherit;color:inherit}
   <g id="gente" opacity="0"></g>
 </g>
 
-<!-- ESCENA (capas 0 a 7) -->
+<!-- ESCENA -->
 <g id="g-escena">
   <g aria-hidden="true">
     <rect width="400" height="345" fill="url(#gDawn)"/>
@@ -140,14 +189,26 @@ button{font:inherit;color:inherit}
     <path id="suelo" d="M0 352Q200 334 400 354V440H0Z" fill="#46301f"/>
     <path id="camino" d="M0 405Q200 420 400 372V392Q200 445 0 440Z" fill="#8a6240"/>
     <g id="flores"></g>
+    <path id="casas" fill="#9a6a45" d="M14 354h52v48h-52zM186 250h166v148h-166zM108 328h20v18h-20zM134 330h20v16h-20zM160 327h20v19h-20zM22 302h24v24h-24z"/>
+    <path id="techos" fill="#5a3320" d="M10 354L40 330L70 354zM178 250L269 218L360 250zM105 328L118 316L131 328zM131 330L144 318L157 330zM157 327L170 315L183 327zM19 302L34 288L49 302zM33 280h2v8h-2zM30 283h8v2h-8z"/>
     <g clip-path="url(#cp-paisaje)">
-      <rect id="t-alba" x="0" y="240" width="400" height="200" fill="#f0b050"/>
-      <rect id="t-tarde" x="0" y="240" width="400" height="200" fill="#b0304f"/>
-      <rect id="t-noche" x="0" y="240" width="400" height="200" fill="#1c0f2e"/>
+      <rect id="t-alba" x="0" y="210" width="400" height="230" fill="#f0b050"/>
+      <rect id="t-tarde" x="0" y="210" width="400" height="230" fill="#b0304f"/>
+      <rect id="t-noche" x="0" y="210" width="400" height="230" fill="#1c0f2e"/>
     </g>
+    <rect id="ig-v" x="30" y="309" width="6" height="9" fill="#ffd36b"/>
+    <g id="vb" fill="#ffcf70"><rect x="116" y="334" width="5" height="5"/><rect x="142" y="335" width="5" height="5"/><rect x="168" y="333" width="5" height="5"/></g>
+    <rect id="hl-v" x="24" y="364" width="16" height="14" fill="#ffd36b"/>
+    <rect x="46" y="372" width="12" height="30" fill="#2a1710"/>
+    <path id="hl-luz" d="M46 402L58 402L80 418L40 418Z" fill="#ffd36b"/>
+    <rect x="262" y="362" width="16" height="36" fill="#3a2418"/>
+    <g id="ventn" fill="#ffcf70"><rect x="206" y="318" width="32" height="30"/><rect x="296" y="318" width="46" height="38"/><rect x="298" y="350" width="42" height="8" fill="#7a3a2a"/></g>
+    <path id="guir-h" d="M96 304Q140 322 184 306" fill="none" stroke="#3a2418" stroke-width="1.2"/>
+    <g id="int"><rect x="194" y="258" width="150" height="138" rx="4" fill="#ecab52"/><rect x="204" y="346" width="132" height="3" fill="#6b4a35"/></g>
+    <g id="puesto"><rect x="238" y="372" width="3" height="32" fill="#5a3320"/><rect x="281" y="372" width="3" height="32" fill="#5a3320"/><path d="M232 374L290 374L284 360L238 360Z" fill="#c98a3a"/><rect x="240" y="394" width="42" height="5" fill="#6b4a35"/><ellipse cx="250" cy="390" rx="7" ry="5" fill="#3a2418"/><rect x="266" y="386" width="12" height="9" rx="2" fill="#b5683a"/></g>
+    <g id="guir" class="fx" data-ef="N4"></g>
   </g>
   <g id="personajes" aria-hidden="true">
-    <!-- la Concha: pekinesa café de pelo largo -->
     <g id="concha">
       <g class="pb"><rect x="-11" y="-6" width="4" height="6" rx="2" fill="#6e4224"/></g>
       <g class="pa"><rect x="9" y="-6" width="4" height="6" rx="2" fill="#6e4224"/></g>
@@ -162,7 +223,6 @@ button{font:inherit;color:inherit}
       <g class="pa"><rect x="-6" y="-6" width="4" height="6" rx="2" fill="#8a5530"/></g>
       <g class="pb"><rect x="4" y="-6" width="4" height="6" rx="2" fill="#8a5530"/></g>
     </g>
-    <!-- ella -->
     <g id="chica">
       <g class="pb"><rect x="-5.5" y="-22" width="4.4" height="22" rx="2.2" fill="#8b5a3c"/></g>
       <g class="rebote">
@@ -176,6 +236,112 @@ button{font:inherit;color:inherit}
       <g class="pa"><rect x="1.1" y="-22" width="4.4" height="22" rx="2.2" fill="#8b5a3c"/></g>
     </g>
   </g>
+
+  <g id="objetos">
+    <!-- Solecito -->
+    <g class="obj fx" id="o-s1" data-f="S1" data-z="0,0.2" role="button" tabindex="0" aria-label="Ventana con luz">
+      <path class="rayos" d="M40 366L112 398L112 412L40 378Z" fill="#ffe29a"/>
+      <circle class="hit" cx="32" cy="371" r="25"/>
+    </g>
+    <g class="obj" id="o-s3" data-f="S3" data-z="0,0.2" role="button" tabindex="0" aria-label="Perrita que se adelanta"><circle class="hit" r="28"/></g>
+    <g class="obj fx" id="o-s2" data-f="S2" data-z="0.2,0.37" role="button" tabindex="0" aria-label="Flor que se gira">
+      <rect x="83" y="368" width="2.4" height="26" fill="#5a7a3a"/><ellipse cx="78" cy="384" rx="6" ry="2.6" fill="#5a7a3a"/>
+      <g class="cab"><circle cx="84" cy="365" r="9" fill="#e6b450"/><circle cx="84" cy="365" r="5" fill="#6b4a35"/><circle cx="84" cy="353" r="3.4" fill="#e6b450"/><circle cx="95" cy="359" r="3.4" fill="#e6b450"/><circle cx="95" cy="371" r="3.4" fill="#e6b450"/><circle cx="84" cy="377" r="3.4" fill="#e6b450"/><circle cx="73" cy="371" r="3.4" fill="#e6b450"/><circle cx="73" cy="359" r="3.4" fill="#e6b450"/></g>
+      <circle class="hit" cx="84" cy="370" r="25"/>
+    </g>
+    <g class="obj fx" id="o-s4" data-f="S4" data-z="0.2,0.37" role="button" tabindex="0" aria-label="Cajón cerrado">
+      <rect x="120" y="382" width="32" height="20" rx="2" fill="#8a5a3c"/><rect class="bri" x="122" y="382" width="28" height="5" fill="#ffd36b"/>
+      <g class="tapa"><rect x="118" y="374" width="36" height="8" rx="2" fill="#6b4a35"/></g>
+      <circle class="hit" cx="136" cy="388" r="25"/>
+    </g>
+    <g class="obj fx" id="o-s5" data-f="S5" data-sweep data-z="0.2,0.37" role="button" tabindex="0" aria-label="Manos que reparten">
+      <ellipse cx="178" cy="394" rx="9" ry="5" fill="#8b5a3c"/><ellipse cx="198" cy="394" rx="9" ry="5" fill="#8b5a3c"/>
+      <circle class="it" cx="184" cy="384" r="3.6" fill="#e6b450"/><circle class="it" cx="192" cy="381" r="3.6" fill="#e6b450" style="transition-delay:.2s"/><circle class="it" cx="188" cy="375" r="3.6" fill="#e6b450" style="transition-delay:.4s"/>
+      <circle class="hit" cx="188" cy="386" r="25"/>
+    </g>
+    <!-- Cielito -->
+    <g class="obj fx" id="o-c4" data-f="C4" data-z="0.4,0.68" role="button" tabindex="0" aria-label="Libreta">
+      <rect x="210" y="277" width="24" height="16" rx="2" fill="#7a3a2a"/><rect class="pg" x="212" y="279" width="10" height="12" fill="#f4e6d0"/><rect class="pg" x="222" y="279" width="10" height="12" fill="#f4e6d0"/>
+      <circle class="hit" cx="222" cy="285" r="25"/>
+    </g>
+    <g class="obj fx" id="o-c5" data-f="C5" data-sweep data-hover data-z="0.4,0.68" role="button" tabindex="0" aria-label="Marcas en la pared">
+      <rect x="258" y="268" width="82" height="34" rx="3" fill="#d89a48"/>
+      <g stroke="#7a4a2a" stroke-width="2.5" stroke-linecap="round"><path class="mk" d="M268 274v22" style="transition-delay:0s"/><path class="mk" d="M281 274v22" style="transition-delay:.2s"/><path class="mk" d="M294 274v22" style="transition-delay:.4s"/><path class="mk" d="M307 274v22" style="transition-delay:.6s"/><path class="mk" d="M263 292L314 278" style="transition-delay:.8s"/></g>
+      <rect class="hit" x="256" y="260" width="86" height="50" rx="8"/>
+    </g>
+    <g class="obj fx" id="o-c3a" data-f="C3" data-z="0.4,0.68" role="button" tabindex="0" aria-label="Taza">
+      <rect x="214" y="328" width="16" height="13" rx="3" fill="#f4e6d0"/><path d="M230 331a4 4 0 0 1 0 7" fill="none" stroke="#f4e6d0" stroke-width="2"/><path class="vap" d="M219 324q3-4 0-8M225 324q3-4 0-8" fill="none" stroke="#fff" stroke-width="1.4"/>
+      <circle class="hit" cx="222" cy="331" r="25"/>
+    </g>
+    <g class="obj fx" id="o-c3b" data-f="C3" data-z="0.4,0.68" role="button" tabindex="0" aria-label="Cobija">
+      <g class="cob"><rect x="256" y="324" width="28" height="20" rx="2" fill="#b0405a"/><rect x="256" y="332" width="28" height="4" fill="#e58aa0"/></g>
+      <circle class="hit" cx="270" cy="331" r="25"/>
+    </g>
+    <g class="obj fx" id="o-c3c" data-f="C3" data-z="0.4,0.68" role="button" tabindex="0" aria-label="Pan">
+      <g class="pan"><ellipse cx="318" cy="336" rx="14" ry="8" fill="#d9a35a"/><path d="M311 332l3 6M318 330l3 7M325 332l-1 6" stroke="#a8702e" stroke-width="1.4"/></g><path class="vap" d="M312 326q3-4 0-8M320 326q3-4 0-8" fill="none" stroke="#fff" stroke-width="1.4"/>
+      <circle class="hit" cx="318" cy="331" r="25"/>
+    </g>
+    <g class="obj fx" id="o-c2" data-f="C2" data-z="0.4,0.68" role="button" tabindex="0" aria-label="Mesa con un plato de más">
+      <g class="mia"><circle cx="214" cy="382" r="8" fill="#b88a55"/><ellipse cx="208" cy="380" rx="3" ry="5" fill="#8a5a30"/><ellipse cx="220" cy="380" rx="3" ry="5" fill="#8a5a30"/><circle cx="214" cy="384" r="2.4" fill="#2a1710"/></g>
+      <rect x="226" y="366" width="88" height="6" rx="2" fill="#6b4a35"/><rect x="232" y="372" width="4" height="24" fill="#6b4a35"/><rect x="304" y="372" width="4" height="24" fill="#6b4a35"/>
+      <ellipse cx="250" cy="364" rx="10" ry="3" fill="#f4e6d0"/><ellipse cx="270" cy="364" rx="10" ry="3" fill="#f4e6d0"/><ellipse class="ext" cx="290" cy="364" rx="10" ry="3" fill="#f4e6d0" stroke="#e6b450" stroke-width="1.6"/>
+      <rect x="194" y="384" width="150" height="12" fill="#6b4a35"/>
+      <rect class="hit" x="226" y="354" width="88" height="50" rx="8"/>
+    </g>
+    <!-- Negrita -->
+    <g class="obj fx" id="o-n3a" data-f="N3" data-sweep data-z="0.7,1" role="button" tabindex="0" aria-label="Luz de la izquierda">
+      <g class="orb"><circle cx="70" cy="236" r="20" fill="url(#gSol)"/><circle cx="70" cy="236" r="6" fill="#ffd36b"/></g>
+      <circle class="hit" cx="70" cy="236" r="25"/>
+    </g>
+    <g class="obj fx" id="o-n3b" data-f="N3" data-sweep data-z="0.7,1" role="button" tabindex="0" aria-label="Luz de la derecha">
+      <g class="orb"><circle cx="330" cy="236" r="20" fill="url(#gSol)"/><circle cx="330" cy="236" r="6" fill="#ffd36b"/></g>
+      <circle class="hit" cx="330" cy="236" r="25"/>
+    </g>
+    <g class="obj fx" id="o-n2a" data-f="N2" data-z="0.7,1" role="button" tabindex="0" aria-label="Ventana de la izquierda">
+      <circle class="ring" cx="32" cy="371" r="14" fill="#ffd36b"/><circle class="hit" cx="32" cy="371" r="25"/>
+    </g>
+    <g class="obj fx" id="o-n2b" data-f="N2" data-z="0.7,1" role="button" tabindex="0" aria-label="Ventana de la derecha">
+      <circle class="ring" cx="222" cy="334" r="16" fill="#ffd36b"/><circle class="hit" cx="222" cy="331" r="25"/>
+    </g>
+    <g class="obj fx" id="o-n4" data-f="N4" data-sweep data-hover data-z="0.7,1" role="button" tabindex="0" aria-label="Luces del barrio">
+      <rect class="hit" x="90" y="281" width="96" height="50" rx="10"/>
+    </g>
+    <g class="obj fx" id="o-n5" data-f="N5" data-z="0.7,1" role="button" tabindex="0" aria-label="Casita oscura">
+      <rect x="98" y="380" width="24" height="20" fill="#3a2418"/><path d="M95 380L110 368L125 380Z" fill="#2a1710"/><circle class="lz" cx="110" cy="392" r="9" fill="#ffd36b"/>
+      <circle class="hit" cx="110" cy="388" r="25"/>
+    </g>
+    <path id="haz" class="fx" data-ef="N6" d="M104 400L122 400L220 432L40 432Z" fill="#ffd36b" aria-hidden="true"/>
+    <g class="obj fx" id="o-n7" data-f="N7" data-z="0.7,1" role="button" tabindex="0" aria-label="Lámpara junto a la cama">
+      <circle class="lz" cx="318" cy="338" r="24" fill="url(#gSol)"/><rect x="316" y="342" width="4" height="12" fill="#6b4a35"/><rect x="311" y="352" width="14" height="4" fill="#6b4a35"/><path d="M308 340L328 340L322 328L314 328Z" fill="#e9b867"/>
+      <circle class="hit" cx="318" cy="338" r="25"/>
+    </g>
+  </g>
+</g>
+
+<!-- ESCRITO FINAL -->
+<g id="g-final">
+  <g aria-hidden="true">
+    <rect width="400" height="440" fill="url(#gFin)"/>
+    <g fill="none" stroke="#5a3a4a" stroke-width="1"><rect x="18" y="14" width="172" height="194" rx="10"/><rect x="210" y="14" width="172" height="194" rx="10"/><rect x="18" y="226" width="172" height="194" rx="10"/><rect x="210" y="226" width="172" height="194" rx="10"/></g>
+  </g>
+  <g class="vg fx" id="e1" data-ef="E1">
+    <g aria-hidden="true"><rect x="28" y="130" width="152" height="70" rx="4" fill="#3a2548"/><path d="M30 198Q62 156 104 148Q150 140 152 96" fill="none" stroke="#c98a3a" stroke-width="3" stroke-dasharray="6 5"/><circle class="lz" cx="152" cy="92" r="22" fill="url(#gSol)"/><circle cx="152" cy="92" r="4.5" fill="#ffd36b"/></g>
+    <g class="obj" id="o-e1" data-f="E1" data-sweep role="button" tabindex="0" aria-label="Camino y luz al final"><circle class="hit" cx="150" cy="96" r="25"/></g>
+  </g>
+  <g class="vg fx" id="e2" data-ef="E2">
+    <g aria-hidden="true"><rect x="220" y="124" width="152" height="76" rx="4" fill="#3a2548"/><rect x="338" y="96" width="26" height="30" fill="#6b4a35"/><rect class="lz" x="346" y="104" width="9" height="9" fill="#ffd36b"/><rect x="346" y="104" width="9" height="9" fill="#ffd36b" opacity=".6"/>
+      <g class="barco"><path d="M244 130h40l-7 12h-26z" fill="#c98a3a"/><path d="M264 128V98L282 128Z" fill="#f4e6d0"/></g></g>
+    <g class="obj" id="o-e2" data-f="E2" role="button" tabindex="0" aria-label="Barco"><circle class="hit" cx="264" cy="124" r="25"/></g>
+  </g>
+  <g class="vg fx" id="e3" data-ef="E3">
+    <g aria-hidden="true"><rect x="28" y="370" width="152" height="40" rx="4" fill="#3a2218"/><circle cx="128" cy="300" r="9" fill="#8b5a3c"/><path d="M118 312h20l4 52h-28z" fill="#b5683a"/><rect x="120" y="364" width="6" height="24" fill="#8b5a3c"/><rect x="130" y="364" width="6" height="24" fill="#8b5a3c"/>
+      <g class="nota"><circle cx="60" cy="318" r="4" fill="#bda0e6"/><path d="M64 318v-18" stroke="#bda0e6" stroke-width="2"/></g><g class="nota" style="animation-delay:.5s"><circle cx="82" cy="336" r="4" fill="#f0a3b8"/><path d="M86 336v-18" stroke="#f0a3b8" stroke-width="2"/></g><g class="nota" style="animation-delay:1s"><circle cx="58" cy="352" r="4" fill="#e6b450"/><path d="M62 352v-18" stroke="#e6b450" stroke-width="2"/></g></g>
+    <g class="obj" id="o-e3" data-f="E3" role="button" tabindex="0" aria-label="Notas"><circle class="hit" cx="70" cy="330" r="30"/></g>
+  </g>
+  <g class="vg fx" id="e4" data-ef="E4">
+    <g aria-hidden="true"><rect x="220" y="380" width="152" height="30" rx="4" fill="#2f2a1a"/><path d="M222 380Q240 296 296 292Q352 296 370 380" fill="none" stroke="#5a7a3a" stroke-width="8"/><rect class="lz" x="283" y="318" width="26" height="62" fill="#ffd36b"/><rect x="283" y="318" width="26" height="62" fill="#ffd36b" opacity=".5"/><rect class="puerta" x="283" y="318" width="26" height="62" fill="#6b4a35"/><circle cx="240" cy="392" r="3" fill="#f0a3b8"/><circle cx="352" cy="394" r="3" fill="#e6b450"/><circle cx="262" cy="398" r="3" fill="#bda0e6"/></g>
+    <g class="obj" id="o-e4" data-f="E4" role="button" tabindex="0" aria-label="Puerta del jardín"><circle class="hit" cx="296" cy="350" r="28"/></g>
+  </g>
 </g>
 </svg>
 <h1 id="cartel">Feliz cumpleaños</h1>
@@ -184,10 +350,8 @@ button{font:inherit;color:inherit}
 <div class="panel">
   <section id="p-portada" aria-label="Portada">
     <div class="contador" role="timer" aria-label="Cuenta regresiva">
-      <div><b id="c-d">0</b><small>días</small></div>
-      <div><b id="c-h">0</b><small>horas</small></div>
-      <div><b id="c-m">0</b><small>min</small></div>
-      <div><b id="c-s">0</b><small>seg</small></div>
+      <div><b id="c-d">0</b><small>días</small></div><div><b id="c-h">0</b><small>horas</small></div>
+      <div><b id="c-m">0</b><small>min</small></div><div><b id="c-s">0</b><small>seg</small></div>
     </div>
     <div id="bloque-btn">
       <button class="btn" id="btn-desbloquear" type="button" aria-disabled="true" aria-describedby="aun">Desbloquear</button>
@@ -201,20 +365,27 @@ button{font:inherit;color:inherit}
   </section>
 
   <section id="p-dia" aria-label="El día">
-    <div id="texto" aria-live="polite"></div>
-    <div class="dots" id="dots" aria-hidden="true"></div>
-    <div class="linea" id="linea" role="slider" tabindex="0" aria-label="Línea del día"
-      aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-valuetext="Solecito, amanecer">
-      <div class="riel"></div><div class="pulgar" id="pulgar"></div>
+    <div id="texto" aria-live="polite" aria-relevant="additions"></div>
+    <div class="control">
+      <div class="dots" id="dots" aria-hidden="true"></div>
+      <div class="linea" id="linea" role="slider" tabindex="0" aria-label="Línea del día" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-valuetext="Solecito, amanecer">
+        <div class="riel"></div><div class="pulgar" id="pulgar"></div>
+      </div>
+      <div class="movs" aria-hidden="true"><span>Solecito</span><span>Cielito</span><span>Negrita</span></div>
     </div>
-    <div class="movs" aria-hidden="true"><span>Solecito</span><span>Cielito</span><span>Negrita</span></div>
+  </section>
+
+  <section id="p-final" aria-label="Escrito final">
+    <div id="estrofas" aria-live="polite" aria-relevant="additions"></div>
+    <div class="dots" id="dots2" aria-hidden="true"></div>
+    <button class="volver" id="volver" type="button" hidden>volver al inicio del día</button>
   </section>
 </div>
 </div>
 
 <script>
 (()=>{
-const $=s=>document.querySelector(s), app=$('#app'), NS='http://www.w3.org/2000/svg';
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)],app=$('#app'),NS='http://www.w3.org/2000/svg';
 const P=new URLSearchParams(location.search);
 /* PROVISIONAL: el desbloqueo por enlace NO es seguridad. El repo es público y el texto está en el código. Definitivo: Prompt 6. */
 const abierta=P.get('abierto')==='1';
@@ -223,6 +394,35 @@ const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
 const smooth=(t,a,b)=>{const x=clamp((t-a)/(b-a));return x*x*(3-2*x)};
 const tri=(t,a,b,c)=>t<=b?clamp((t-a)/(b-a)):clamp((c-t)/(c-b));
 const mk=(n,at,par)=>{const e=document.createElementNS(NS,n);for(const k in at)e.setAttribute(k,at[k]);par&&par.appendChild(e);return e};
+
+/* ---------- textos (fuente: docs/texto-final.md; no cambiar sin preguntar) ---------- */
+const F=[
+{id:'S1',m:'solecito',tipo:'dia',z:[.02,.2],t:'Hay mañanas en que no hace falta despertador. La luz se asoma y tú ya estás mirando hacia allá.'},
+{id:'S2',m:'solecito',t:'Como quien sabe de dónde viene lo bueno.'},
+{id:'S3',m:'solecito',t:'No hay prisa. El día se deja caminar.'},
+{id:'S4',m:'solecito',t:'Lo que sabes hacer, lo haces hoy. No lo dejas para cuando haya más tiempo.'},
+{id:'S5',m:'solecito',t:'Lo que tienes en las manos sirve más gastado en alguien que guardado en un cajón.'},
+{id:'S6',m:'solecito',tipo:'dia',z:[.27,.38],t:'Así empieza tu día: sin guardar nada para después.'},
+{id:'C1',m:'cielito',tipo:'dia',z:[.4,.68],t:'Cuando el cielo se pone rojo, en las casas se enciende la luz de la cocina.'},
+{id:'C2',m:'cielito',t:'Llegas, y alguien dejó un plato de más en la mesa, como se hace con quien llega.'},
+{id:'C3',m:'cielito',t:'Querer así es cosa de todos los días. Es fijarse si el otro comió, si tiene frío, si le pesó el día.'},
+{id:'C4',m:'cielito',t:'Quien se fija tanto aprende también a no llevar la cuenta.'},
+{id:'C5',m:'cielito',t:'Una vez le preguntaron a Jesús cuántas veces había que perdonar, y no dio un número: «hasta setenta veces siete» (Mt 18,22).'},
+{id:'C6',m:'cielito',tipo:'dia',z:[.5,.6],t:'Ese rojo no es del cielo solo ni del sol solo. Nace cuando se encuentran, y ninguno sigue siendo el mismo. Sin el sol, el cielo es solo aire.'},
+{id:'C7',m:'cielito',tipo:'dia',z:[.62,.68],t:'Cuando el sol se mete y todo se oscurece, no hay que asustarse. No se fue. Sigue ahí, del otro lado, esperando que pase la noche para volver. Nunca deja solo a nadie, aunque uno deje de verlo.'},
+{id:'N1',m:'negrita',tipo:'dia',z:[.72,1],t:'Cae la noche y cada casa se queda con su ventana encendida.'},
+{id:'N2',m:'negrita',t:'Cada una está sola, y aun así se saludan: una luz le guiña a la otra al otro lado de la calle.'},
+{id:'N3',m:'negrita',t:'Así debería ser querer bien. Cada quien con su propia noche, cuidándose sin apagarse ni apagar a nadie.'},
+{id:'N4',m:'negrita',t:'De noche se nota mejor quién cuida a quién.'},
+{id:'N5',m:'negrita',t:'Y también se nota quién se queda afuera, los más pequeños, los que no tienen ventana.'},
+{id:'N6',m:'negrita',tipo:'auto',t:'De ellos dijo Jesús: «Siempre que ustedes lo hicieron con uno de estos mis hermanos más pequeños, conmigo lo hicieron» (Mt 25,40).'},
+{id:'N7',m:'negrita',t:'Por eso, antes de dormir, dejas la luz encendida un rato más.'},
+{id:'E1',m:'final',l:['Hay un camino largo que da la vuelta al mar','y siempre termina en una luz encendida.','Quien lo anda no va solo:','lleva el nombre de alguien en la boca.']},
+{id:'E2',m:'final',l:['De los que vuelven aprendí','que un viaje no se mide en islas,','se mide en las ganas de llegar a casa.','Y de los que esperan, que esperar','también es una forma de caminar.']},
+{id:'E3',m:'final',l:['No volteo a comprobar que me sigues.','Quien camina de frente confía','en la música que suena detrás.','Esa música es tu paso.']},
+{id:'E4',m:'final',l:['De noche duermo, y algo en mí sigue despierto:','un jardín con la puerta abierta.','Adonde vayas, ahí queda mi casa.']}
+];
+const idx=id=>F.findIndex(f=>f.id===id);
 
 /* ---------- contador ---------- */
 const META=Date.parse('2026-11-24T00:00:00-05:00');
@@ -243,85 +443,152 @@ btn.addEventListener('click',()=>{
 });
 $('#btn-empezar').addEventListener('click',()=>mostrar('dia'));
 const pieles=['#8b5a3c','#a8704a','#6b4229','#c18a5c'], ropas=['#e6b450','#f0a3b8','#bda0e6','#c98a3a','#d9784a'];
-const gente=$('#gente');
 for(let f=0;f<2;f++)for(let i=0;i<24;i++){
-  const u=mk('use',{href:'#pers',x:18+i*15.4+(f?7:0),y:290+f*40,width:11,height:24},gente);
+  const u=mk('use',{href:'#pers',x:18+i*15.4+(f?7:0),y:290+f*40,width:11,height:24},$('#gente'));
   u.setAttribute('class','ola');
   u.style.cssText=`--piel:${pieles[(i*3+f)%4]};--ropa:${ropas[(i+f*2)%5]};animation-delay:${(i*.09+f*.3).toFixed(2)}s`;
 }
 
-/* ---------- escena ---------- */
-const est=$('#estrellas');
-for(let i=0;i<14;i++)mk('circle',{cx:(i*53+17)%390+5,cy:(i*37)%150+14,r:i%3?1:1.5},est);
-const flo=$('#flores');
-for(let i=0;i<12;i++)mk('circle',{cx:14+i*33+(i%2)*8,cy:356+(i*7)%22,r:2.4,fill:i%3?'#e6b450':'#f0a3b8'},flo);
-const E={};['sk-noon','sk-dusk','sk-night','luna','estrellas','brillo','sol','sol-rojo','flores','t-alba','t-tarde','t-noche','chica','concha','personajes'].forEach(id=>E[id]=document.getElementById(id));
+/* ---------- escena: elementos generados ---------- */
+for(let i=0;i<14;i++)mk('circle',{cx:(i*53+17)%390+5,cy:(i*37)%150+14,r:i%3?1:1.5},$('#estrellas'));
+for(let i=0;i<12;i++)mk('circle',{cx:14+i*33+(i%2)*8,cy:356+(i*7)%22,r:2.4,fill:i%3?'#e6b450':'#f0a3b8'},$('#flores'));
+const COL=['#e5484d','#3ecf8e','#5aa9ff','#ffd36b'];
+[[102,309],[114,314],[127,317],[140,318],[153,317],[166,314],[178,309]].forEach((p,i)=>mk('circle',{class:'bu',cx:p[0],cy:p[1],r:2.6,fill:COL[i%4]},$('#guir')));
+$$('.obj').forEach(o=>{const c=o.querySelector('.hit').cloneNode(false);c.setAttribute('class','halo');o.appendChild(c)});
+
+const E={};['sk-noon','sk-dusk','sk-night','luna','estrellas','brillo','sol','sol-rojo','flores','t-alba','t-tarde','t-noche','chica','concha','personajes','o-s3','ig-v','vb','hl-v','hl-luz','ventn','guir','int','puesto'].forEach(id=>E[id]=document.getElementById(id));
+const zonas=$$('.obj[data-z]').map(e=>{const z=e.dataset.z.split(',').map(Number);return{e,a:z[0],b:z[1]}});
 const roadY=x=>{const t=clamp(x/400);return (1-t)*(1-t)*422+2*t*(1-t)*432.5+t*t*382};
-const STOPS=[.1,.29,.55,.85];
+const STOPS=[.1,.29,.45,.55,.65,.85];
 let T=0, pend=false;
-function textoMov(t){return t<.38?'Solecito':t<.68?'Cielito':'Negrita'}
-function textoHora(t){return t<.2?'amanecer':t<.38?'mediodía':t<.68?'atardecer':'noche'}
+const textoMov=t=>t<.38?'Solecito':t<.68?'Cielito':'Negrita';
+const textoHora=t=>t<.2?'amanecer':t<.38?'mediodía':t<.68?'atardecer':'noche';
 function pintar(){
   pend=false; const t=T;
-  const noche=smooth(t,.6,.85), tarde=tri(t,.36,.52,.72), alba=tri(t,-.25,0,.22);
+  const noche=smooth(t,.6,.85), tarde=tri(t,.36,.52,.72), alba=tri(t,-.25,0,.22), luz=Math.max(alba,noche,tarde*.8);
   E['sk-noon'].style.opacity=smooth(t,.05,.3);
   E['sk-dusk'].style.opacity=smooth(t,.3,.55);
   E['sk-night'].style.opacity=smooth(t,.58,.82);
   E.estrellas.style.opacity=noche; E.luna.style.opacity=noche;
   E.luna.style.transform=`translateY(${((1-noche)*24).toFixed(1)}px)`;
   const s=t/.68;
-  E.sol.style.transform=`translate(${(60+290*s).toFixed(1)}px,${(290-232*Math.sin(Math.PI*s)).toFixed(1)}px)`;
+  E.sol.style.transform=`translate(${(60+302*s).toFixed(1)}px,${(290-232*Math.sin(Math.PI*s)).toFixed(1)}px)`;
   E['sol-rojo'].style.opacity=tarde*.8;
   E.brillo.style.opacity=tri(t,.5,.66,.88);
   E.flores.style.opacity=1-noche*.9;
   E['t-alba'].style.opacity=alba*.3; E['t-tarde'].style.opacity=tarde*.35; E['t-noche'].style.opacity=noche*.6;
+  E['ig-v'].style.opacity=Math.min(1,tarde*.9+noche); E.vb.style.opacity=noche; E.ventn.style.opacity=noche; E.guir.style.opacity=noche;
+  E['hl-v'].style.opacity=.35+.65*luz; E['hl-luz'].style.opacity=.15+.45*luz;
+  E.int.style.opacity=smooth(t,.37,.41)*(1-smooth(t,.67,.71));
+  E.puesto.style.opacity=1-smooth(t,.34,.4);
   const cx=50+270*t, sc=1.2*(1-.38*smooth(t,.55,1));
   E.chica.style.transform=`translate(${cx.toFixed(1)}px,${roadY(cx).toFixed(1)}px) scale(${sc.toFixed(3)})`;
   const dx=cx+36*sc+8*Math.sin(Math.PI*t);
   E.concha.style.transform=`translate(${dx.toFixed(1)}px,${(roadY(dx)+2).toFixed(1)}px) scale(${(sc*.95).toFixed(3)})`;
+  E['o-s3'].style.transform=`translate(${dx.toFixed(1)}px,${(roadY(dx)-12).toFixed(1)}px)`;
   E.personajes.style.opacity=1-.3*noche;
-  // interfaz
+  zonas.forEach(({e,a,b})=>{const w=smooth(t,a-.03,a)*(1-smooth(t,b,b+.03));e.style.opacity=w.toFixed(2);e.style.visibility=w>.05?'visible':'hidden';e.style.pointerEvents=w>.5?'auto':'none'});
   const L=$('#linea'), w=L.offsetWidth||300;
   $('#pulgar').style.transform=`translateX(${(t*(w-44)).toFixed(1)}px)`;
   L.setAttribute('aria-valuenow',Math.round(t*100));
   L.setAttribute('aria-valuetext',textoMov(t)+', '+textoHora(t));
-  app.dataset.mov=textoMov(t).toLowerCase();
+  if(app.dataset.fase!=='cierre')app.dataset.mov=textoMov(t).toLowerCase();
+  guia();
 }
-function setT(t){
+function setT(t,usuario){
   t=clamp(t);
   if(reduce.matches)t=STOPS.reduce((a,b)=>Math.abs(b-t)<Math.abs(a-t)?b:a);
   T=t; if(!pend){pend=true;requestAnimationFrame(pintar)}
+  if(usuario&&app.dataset.fase==='dia')F.forEach(f=>{if(f.tipo==='dia'&&!done.has(f.id)&&T>=f.z[0]&&T<=f.z[1])activar(f.id)});
 }
-function mostrar(f){app.dataset.fase=f; if(f==='dia')setT(T)}
+function mostrar(f){app.dataset.fase=f; if(f==='dia')setT(T); if(f==='cierre')app.dataset.mov='negrita'; guia()}
+
+/* ---------- recorrido: activar fragmentos ---------- */
+const done=new Set();
+const extras={
+  S3(){$('#concha').classList.add('salta')},
+  N2(el){$$('.obj[data-f="N2"]').forEach(o=>{o.classList.add('on');if(o!==el)o.classList.add('guino')})},
+  N5(){setTimeout(()=>activar('N6'),reduce.matches?300:1800)},
+  N7(){setTimeout(()=>mostrar('cierre'),reduce.matches?600:2400)},
+  E4(){$('#volver').hidden=false}
+};
+function agregarTexto(f){
+  const cont=f.m==='final'?$('#estrofas'):$('#texto'), p=document.createElement('p');
+  p.dataset.f=f.id; p.dataset.mov=f.m;
+  if(f.l)f.l.forEach((x,i)=>{if(i)p.appendChild(document.createElement('br'));p.appendChild(document.createTextNode(x))});
+  else p.textContent=f.t;
+  cont.insertBefore(p,[...cont.children].find(c=>idx(c.dataset.f)>idx(f.id))||null);
+  p.scrollIntoView({block:'nearest'});
+}
+function activar(id,el){
+  const f=F[idx(id)]; if(!f)return;
+  if(el)el.classList.add('on');
+  if(done.has(id))return;
+  done.add(id);
+  if(!el)$$('.obj[data-f="'+id+'"]').forEach(o=>o.classList.add('on'));
+  $$('[data-ef="'+id+'"]').forEach(o=>o.classList.add('on'));
+  agregarTexto(f);
+  $$('.dots i[data-f="'+id+'"]').forEach(i=>i.classList.add('on'));
+  extras[id]&&extras[id](el);
+  guia();
+}
+function guia(){
+  $$('.sig').forEach(e=>e.classList.remove('sig'));
+  const pul=$('#pulgar'); pul.classList.remove('llama');
+  const f=F.find(x=>!done.has(x.id)), fase=app.dataset.fase; if(!f||f.tipo==='auto')return;
+  const objs=$$('.obj[data-f="'+f.id+'"]');
+  if(fase==='cierre'){if(f.m==='final')objs.forEach(o=>o.classList.add('sig'));return}
+  if(fase!=='dia'||f.m==='final')return;
+  const vis=objs.filter(o=>o.style.visibility==='visible');
+  vis.forEach(o=>o.classList.add('sig'));
+  if(f.tipo==='dia'||!vis.length)pul.classList.add('llama');
+}
+$$('.obj').forEach(o=>{
+  const id=o.dataset.f; let lx=null,ly=0,dist=0,down=false;
+  o.addEventListener('click',()=>activar(id,o));
+  o.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();activar(id,o)}});
+  if(o.hasAttribute('data-sweep')){
+    o.addEventListener('pointerdown',e=>{down=true;lx=e.clientX;ly=e.clientY;dist=0});
+    o.addEventListener('pointerenter',e=>{lx=e.clientX;ly=e.clientY;dist=0});
+    o.addEventListener('pointermove',e=>{
+      if(!(down||(e.pointerType==='mouse'&&o.hasAttribute('data-hover'))))return;
+      if(lx!==null)dist+=Math.hypot(e.clientX-lx,e.clientY-ly); lx=e.clientX;ly=e.clientY;
+      if(dist>40)activar(id,o);
+    });
+    o.addEventListener('pointerup',()=>{down=false});
+    o.addEventListener('pointerleave',()=>{lx=null;down=false});
+  }
+});
+function dots(c){let k=0;[6,7,7,4].forEach(n=>{const g=document.createElement('div');for(let i=0;i<n;i++){const e=document.createElement('i');e.dataset.f=F[k++].id;g.appendChild(e)}c.appendChild(g)})}
+dots($('#dots'));dots($('#dots2'));
+$('#volver').addEventListener('click',()=>{mostrar('dia');setT(0)});
 
 /* ---------- línea del día ---------- */
 const L=$('#linea'); let arrastre=false;
 const desde=e=>{const r=L.getBoundingClientRect();return (e.clientX-r.left-22)/(r.width-44)};
-L.addEventListener('pointerdown',e=>{arrastre=true;L.setPointerCapture(e.pointerId);setT(desde(e))});
-L.addEventListener('pointermove',e=>{if(arrastre||e.pointerType==='mouse')setT(desde(e))});
+L.addEventListener('pointerdown',e=>{arrastre=true;L.setPointerCapture(e.pointerId);setT(desde(e),true)});
+L.addEventListener('pointermove',e=>{if(arrastre||e.pointerType==='mouse')setT(desde(e),true)});
 L.addEventListener('pointerup',()=>{arrastre=false});
 L.addEventListener('pointercancel',()=>{arrastre=false});
 L.addEventListener('keydown',e=>{
-  const k=e.key; let dir=k==='ArrowRight'||k==='ArrowUp'?1:k==='ArrowLeft'||k==='ArrowDown'?-1:0;
-  if(k==='Home'){setT(0);e.preventDefault();return}
-  if(k==='End'){setT(1);e.preventDefault();return}
+  const k=e.key; const dir=k==='ArrowRight'||k==='ArrowUp'?1:k==='ArrowLeft'||k==='ArrowDown'?-1:0;
+  if(k==='Home'){setT(0,true);e.preventDefault();return}
+  if(k==='End'){setT(1,true);e.preventDefault();return}
   if(!dir)return; e.preventDefault();
-  if(reduce.matches){const i=STOPS.findIndex(x=>Math.abs(x-T)<1e-6);setT(STOPS[clamp((i<0?0:i)+dir,0,3)])}
-  else setT(T+dir*.04);
+  if(reduce.matches){const i=STOPS.findIndex(x=>Math.abs(x-T)<1e-6);setT(STOPS[clamp((i<0?0:i)+dir,0,STOPS.length-1)],true)}
+  else setT(T+dir*.03,true);
 });
 addEventListener('resize',()=>setT(T));
 
-/* ---------- puntos de avance (6 · 7 · 7 · 4) ---------- */
-[6,7,7,4].forEach(n=>{const g=document.createElement('div');for(let i=0;i<n;i++)g.appendChild(document.createElement('i'));$('#dots').appendChild(g)});
-
 /* ---------- pausa con pestaña oculta o fuera de pantalla ---------- */
-const pausa=()=>app.classList.toggle('pausa',document.hidden||!vis);
-let vis=true; document.addEventListener('visibilitychange',pausa);
+let vis=true; const pausa=()=>app.classList.toggle('pausa',document.hidden||!vis);
+document.addEventListener('visibilitychange',pausa);
 if('IntersectionObserver' in window)new IntersectionObserver(es=>{vis=es[0].isIntersecting;pausa()}).observe($('#stage'));
 
-/* ---------- arranque (los parámetros son solo para pruebas; requieren ?abierto=1) ---------- */
+/* ---------- arranque (parámetros solo para pruebas; requieren ?abierto=1) ---------- */
 if(abierta&&P.get('t'))T=clamp(parseFloat(P.get('t'))||0);
-if(abierta&&P.get('fase')==='dia'){mostrar('dia')}
+if(abierta&&P.get('fase')==='dia')mostrar('dia');
+if(abierta&&P.get('fase')==='cierre'){F.forEach(f=>{if(f.m!=='final')done.add(f.id)});mostrar('cierre')}
 setT(T);
 })();
 </script>
