@@ -15,6 +15,15 @@
 - Fluidez (Chromium sin tarjeta gráfica, CPU 4 veces más lenta, solo comparativa): 60 cuadros por segundo de media, ningún cuadro de más de 25 ms en 300. **No verificado en una tablet real.**
 - Movimiento reducido: la hoja no cae; el número cambia directo y el halo queda quieto.
 
+## Parte 2 · Feliz cumpleaños (24/11) · pendiente de aprobación
+- Coreografía (ms desde el toque): fichas caen escalonadas (0–900) · chispa (560) · la luz se abre desde el centro del título (820) con rayos (900) y tres anillos (1000, 1180, 1360) · "Feliz cumpleaños" se escribe letra por letra (1250–2600; cada letra se descubre con una ventana que avanza, solo transform) y se rellena de morado a rosado (≈2800) · la gente sube del centro hacia los lados (2650–3500) · confeti (3500, dos caídas) · la ola (3700, dos pasadas, brazos que suben por opacidad) · frases (4300 y 4750).
+- 14 personas (11 en celular), todas juntas al pie: abuela con moño gris y chal, abuelo con sombrero, señor mayor con bastón, mamá de pelo largo con flores, papá con una niña en los hombros, chica con globo, joven de pelo rizado, joven con gorro de fiesta, señora con moño y aretes dorados, niñas con coletas, flores o moño, niños con globo y gorro de fiesta; siete tonos de piel y alturas distintas. Sin rasgos de cara, solo mejillas.
+- El dibujo se arma antes de tocar el botón (mientras se ve el contador), para que la apertura no espere.
+- Accesibilidad: el título es un `h1` real ("Feliz cumpleaños") y recibe el foco al abrir; las frases son texto real. Con movimiento reducido no hay caídas, ola ni confeti en movimiento: aparece la composición final con unos confetis quietos.
+- Resultados: capturas en 390×844, 820×1180 y 1440×900, con y sin movimiento reducido: 0 errores. `check.py` en verde. Peso 116,5 KB (el límite del script pasó de 150 a 200 KB por las fuentes incrustadas). ~920 nodos SVG en total (cada persona tiene cuerpo, brazos abajo y brazos arriba en capas separadas); en animación solo se mueven capas con transform y opacity.
+- Fluidez (Chromium sin tarjeta gráfica, CPU 4 veces más lenta, solo comparativa; toda la apertura, 12 s): tablet 58 fps de media (21 cuadros de más de 25 ms en 719), celular 60 fps, computador 45 fps. Se mejoró poniendo el confeti detrás de la gente (antes, tablet 50 fps). **No verificado en una tablet real.**
+- Prueba directa: `?abierto=1&fase=portada` (o `#abierto-portada`) salta a la apertura.
+
 ## Historial de la versión anterior (rama `respaldo/version-1`)
 
 

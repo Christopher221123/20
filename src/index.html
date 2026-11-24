@@ -79,6 +79,79 @@ button{font:inherit;color:inherit}
 @keyframes respira{0%,100%{opacity:.35;transform:scale(.96)}50%{opacity:.9;transform:scale(1.04)}}
 .aviso{min-height:1.5em;margin:0;font-size:var(--t-1);color:var(--tinta-suave);font-style:italic;text-align:center}
 
+/* ===== Parte 2 · Feliz cumpleaños ===== */
+.contador.sale{position:fixed;inset:0;z-index:5;pointer-events:none}
+.contador.sale .pila{animation:caeFicha 820ms var(--cae) both;animation-delay:var(--dl,0ms)}
+.contador.sale .etq,.contador.sale .boton,.contador.sale .aviso{transition:opacity var(--d-corta) var(--sale);opacity:0}
+@keyframes caeFicha{0%{transform:none}22%{transform:translateY(-3%) rotate(var(--rot,-3deg))}100%{transform:translateY(110svh) rotate(calc(var(--rot,-3deg)*7));opacity:.9}}
+
+.portada{position:relative;min-height:100svh;overflow:hidden;display:grid;grid-template-rows:minmax(0,1fr) auto;--cx:50%;--cy:36%}
+.portada[hidden]{display:none}
+.capa{position:absolute;pointer-events:none}
+.luz{inset:0;background:radial-gradient(circle at var(--cx) var(--cy),var(--dorado-palido) 0,color-mix(in srgb,var(--rosado-claro) 75%,transparent) min(22vmin,170px),color-mix(in srgb,var(--rosado-claro) 28%,transparent) min(48vmin,380px),transparent min(80vmin,640px));opacity:0;transform:scale(.15);transform-origin:var(--cx) var(--cy)}
+.rayos,.anillo,.chispa{left:var(--cx);top:var(--cy);translate:-50% -50%}
+.rayos{width:min(125vmax,1250px);aspect-ratio:1;opacity:0}
+.anillo{width:min(var(--a),130vmax);aspect-ratio:1;opacity:0}
+.chispa{width:56px;aspect-ratio:1;opacity:0}
+.rayos svg,.anillo svg,.chispa svg{width:100%;height:100%;overflow:visible}
+
+.arriba{position:relative;z-index:2;display:grid;place-content:center;justify-items:center;gap:var(--e5);padding:var(--e7) var(--e4) var(--e5);text-align:center}
+.titulo{margin:0;font:600 clamp(68px,17vw,150px)/.86 var(--mano);color:var(--tinta);position:relative;outline:none}
+.titulo .ln{display:block;white-space:nowrap}
+.titulo .rell{position:absolute;inset:-.2em -.15em;padding:.2em .15em;opacity:0;-webkit-text-stroke:1.2px var(--tinta);color:transparent;background:linear-gradient(172deg,var(--morado) 20%,var(--rosado-tinta) 95%);-webkit-background-clip:text;background-clip:text}
+.titulo .traz{-webkit-text-stroke:1.3px var(--tinta);color:transparent}
+.l{display:inline-block;overflow:hidden;padding:0 .06em .12em;margin:0 -.06em -.12em;vertical-align:top;transform:translateX(-101%)}
+.l>i{display:inline-block;font-style:normal;transform:translateX(101%)}
+.frases{margin:0;font-style:italic;font-size:clamp(17px,2.6vw,22px);line-height:1.5;color:var(--tinta-suave);max-width:34ch}
+.frases span{display:block;opacity:0;transform:translateY(6px)}
+
+.gente{position:relative;z-index:3;justify-self:center;width:min(100%,1180px);height:var(--gh);--gh:min(34svh,62vw,400px)}
+.pers{position:absolute;bottom:var(--b,0);left:var(--x);height:calc(var(--gh)*var(--h));aspect-ratio:120/200;translate:-50% 0;transform:translateY(115%)}
+.pers.atras{z-index:1}.pers.frente{z-index:2}
+.salta,.salta svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.portada.ola .salta,.portada.ola .salta svg,.portada.fiesta .cf{will-change:transform,opacity}
+.salta .up{opacity:0}
+.confeti{inset:0;overflow:hidden;z-index:1;contain:strict}
+.cf{position:absolute;top:-24px;left:var(--x);width:var(--w,7px);height:var(--hh,12px);border-radius:2px;background:var(--c);opacity:0}
+
+/* coreografía (el tiempo 0 es el toque en Desbloquear) */
+.portada.va .chispa{animation:chispa 1300ms var(--sale) 560ms both}
+.portada.va .luz{animation:abreLuz var(--d-escena) var(--sale) 820ms both}
+.portada.va .rayos{animation:rayos 2000ms var(--sale) 900ms both}
+.portada.va .anillo{animation:anillo 1700ms var(--sale) var(--dl) both}
+.portada.va .traz .l,.portada.va .traz .l>i{animation:escribe 220ms var(--mueve) var(--dl) both}
+.portada.va .rell{animation:aparece var(--d-media) var(--sale) var(--dr,2700ms) both}
+.portada.va .pers{animation:subePers 760ms var(--sale) var(--dl) both}
+.portada.va .frases span{animation:frase 700ms var(--sale) var(--dl) both}
+.portada.ola .salta{animation:salto 2400ms var(--mueve) var(--do) 2 both}
+.portada.ola .salta .up{animation:brazosArriba 2400ms var(--mueve) var(--do) 2 both}
+.portada.ola .salta .down{animation:brazosAbajo 2400ms var(--mueve) var(--do) 2 both}
+.portada.fiesta .cf{animation:confeti var(--dur) linear var(--dl) 2 both}
+
+@keyframes chispa{0%{opacity:0;transform:scale(0) rotate(-40deg)}35%{opacity:1;transform:scale(1.25) rotate(8deg)}60%{opacity:1;transform:scale(1) rotate(0)}100%{opacity:0;transform:scale(2.4) rotate(20deg)}}
+@keyframes abreLuz{to{opacity:1;transform:none}}
+@keyframes rayos{0%{opacity:0;transform:scale(.45) rotate(-10deg)}100%{opacity:1;transform:none}}
+@keyframes anillo{0%{opacity:0;transform:scale(.3)}35%{opacity:.75}100%{opacity:var(--fin,.3);transform:none}}
+@keyframes escribe{to{transform:none}}
+@keyframes aparece{to{opacity:1}}
+@keyframes subePers{to{transform:none}}
+@keyframes frase{to{opacity:1;transform:none}}
+@keyframes salto{0%,8%,40%,100%{transform:none}20%{transform:translateY(-7%)}}
+@keyframes brazosArriba{0%,6%,42%,100%{opacity:0}14%,32%{opacity:1}}
+@keyframes brazosAbajo{0%,6%,42%,100%{opacity:1}14%,32%{opacity:0}}
+@keyframes confeti{0%{opacity:1;transform:translate3d(0,0,0) rotate(0)}100%{opacity:1;transform:translate3d(var(--dx),108svh,0) rotate(var(--r))}}
+
+@media (prefers-reduced-motion:reduce){
+  .contador.sale{transition:opacity 150ms;opacity:0}
+  .contador.sale .pila{animation:none}
+  .portada.va :is(.luz,.rayos,.traz .l,.traz .l>i,.rell,.pers,.frases span){animation:none;opacity:1;transform:none}
+  .portada.va .anillo{animation:none;opacity:var(--fin)}
+  .portada.va .chispa{animation:none;opacity:0}
+  .portada.ola .salta,.portada.ola .salta *{animation:none}
+  .cf{opacity:1;top:var(--y);transform:rotate(var(--r))}
+  .portada.fiesta .cf{animation:none}
+}
+
 @media (prefers-reduced-motion:reduce){
   .hoja.cae{display:none}
   .boton:not([aria-disabled=true]) .halo{animation:none;opacity:.6}
@@ -101,6 +174,20 @@ button{font:inherit;color:inherit}
       <span class="b1">Desbloquear</span><span class="b2">aún no</span>
     </button>
     <p class="aviso" id="aviso" aria-live="polite"></p>
+  </section>
+  <section class="portada" id="portada" hidden inert aria-labelledby="titulo">
+    <div class="capa luz" aria-hidden="true"></div>
+    <div class="capa rayos" aria-hidden="true"></div>
+    <div class="capa anillo" style="--a:520px;--dl:1000ms;--fin:.45" aria-hidden="true"></div>
+    <div class="capa anillo" style="--a:820px;--dl:1180ms;--fin:.3" aria-hidden="true"></div>
+    <div class="capa anillo" style="--a:1180px;--dl:1360ms;--fin:.18" aria-hidden="true"></div>
+    <div class="capa chispa" aria-hidden="true"></div>
+    <div class="arriba">
+      <h1 class="titulo" id="titulo" tabindex="-1"><span class="sr">Feliz cumpleaños</span><span class="traz" aria-hidden="true"></span><span class="rell" aria-hidden="true"><span class="ln">Feliz</span><span class="ln">cumpleaños</span></span></h1>
+      <p class="frases"><span style="--dl:4300ms">Esto se canta bajito, y es tuyo.</span> <span style="--dl:4750ms">Hoy el cielo se pone más bonito por ti.</span></p>
+    </div>
+    <div class="gente" aria-hidden="true"></div>
+    <div class="capa confeti" aria-hidden="true"></div>
   </section>
 </main>
 
@@ -191,10 +278,160 @@ const bs=lienzo('0 0 240 60');bs.setAttribute('preserveAspectRatio','none');
 crayon(bs,'rectangle',[4,4,232,52],ABIERTO?{fill:MORADO,fillStyle:'solid',seed:5}:{seed:5,stroke:SUAVE,strokeLineDash:[6,7]},!ABIERTO?false:true);
 btn.prepend(bs);
 if(ABIERTO){btn.removeAttribute('aria-disabled');btn.querySelector('.b2').remove();}
+
+/* ===================== Parte 2 · Feliz cumpleaños ===================== */
+const portada=document.getElementById('portada'),titulo=document.getElementById('titulo');
+const C={dorado:tok('--dorado'),dpal:tok('--dorado-palido'),rosado:tok('--rosado'),rcl:tok('--rosado-claro'),rt:tok('--rosado-tinta')};
+let armada=false;
+function armaPortada(){
+  if(armada)return;armada=true;
+  /* título letra por letra: la ventana de cada letra avanza y la descubre, como un trazo */
+  const tz=portada.querySelector('.traz');let i=0;
+  ['Feliz','cumpleaños'].forEach(w=>{
+    const ln=document.createElement('span');ln.className='ln';
+    [...w].forEach(ch=>{const l=document.createElement('span');l.className='l';
+      const d=1250+i*78+(i>4?140:0);l.style.setProperty('--dl',d+'ms');
+      const it=document.createElement('i');it.textContent=ch;it.style.setProperty('--dl',d+'ms');l.append(it);ln.append(l);i++});
+    tz.append(ln);
+  });
+  portada.querySelector('.rell').style.setProperty('--dr',(1250+i*78+260)+'ms');
+  /* rayos y anillos: dibujados una vez */
+  const rs=lienzo('-100 -100 200 200');
+  for(let k=0;k<24;k++){const a=k/24*Math.PI*2+(k%2)*.05,r1=33+(k%3)*2,r2=46+((k*7)%5)*4;
+    const ln=rough.svg(rs).line(Math.cos(a)*r1,Math.sin(a)*r1,Math.cos(a)*r2,Math.sin(a)*r2,{stroke:k%2?C.rosado:C.dorado,strokeWidth:.16,roughness:.6,seed:k+3});ln.setAttribute('opacity','.75');rs.append(ln)}
+  portada.querySelector('.rayos').append(rs);
+  portada.querySelectorAll('.anillo').forEach((el,k)=>{const sv=lienzo('-50 -50 100 100');sv.append(rough.svg(sv).circle(0,0,96,{stroke:k%2?C.dorado:C.rosado,strokeWidth:.22,roughness:1.1,seed:50+k}));el.append(sv)});
+  const ch=lienzo('-30 -30 60 60');
+  ch.append(rough.svg(ch).path('M0 -26 Q4 -4 26 0 Q4 4 0 26 Q-4 4 -26 0 Q-4 -4 0 -26Z',{fill:C.dpal,fillStyle:'solid',stroke:C.dorado,strokeWidth:1.4,roughness:.7,seed:9}));
+  portada.querySelector('.chispa').append(ch);
+  gente();confeti();
+}
+
+/* ---------- la gente ---------- */
+const PIEL=['#f0c9a4','#d9a27a','#b97a52','#9a5e3c','#7a4429','#5c3220','#c58e66'];
+const PELO={negro:'#2a1a17',cafe:'#5a3524',castano:'#7b4a2a',gris:'#a39a94',blanco:'#d8d2cc'};
+const ROPA=[tok('--morado'),tok('--rosado'),tok('--dorado'),tok('--rosado-claro'),tok('--tinta-suave'),'#c98fb0','#b8a0d2',tok('--dorado-palido')];
+/* x en % del ancho; h = altura relativa; fila; piel; pelo; color de pelo; ropa; cuerpo; extra; en celular se oculta si oc */
+const GENTE=[
+ {x:7, h:.80,f:'atras',p:3,pelo:'moño',pc:'gris',r:1,c:'vestido',e:'chal',edad:'mayor'},
+ {x:16,h:.88,f:'atras',p:5,pelo:'corto',pc:'blanco',r:4,c:'camisa',e:'sombrero',edad:'mayor'},
+ {x:27,h:.86,f:'atras',p:1,pelo:'largo',pc:'negro',r:0,c:'vestido',e:'flores',oc:1},
+ {x:39,h:.94,f:'atras',p:4,pelo:'rizado',pc:'negro',r:2,c:'camisa',e:''},
+ {x:50,h:.98,f:'atras',p:2,pelo:'corto',pc:'cafe',r:6,c:'camisa',e:'hombros'},
+ {x:61,h:.84,f:'atras',p:0,pelo:'largo',pc:'castano',r:5,c:'vestido',e:'globo'},
+ {x:72,h:.90,f:'atras',p:6,pelo:'corto',pc:'negro',r:0,c:'camisa',e:'fiesta',oc:1},
+ {x:83,h:.82,f:'atras',p:5,pelo:'moño',pc:'negro',r:3,c:'vestido',e:'aretes'},
+ {x:93,h:.86,f:'atras',p:2,pelo:'corto',pc:'gris',r:7,c:'camisa',e:'baston',edad:'mayor'},
+ {x:12,h:.50,f:'frente',p:4,pelo:'coletas',pc:'negro',r:1,c:'vestido',e:'globo',nino:1},
+ {x:33,h:.44,f:'frente',p:0,pelo:'corto',pc:'castano',r:2,c:'camisa',e:'fiesta',nino:1},
+ {x:45,h:.36,f:'frente',p:6,pelo:'rizado',pc:'cafe',r:5,c:'vestido',e:'',nino:1,oc:1},
+ {x:67,h:.48,f:'frente',p:3,pelo:'moño',pc:'negro',r:0,c:'vestido',e:'flores',nino:1},
+ {x:88,h:.46,f:'frente',p:1,pelo:'corto',pc:'negro',r:3,c:'camisa',e:'globo',nino:1,oc:1},
+];
+function figura(P,modo,seed){
+  const arriba=modo==='arriba',brazos=modo!=='cuerpo',cuerpo=modo==='cuerpo';
+  /* lienzo 120×200, pies en y=196. Devuelve un svg con la figura (con brazos abajo o arriba) */
+  const sv=lienzo('0 0 120 200');const rc=rough.svg(sv);
+  const H=190*(P.e==='hombros'?.92:1),x=60,suelo=196,top=suelo-H;
+  const r=H*(P.nino?.15:.105),cy=top+r+2,hombro=cy+r*1.35,cadera=suelo-H*(P.nino?.36:.42);
+  const sw=r*(P.nino?.95:1.05),piel=PIEL[P.p],pelo=PELO[P.pc],ropa=ROPA[P.r],o={stroke:TINTA,strokeWidth:1.1,roughness:.9,bowing:.5,seed};
+  const add0=n=>sv.append(n);const add=n=>{if(cuerpo)add0(n)};const addB=n=>{if(brazos)add0(n)};const sol=(c,ex={})=>({...o,fill:c,fillStyle:'solid',...ex});
+  // piernas
+  const pie=P.c==='vestido'?suelo-H*.2:cadera;
+  add(rc.line(x-sw*.45,pie,x-sw*.5,suelo,o));add(rc.line(x+sw*.45,pie,x+sw*.5,suelo,o));
+  if(P.e==='baston'&&!arriba)addB(rc.line(x+sw*1.55,cadera+4,x+sw*1.75,suelo,{...o,stroke:'#7b4a2a',strokeWidth:1.6}));
+  // pelo largo por detrás
+  if(P.pelo==='largo')add(rc.path(`M${x-r*1.05} ${cy-r*.2} Q${x-r*1.35} ${cy+r*2.6} ${x-r*.7} ${cy+r*2.9} L${x+r*.7} ${cy+r*2.9} Q${x+r*1.35} ${cy+r*2.6} ${x+r*1.05} ${cy-r*.2}Z`,sol(pelo)));
+  // brazos (detrás del cuerpo hasta el hombro)
+  const mano=lado=>arriba?[x+lado*sw*1.75,top-r*.1+(P.nino?8:0)]:[x+lado*sw*1.35,cadera+(P.c==='vestido'?-2:4)];
+  [-1,1].forEach(l=>{const [mx,my]=mano(l);addB(rc.line(x+l*sw*.75,hombro+2,mx,my,{...o,strokeWidth:1.4}));addB(rc.circle(mx,my,r*.42,sol(piel,{strokeWidth:.8})))});
+  // cuerpo
+  if(P.c==='vestido')add(rc.path(`M${x-sw*.8} ${hombro} Q${x} ${hombro-r*.35} ${x+sw*.8} ${hombro} L${x+sw*1.35} ${suelo-H*.2} L${x-sw*1.35} ${suelo-H*.2}Z`,sol(ropa)));
+  else{add(rc.path(`M${x-sw*.85} ${hombro} Q${x} ${hombro-r*.35} ${x+sw*.85} ${hombro} L${x+sw*.9} ${cadera} L${x-sw*.9} ${cadera}Z`,sol(ropa)));
+       add(rc.rectangle(x-sw*.85,cadera,sw*1.7,(suelo-cadera)*.55,sol(P.nino?ROPA[(P.r+2)%8]:TINTA,{strokeWidth:.9})))}
+  if(P.e==='chal')add(rc.path(`M${x-sw*.95} ${hombro+1} Q${x} ${hombro+r*1.4} ${x+sw*.95} ${hombro+1} L${x+sw*.6} ${hombro-2} Q${x} ${hombro+r*.6} ${x-sw*.6} ${hombro-2}Z`,sol(tok('--rosado-tinta'))));
+  // cabeza
+  add(rc.circle(x,cy,r*2,sol(piel)));
+  // mejillas (sin rasgos finos)
+  [-1,1].forEach(l=>{const m=rc.circle(x+l*r*.48,cy+r*.3,r*.34,{fill:C.rosado,fillStyle:'solid',stroke:'none',roughness:.3,seed});m.setAttribute('opacity','.55');add(m)});
+  // pelo arriba
+  const capa=`M${x-r*1.02} ${cy+r*.1} Q${x-r*1.05} ${cy-r*1.2} ${x} ${cy-r*1.05} Q${x+r*1.05} ${cy-r*1.2} ${x+r*1.02} ${cy+r*.1} Q${x+r*.5} ${cy-r*.45} ${x} ${cy-r*.5} Q${x-r*.5} ${cy-r*.45} ${x-r*1.02} ${cy+r*.1}Z`;
+  if(P.pelo==='rizado'){for(let k=0;k<7;k++){const a=Math.PI*(1.05+k*.14);add(rc.circle(x+Math.cos(a)*r*.95,cy+Math.sin(a)*r*.95,r*.75,sol(pelo,{strokeWidth:.8,seed:seed+k})))}}
+  else add(rc.path(capa,sol(pelo)));
+  if(P.pelo==='moño')add(rc.circle(x,cy-r*1.25,r*.95,sol(pelo)));
+  if(P.pelo==='coletas')[-1,1].forEach(l=>add(rc.ellipse(x+l*r*1.25,cy+r*.15,r*.7,r*1.1,sol(pelo))));
+  if(P.e==='aretes')[-1,1].forEach(l=>add(rc.circle(x+l*r*.98,cy+r*.55,r*.28,{fill:C.dorado,fillStyle:'solid',stroke:TINTA,strokeWidth:.6,roughness:.4,seed})));
+  if(P.e==='sombrero'){add(rc.ellipse(x,cy-r*.75,r*3,r*.55,sol(ROPA[2])));add(rc.path(`M${x-r*.75} ${cy-r*.8} L${x-r*.6} ${cy-r*1.75} Q${x} ${cy-r*1.95} ${x+r*.6} ${cy-r*1.75} L${x+r*.75} ${cy-r*.8}Z`,sol(ROPA[2])));add(rc.line(x-r*.72,cy-r*1.05,x+r*.72,cy-r*1.05,{...o,stroke:tok('--morado'),strokeWidth:2}))}
+  if(P.e==='fiesta'){add(rc.polygon([[x-r*.7,cy-r*.8],[x+r*.7,cy-r*.8],[x+r*.15,cy-r*2.5]],sol(C.rosado)));add(rc.circle(x+r*.15,cy-r*2.55,r*.5,sol(C.dorado,{strokeWidth:.7})))}
+  // lo que llevan en la mano derecha
+  const [hx,hy]=mano(1);
+  if(P.e==='globo'){const bx=hx+6,by=hy-r*2.6;addB(rc.curve([[hx,hy],[hx+5,hy-r*1.2],[bx,by+r*1.15]],{...o,strokeWidth:.8}));addB(rc.ellipse(bx,by,r*1.7,r*2.05,sol(P.nino?C.rosado:tok('--morado'))))}
+  if(P.e==='flores'){const [fx,fy]=mano(-1);[[-7,-15],[0,-19],[7,-14]].forEach(([dx,dy],k)=>{addB(rc.line(fx,fy,fx+dx,fy+dy,{...o,stroke:'#5f7a3a',strokeWidth:1}));addB(rc.circle(fx+dx,fy+dy,8,sol([C.dorado,C.rosado,tok('--dorado-palido')][k],{strokeWidth:.7,seed:seed+k})))})}
+  return sv;
+}
+function nino(seed){ // la niña sobre los hombros
+  return {h:.5,p:1,pelo:'coletas',pc:'castano',r:3,c:'vestido',e:'',nino:1};
+}
+function gente(){
+  const g=portada.querySelector('.gente'),ancho=innerWidth<600;
+  const orden=[...GENTE.keys()].sort((a,b)=>Math.abs(GENTE[a].x-50)-Math.abs(GENTE[b].x-50));
+  /* en celular: menos gente y repartida pareja en cada fila */
+  const vis=GENTE.filter(P=>!(ancho&&P.oc));
+  const pos=new Map();['atras','frente'].forEach(f=>{const fila=vis.filter(P=>P.f===f).sort((a,b)=>a.x-b.x);
+    fila.forEach((P,j)=>pos.set(P,ancho?(f==='atras'?8+j*84/(fila.length-1):18+j*64/(fila.length-1)):P.x))});
+  GENTE.forEach((P,i)=>{
+    if(!pos.has(P))return;
+    const d=document.createElement('div');d.className='pers '+P.f;
+    const x=pos.get(P);
+    d.style.cssText=`--x:${x}%;--h:${P.h};--b:${P.f==='atras'?'7%':'0%'}`;
+    const k=orden.indexOf(i);d.style.setProperty('--dl',(2650+k*55+k*k*4)+'ms');
+    d.style.setProperty('--do',(Math.round(x*16))+'ms');
+    const s=document.createElement('div');s.className='salta';
+    const c0=figura(P,'cuerpo',i*13+5),a=figura(P,'abajo',i*13+5),b=figura(P,'arriba',i*13+5);a.classList.add('down');b.classList.add('up');
+    s.append(c0,a,b);
+    if(P.e==='hombros'){ // la niña sentada sobre los hombros, saluda con todos
+      const N=nino(),kc=figura(N,'cuerpo',77),ka=figura(N,'abajo',77),kb=figura(N,'arriba',77);
+      [kc,ka,kb].forEach((sv,j)=>{if(j)sv.classList.add(j===2?'up':'down');sv.style.cssText='height:52%;top:-31%;inset-inline:0;margin:auto'});
+      s.append(kc,ka,kb);
+    }
+    d.append(s);g.append(d);
+  });
+}
+function confeti(){
+  const c=portada.querySelector('.confeti'),cols=[C.rosado,tok('--morado'),C.dorado,C.rcl,tok('--rosado-tinta'),C.dpal];
+  const n=innerWidth<600?22:32;
+  for(let k=0;k<n;k++){const e=document.createElement('i');e.className='cf';
+    const forma=k%3;e.style.cssText=`--x:${(k*61.8)%100}%;--y:${k%2?3+(k*k*13)%15:58+(k*k*7)%12}%;--c:${cols[k%cols.length]};--w:${forma===2?5:7}px;--hh:${forma===0?12:forma===1?7:16}px;--dl:${(k*137)%1600}ms;--dur:${3600+(k*53)%1800}ms;--dx:${((k*29)%60)-30}px;--r:${(k*97)%720-360}deg`;
+    if(forma===1)e.style.borderRadius='50%';c.append(e)}
+}
+
+/* ---------- desbloquear ---------- */
+function luzEnSuCentro(){ // el centro de la luz es el centro del título (se mide una vez)
+  const t=titulo.getBoundingClientRect(),p=portada.getBoundingClientRect();
+  portada.style.setProperty('--cx',(t.left+t.width/2-p.left)+'px');portada.style.setProperty('--cy',(t.top+t.height/2-p.top)+'px');
+}
+function abrir(saltar){
+  armaPortada();
+  const cont=document.getElementById('contador');
+  portada.hidden=false;portada.inert=false;luzEnSuCentro();
+  if(saltar){cont.hidden=true;}
+  else{
+    cont.classList.add('sale');
+    cont.querySelectorAll('.pila').forEach((p,k)=>{p.style.setProperty('--dl',(k*85)+'ms');p.style.setProperty('--rot',[-3,2.5,-2,3][k]+'deg')});
+    setTimeout(()=>{cont.hidden=true},quieto.matches?160:1000);
+  }
+  requestAnimationFrame(()=>{portada.classList.add('va');
+    if(!quieto.matches){setTimeout(()=>portada.classList.add('fiesta'),3500);setTimeout(()=>portada.classList.add('ola'),3700)}});
+  setTimeout(()=>titulo.focus({preventScroll:true}),quieto.matches?200:1400);
+}
 btn.addEventListener('click',()=>{
-  if(btn.getAttribute('aria-disabled')==='true')return;
-  aviso.textContent='La apertura se arma en la Parte 2.';
+  if(btn.getAttribute('aria-disabled')==='true'||armada&&!portada.hidden)return;
+  abrir(false);
 });
+/* se prepara el dibujo mientras ella mira el contador, para que la apertura no espere */
+if(ABIERTO)(window.requestIdleCallback||setTimeout)(armaPortada);
+/* ?fase=portada (con abierto): salta directo a la apertura, solo para pruebas */
+if(ABIERTO&&(q.get('fase')==='portada'||/portada/.test(h)))abrir(true);
 }
 </script>
 </body>
