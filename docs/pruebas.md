@@ -16,6 +16,7 @@
 - Movimiento reducido: la hoja no cae; el número cambia directo y el halo queda quieto.
 
 ## Parte 2 · Feliz cumpleaños (24/11) · pendiente de aprobación
+- Ajuste (24/11): la cumpleañera está al centro del grupo (la misma figura del día) con el gorro más grande y bonito: cono morado con rayas, lunares dorados, pompón y una estrellita. Los invitados ya no llevan gorro de fiesta. Sin errores en los tres tamaños, con y sin movimiento reducido; 169,6 KB.
 - Coreografía (ms desde el toque): fichas caen escalonadas (0–900) · chispa (560) · la luz se abre desde el centro del título (820) con rayos (900) y tres anillos (1000, 1180, 1360) · "Feliz cumpleaños" se escribe letra por letra (1250–2600; cada letra se descubre con una ventana que avanza, solo transform) y se rellena de morado a rosado (≈2800) · la gente sube del centro hacia los lados (2650–3500) · confeti (3500, dos caídas) · la ola (3700, dos pasadas, brazos que suben por opacidad) · frases (4300 y 4750).
 - 14 personas (11 en celular), todas juntas al pie: abuela con moño gris y chal, abuelo con sombrero, señor mayor con bastón, mamá de pelo largo con flores, papá con una niña en los hombros, chica con globo, joven de pelo rizado, joven con gorro de fiesta, señora con moño y aretes dorados, niñas con coletas, flores o moño, niños con globo y gorro de fiesta; siete tonos de piel y alturas distintas. Sin rasgos de cara, solo mejillas.
 - El dibujo se arma antes de tocar el botón (mientras se ve el contador), para que la apertura no espere.

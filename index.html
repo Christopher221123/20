@@ -108,6 +108,7 @@ button{font:inherit;color:inherit}
 .gente{position:relative;z-index:3;justify-self:center;width:min(100%,1180px);height:var(--gh)}
 .pers{position:absolute;bottom:var(--b,0);left:var(--x);height:calc(var(--gh)*var(--h));aspect-ratio:120/200;translate:-50% 0;transform:translateY(175%)}
 .pers.atras{z-index:1}.pers.frente{z-index:2}
+.pers.cumple{aspect-ratio:160/300;z-index:1}
 .salta,.salta svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
 .portada.ola .salta,.portada.ola .salta svg,.portada.fiesta .cf{will-change:transform,opacity}
 .salta .up{opacity:0}
@@ -511,13 +512,13 @@ const GENTE=[
  {x:16,h:.88,f:'atras',p:5,pelo:'corto',pc:'blanco',r:4,c:'camisa',e:'sombrero',edad:'mayor'},
  {x:27,h:.86,f:'atras',p:1,pelo:'largo',pc:'negro',r:0,c:'vestido',e:'flores',oc:1},
  {x:39,h:.94,f:'atras',p:4,pelo:'rizado',pc:'negro',r:2,c:'camisa',e:''},
- {x:50,h:.95,f:'atras',p:2,pelo:'corto',pc:'cafe',r:6,c:'camisa',e:''},
+ {x:50,h:.98,f:'atras',ella:1}, // la cumpleañera, al centro, con el gorro más bonito
  {x:61,h:.84,f:'atras',p:0,pelo:'largo',pc:'castano',r:5,c:'vestido',e:'globo'},
- {x:72,h:.90,f:'atras',p:6,pelo:'corto',pc:'negro',r:0,c:'camisa',e:'fiesta',oc:1},
+ {x:72,h:.90,f:'atras',p:6,pelo:'corto',pc:'negro',r:0,c:'camisa',e:'',oc:1},
  {x:83,h:.82,f:'atras',p:5,pelo:'moño',pc:'negro',r:3,c:'vestido',e:'aretes'},
  {x:93,h:.86,f:'atras',p:2,pelo:'corto',pc:'gris',r:7,c:'camisa',e:'baston',edad:'mayor'},
  {x:12,h:.50,f:'frente',p:4,pelo:'coletas',pc:'negro',r:1,c:'vestido',e:'globo',nino:1},
- {x:33,h:.44,f:'frente',p:0,pelo:'corto',pc:'castano',r:2,c:'camisa',e:'fiesta',nino:1},
+ {x:33,h:.44,f:'frente',p:0,pelo:'corto',pc:'castano',r:2,c:'camisa',e:'',nino:1},
  {x:45,h:.36,f:'frente',p:6,pelo:'rizado',pc:'cafe',r:5,c:'vestido',e:'',nino:1,oc:1},
  {x:67,h:.48,f:'frente',p:3,pelo:'moño',pc:'negro',r:0,c:'vestido',e:'flores',nino:1},
  {x:88,h:.46,f:'frente',p:1,pelo:'corto',pc:'negro',r:3,c:'camisa',e:'globo',nino:1,oc:1},
@@ -563,6 +564,19 @@ function figura(P,modo,seed){
   if(P.e==='flores'){const [fx,fy]=mano(-1);[[-7,-15],[0,-19],[7,-14]].forEach(([dx,dy],k)=>{addB(rc.line(fx,fy,fx+dx,fy+dy,{...o,stroke:'#5f7a3a',strokeWidth:1}));addB(rc.circle(fx+dx,fy+dy,8,sol([C.dorado,C.rosado,tok('--dorado-palido')][k],{strokeWidth:.7,seed:seed+k})))})}
   return sv;
 }
+function gorro(){
+  const sv=lienzo('0 0 160 300'),G={stroke:TINTA,strokeWidth:1.4,roughness:.8,seed:880};
+  const r=rough.svg(sv),add=n=>sv.append(n);
+  add(r.polygon([[44,40],[116,40],[86,-58]],{...G,fill:tok('--morado'),fillStyle:'solid'}));
+  [[50,22,110,22,0],[58,-2,103,-2,1],[66,-26,96,-26,2]].forEach(([a,b,c,d2,i])=>add(r.path(`M${a} ${b} Q80 ${b+8} ${c} ${d2}`,{...G,stroke:tok('--rosado-claro'),strokeWidth:5,seed:881+i})));
+  [[60,30],[94,8],[74,-14],[84,-40]].forEach(([x,y],i)=>add(r.circle(x,y,6,{...G,fill:tok('--dorado'),fillStyle:'solid',strokeWidth:.8,seed:885+i})));
+  add(r.ellipse(80,40,82,14,{...G,fill:tok('--rosado'),fillStyle:'solid',seed:890}));
+  for(let i=0;i<7;i++){const a=i/7*Math.PI*2;add(r.ellipse(86+Math.cos(a)*9,-60+Math.sin(a)*9,12,10,{...G,fill:tok('--rosado-claro'),fillStyle:'solid',strokeWidth:.8,seed:891+i}))}
+  add(r.circle(86,-60,12,{...G,fill:tok('--dorado-palido'),fillStyle:'solid',seed:899}));
+  add(r.path('M86 -78 L89 -70 L97 -70 L91 -65 L93 -57 L86 -62 L79 -57 L81 -65 L75 -70 L83 -70Z',{...G,fill:tok('--dorado'),fillStyle:'solid',strokeWidth:.9,seed:900}));
+  add(r.curve([[46,42],[54,84],[66,108]],{...G,strokeWidth:.8,seed:901}));
+  return sv;
+}
 function nino(seed){ // la niña sobre los hombros
   return {h:.5,p:1,pelo:'coletas',pc:'castano',r:3,c:'vestido',e:'',nino:1};
 }
@@ -581,6 +595,7 @@ function gente(){
     const k=orden.indexOf(i);d.style.setProperty('--dl',(2650+k*55+k*k*4)+'ms');
     d.style.setProperty('--do',(Math.round(x*16))+'ms');
     const s=document.createElement('div');s.className='salta';
+    if(P.ella){d.classList.add('cumple');s.append(ellaSVG(1),gorro());d.append(s);g.append(d);return}
     const c0=figura(P,'cuerpo',i*13+5),a=figura(P,'abajo',i*13+5),b=figura(P,'arriba',i*13+5);a.classList.add('down');b.classList.add('up');
     s.append(c0,a,b);
     if(P.e==='hombros'){ // la niña sentada sobre los hombros, saluda con todos
