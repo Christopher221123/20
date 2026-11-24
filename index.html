@@ -161,10 +161,9 @@ button{font:inherit;color:inherit}
    En cada cuadro solo cambian transform y opacity de capas propias. */
 .dia{position:relative;height:calc(var(--n,20) * 85svh + 100svh)}
 .dia[hidden]{display:none}
-.escena{position:sticky;top:0;height:100svh;overflow:hidden;contain:strict;--chx:22%}
-@media (min-aspect-ratio:1/1){.escena{--chx:30%}}
+.escena{position:sticky;top:0;height:100svh;overflow:hidden;contain:strict;--chx:30%}
 .escena .c{position:absolute;inset:0;pointer-events:none}
-.cielo>i{position:absolute;inset:0;will-change:opacity}
+.cielo>i{position:absolute;inset:0}
 .c-amanecer{background:linear-gradient(#f7dccb,#fbe7cf 55%,#f9d7c0)}
 .c-mediodia{background:linear-gradient(#f8efdc,#fbf3e4 60%,#fdf6e8);opacity:0}
 .c-atardecer{background:linear-gradient(#e7a2b5,#f0b39d 50%,#f5c992);opacity:0}
@@ -172,9 +171,9 @@ button{font:inherit;color:inherit}
 .astro{position:absolute;left:0;top:0;will-change:transform}
 .sol{width:calc(100svh*.11);aspect-ratio:1}
 .sol svg,.luna svg{width:100%;height:100%;overflow:visible}
-.rojo{position:absolute;left:50%;top:80%;width:160vmax;aspect-ratio:1;translate:-50% -50%;background:radial-gradient(closest-side,#e8506f 0,rgba(232,80,111,.45) 30%,rgba(240,140,110,.15) 60%,transparent);opacity:0;transform:scale(.3);will-change:transform,opacity}
-.brillo{position:absolute;left:0;top:0;width:calc(100svh*.5);aspect-ratio:1;translate:-50% -50%;background:radial-gradient(closest-side,rgba(255,214,160,.9),rgba(240,150,120,.35) 45%,transparent);opacity:0;will-change:opacity}
-.estrellas{opacity:0;will-change:opacity}
+.rojo{position:absolute;left:50%;top:80%;width:110vmax;aspect-ratio:1;translate:-50% -50%;background:radial-gradient(closest-side,#e8506f 0,rgba(232,80,111,.45) 30%,rgba(240,140,110,.15) 60%,transparent);opacity:0;transform:scale(.3)}
+.brillo{position:absolute;left:0;top:0;width:calc(100svh*.5);aspect-ratio:1;translate:-50% -50%;background:radial-gradient(closest-side,rgba(255,214,160,.9),rgba(240,150,120,.35) 45%,transparent);opacity:0}
+.estrellas{opacity:0}
 .estrellas svg{width:100%;height:62%}
 .luna{width:calc(100svh*.07);aspect-ratio:1;opacity:0}
 .banda{position:absolute;left:0;bottom:0;height:var(--wh,100%);display:flex;will-change:transform}
@@ -183,20 +182,18 @@ button{font:inherit;color:inherit}
 .est>svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
 .pz{position:absolute}
 .pz>svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
-.velo{will-change:opacity;opacity:0}
+.velo{opacity:0}
 .velo-tarde{background:#c8506e;mix-blend-mode:normal}
 .velo-noche{background:#22082b}
 .ella,.perrita{position:absolute;bottom:calc(var(--wh,100svh)*.135);will-change:transform}
-.ella{left:var(--chx);height:calc(var(--wh,100svh)*.34);aspect-ratio:160/300;translate:-50% 0}
-.perrita{left:calc(var(--chx) + var(--wh,100svh)*.1);height:calc(var(--wh,100svh)*.105);aspect-ratio:130/90;translate:-50% 0;transition:transform 1100ms var(--sale)}
-.perrita.adelante{transform:translateX(min(22vw,26svh))}
+.ella{left:var(--chx);height:calc(var(--wh,100svh)*.34);aspect-ratio:160/300;translate:-50% 0;transition:opacity var(--d-larga) var(--sale)}
+.perrita{height:calc(var(--wh,100svh)*.1);aspect-ratio:130/90;translate:-50% 0;transition:transform 1100ms var(--sale),opacity var(--d-larga) var(--sale)}
+.perrita.concha{left:calc(var(--chx) + var(--wh,100svh)*.17)}
+.perrita.mia{left:calc(var(--chx) - var(--wh,100svh)*.13);bottom:calc(var(--wh,100svh)*.115)}
+.perrita.concha.adelante{transform:translateX(min(16vw,20svh))}
 .ella>svg,.perrita>svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;opacity:0}
-.ella>svg.f0,.perrita>svg.f0{opacity:1}
-.anda .f0,.anda .f1,.anda .f2{animation:paso 540ms steps(1) infinite}
-.anda .f1{animation-delay:-180ms}.anda .f2{animation-delay:-360ms}
-.perrita.anda .f0{animation:paso2 360ms steps(1) infinite}.perrita.anda .f1{animation:paso2 360ms steps(1) -180ms infinite}
-@keyframes paso{0%{opacity:1}33.3%,100%{opacity:0}}
-@keyframes paso2{0%{opacity:1}50%,100%{opacity:0}}
+.ella>svg:nth-child(2),.perrita>svg:first-child{opacity:1}
+.entra{opacity:0}
 .sombra{position:absolute;left:var(--chx);bottom:calc(var(--wh,100svh)*.125);width:calc(var(--wh,100svh)*.09);height:calc(var(--wh,100svh)*.02);translate:-30% 0;border-radius:50%;background:rgba(74,22,80,.22);transform-origin:20% 50%;will-change:transform,opacity}
 .ella.entra{opacity:0;transition:opacity var(--d-larga) var(--sale)}
 
@@ -272,8 +269,7 @@ button{font:inherit;color:inherit}
 .on .lampara{opacity:1}
 
 @media (prefers-reduced-motion:reduce){
-  .anda .f0,.anda .f1,.anda .f2,.perrita.anda .f0,.perrita.anda .f1{animation:none}
-  .frag,.frag.vis,.perrita,.ella.entra{transition:none}
+  .frag,.frag.vis,.perrita,.ella{transition:none}
   .on *,.on{animation-duration:1ms!important;animation-delay:0ms!important;animation-iteration-count:1!important;transition-duration:1ms!important;transition-delay:0ms!important}
   .barrio .tw{animation:none}
   .portada.va .baja{animation:none;opacity:1}
@@ -320,7 +316,8 @@ button{font:inherit;color:inherit}
       <div class="c paisaje" aria-hidden="true"></div>
       <div class="c mundo" aria-hidden="true"></div>
       <div class="sombra" aria-hidden="true"></div>
-      <div class="perrita" aria-hidden="true"></div>
+      <div class="perrita mia" aria-hidden="true"></div>
+      <div class="perrita concha" aria-hidden="true"></div>
       <div class="ella" aria-hidden="true"></div>
       <div class="c velo velo-tarde" aria-hidden="true"></div>
       <div class="c velo velo-noche" aria-hidden="true"></div>
@@ -611,7 +608,7 @@ const EST=[
  (sv,E,L)=>{casa(sv,170,520,300,300,{seed:11});ventana(sv,352,580,86,78);
    D(sv,'rectangle',[205,672,74,148],F_(K.oscuro,{seed:14}));
    D(sv,'polygon',[[[205,672],[258,684],[258,808],[205,820]]],F_(K.madera,{seed:15}));
-   pieza(L,252,668,140,160,'',(s)=>{D(s,'polygon',[[[8,6],[26,4],[26,150],[8,150]]],F_(K.luz,{...SIN,roughness:.4}));D(s,'ellipse',[40,152,90,14],F_(K.luzC,{...SIN,roughness:.4}))});
+   pieza(L,252,668,140,160,'',(s)=>{D(s,'polygon',[[[8,6],[26,4],[26,150],[8,150]]],F_(K.luz,{...SIN,roughness:.4}));D(s,'ellipse',[26,150,44,8],F_(K.luzC,{...SIN,roughness:.4}))});
    pieza(L,352,580,86,78,'rayo-ventana',vidrioLuz);brilla(L,300,520,190,200,'rayo-ventana',K.luzC);
    D(sv,'line',[480,820,480,700],{stroke:K.tallo,seed:17});D(sv,'circle',[480,694,22],F_(K.toldo,{seed:18}));},
  /* S2 flor que se gira (girasol) */
@@ -737,7 +734,7 @@ const capas={};
 const sol=escena.querySelector('.sol'),rojo=escena.querySelector('.rojo'),brillo=escena.querySelector('.brillo'),luna=escena.querySelector('.luna'),estrellas=escena.querySelector('.estrellas');
 const veloT=escena.querySelector('.velo-tarde'),veloN=escena.querySelector('.velo-noche');
 const mundo=escena.querySelector('.mundo'),luces=escena.querySelector('.luces');
-const ella=escena.querySelector('.ella'),perrita=escena.querySelector('.perrita'),sombra=escena.querySelector('.sombra');
+const ella=escena.querySelector('.ella'),perrita=escena.querySelector('.perrita.concha'),otra=escena.querySelector('.perrita.mia'),sombra=escena.querySelector('.sombra');
 const frags=escena.querySelector('.frags'),momentos=[...escena.querySelectorAll('.momentos li')];
 const bandas=[];
 let diaArmado=false;
@@ -761,45 +758,55 @@ function armaDia(){
     D(sv,'rectangle',[-10,898,1420,110],F_('#c2c78f',{stroke:'#8f9a62',strokeWidth:1.4,seed:561}));
     for(let i=0;i<7;i++)D(sv,'line',[60+i*200,852,140+i*200,852],{stroke:'#c9ad7c',strokeWidth:2.4,seed:562+i})});
   // ella y la perrita: dibujos cuadro a cuadro (se alternan por opacidad)
-  [0,1,2].forEach(fr=>{const s=ellaSVG(fr);s.classList.add('f'+fr);ella.append(s)});
-  [0,1].forEach(fr=>{const s=perritaSVG(fr);s.classList.add('f'+fr);perrita.append(s)});
+  [0,1,2].forEach(fr=>ella.append(ellaSVG(fr)));
+  [0,1].forEach(fr=>{perrita.append(perritaSVG(fr,K.concha,K.concha2,620));otra.append(perritaSVG(fr,K.mia,K.mia2,640))});
+  cuadros={ella:[...ella.children],concha:[...perrita.children],mia:[...otra.children]};
+  Object.entries({ella:1,concha:0,mia:0}).forEach(([q,n])=>{cuadros[q].forEach((sv,i)=>sv.style.opacity=i===n?1:0);ultimo['p'+q]=n});
   // fragmentos: texto real, escrito dentro del cielo
   FRAG.forEach((F,i)=>{const p=document.createElement('p');p.className='frag m-'+F.m+(F.t.length>150?' largo':'');p.textContent=F.t;p.id='fr'+i;frags.append(p)});
   medir();construyeCerca(0);
 }
+/* ella, de frente: cabello claro a los hombros, blusa morada, jean y zapatillas.
+   fr: 0 pie izquierdo adelante, 1 de pie, 2 pie derecho adelante */
 function ellaSVG(fr){
-  const sv=lienzo('0 0 160 300'),pie=296;
-  const pasos=[[[70,-6],[92,8]],[[80,0],[82,0]],[[90,8],[68,-6]]][fr];
-  // pierna de atrás, pelo largo, vestido, brazos, cabeza
-  D(sv,'line',[76,226,76+pasos[0][1],pie],{strokeWidth:2.4,seed:601});
-  D(sv,'path',['M58 52 Q48 120 60 150 L100 150 Q106 110 102 48Z'],F_(K.pelo,{seed:602}));
-  D(sv,'line',[90,226,90+pasos[1][1],pie],{strokeWidth:2.4,seed:603});
-  D(sv,'path',['M60 96 Q83 86 106 96 L128 234 L38 234Z'],F_(K.vestido,{seed:604}),true);D(sv,'line',[50,232,116,232],{stroke:C.dorado,strokeWidth:2,seed:613});
-  const br=[[50,168],[60,172],[70,168]][fr],bd=[[118,166],[108,172],[100,166]][fr];
-  D(sv,'line',[68,104,br[0],br[1]],{strokeWidth:2,seed:605});D(sv,'circle',[br[0],br[1],10],F_(K.piel,{seed:606,strokeWidth:1}));
-  D(sv,'line',[98,104,bd[0],bd[1]],{strokeWidth:2,seed:607});D(sv,'circle',[bd[0],bd[1],10],F_(K.piel,{seed:608,strokeWidth:1}));
-  D(sv,'circle',[84,64,46],F_(K.piel,{seed:609}));
-  D(sv,'path',['M60 64 Q60 34 86 36 Q110 38 108 62 Q96 46 74 50 Q64 54 60 64Z'],F_(K.pelo,{seed:610}));
-  const m=rough.svg(sv).circle(96,74,9,F_(C.rosado,{...SIN,roughness:.3,seed:611}));m.setAttribute('opacity','.6');sv.append(m);
-  D(sv,'circle',[100,82,5],F_(C.dorado,{seed:612,strokeWidth:.8}));
+  const sv=lienzo('0 0 160 300'),PIEL='#d9a57c',PELO='#9a6a42',JEAN='#5f76a8',JEAN2='#4b5f8c';
+  const pie=[[[60,282],[96,296]],[[62,296],[98,296]],[[64,296],[100,282]]][fr];
+  const brazo=[[[42,176],[120,170]],[[44,174],[116,174]],[[40,170],[118,176]]][fr];
+  // cabello por detrás, hasta los hombros
+  D(sv,'path',['M38 74 Q34 26 80 22 Q126 26 122 74 L126 118 Q112 126 102 112 L58 112 Q48 126 34 118Z'],F_(PELO,{seed:601}));
+  // piernas (jean) y zapatillas
+  [0,1].forEach(l=>{const [fx,fy]=pie[l],cx=l?92:68;
+    D(sv,'path',[`M${cx-15} 182 L${cx+15} 182 L${fx+10} ${fy-6} L${fx-8} ${fy-6}Z`],F_(l?JEAN2:JEAN,{seed:602+l}));
+    D(sv,'ellipse',[fx+1,fy-3,30,13],F_('#fbf3e4',{seed:604+l,strokeWidth:1.3}));D(sv,'line',[fx-13,fy+2,fx+15,fy+2],{stroke:C.rosado,strokeWidth:2.2,seed:606+l})});
+  // brazos con mangas
+  [0,1].forEach(l=>{const [hx,hy]=brazo[l],sx=l?108:52;
+    D(sv,'line',[sx,118,hx,hy],{strokeWidth:9,stroke:K.vestido,seed:608+l,roughness:.6});D(sv,'circle',[hx,hy+4,13],F_(PIEL,{seed:610+l,strokeWidth:1}))});
+  // blusa
+  D(sv,'path',['M50 114 Q80 102 110 114 L114 186 L46 186Z'],F_(K.vestido,{seed:612}),true);
+  D(sv,'line',[48,184,112,184],{stroke:JEAN2,strokeWidth:3,seed:613});
+  D(sv,'rectangle',[72,96,16,14],F_(PIEL,{...SIN,seed:614}));
+  // cabeza, flequillo, mejillas y aretes dorados
+  D(sv,'circle',[80,64,60],F_(PIEL,{seed:615}));
+  D(sv,'path',['M50 62 Q50 30 80 32 Q110 30 110 62 Q100 44 80 46 Q60 44 50 62Z'],F_(PELO,{seed:616}));
+  [-1,1].forEach(l=>{const m=rough.svg(sv).circle(80+l*16,76,11,F_(C.rosado,{...SIN,roughness:.3,seed:617+l}));m.setAttribute('opacity','.55');sv.append(m);
+    D(sv,'circle',[80+l*31,80,5],F_(C.dorado,{seed:619+l,strokeWidth:.8}))});
   return sv;
 }
-function perritaSVG(fr){
+function perritaSVG(fr,c1,c2,semilla){
   const sv=lienzo('0 0 130 90'),y=88,pp=fr?[[34,40],[52,46],[80,74],[96,90]]:[[40,34],[46,52],[86,80],[90,96]];
-  pp.forEach(([a,b],i)=>D(sv,'line',[a+i%2*2,64,b,y],{stroke:K.concha,strokeWidth:3,seed:620+i}));
-  D(sv,'path',['M26 46 Q4 30 18 14 Q30 4 40 18 Q34 30 40 40Z'],F_(K.concha2,{seed:625}));
-  D(sv,'ellipse',[62,56,84,40],F_(K.concha,{seed:626,fillStyle:'solid'}));
-  for(let i=0;i<6;i++)D(sv,'line',[34+i*11,66,32+i*11,78],{stroke:K.concha,strokeWidth:2.2,seed:627+i});
-  perroCara(sv,104,40,K.concha2,K.concha,.62);
+  pp.forEach(([a,b],i)=>D(sv,'line',[a+i%2*2,64,b,y],{stroke:c1,strokeWidth:3,seed:semilla+i}));
+  D(sv,'path',['M26 46 Q4 30 18 14 Q30 4 40 18 Q34 30 40 40Z'],F_(c2,{seed:semilla+5}));
+  D(sv,'ellipse',[62,56,84,40],F_(c1,{seed:semilla+6}));
+  for(let i=0;i<6;i++)D(sv,'line',[34+i*11,66,32+i*11,78],{stroke:c1,strokeWidth:2.2,seed:semilla+7+i});
+  perroCara(sv,104,40,c2,c1,.62);
   return sv;
 }
-
 /* ---------- medidas (solo al cambiar el tamaño) ---------- */
 let W=0,H=0,u=1,topDia=0,largo=1,chx=.22;
 function medir(){
   W=escena.clientWidth;H=escena.clientHeight;u=Math.min(H/1000,W/540);escena.style.setProperty('--wh',(1000*u).toFixed(1)+'px');
   const r=dia.getBoundingClientRect();topDia=r.top+scrollY;largo=Math.max(1,dia.offsetHeight-H);
-  chx=W/H>=1?.30:.22;
+  chx=.30;
   pinta(true);
 }
 const camEn=k=>(k*SW+350)*u-(.66)*W+(chx-.22)*W*.3;
@@ -820,8 +827,9 @@ const lerp=(a,b,x)=>a+(b-a)*x,cl=x=>Math.max(0,Math.min(1,x)),rampa=(f,a,b)=>cl(
 const suave=x=>x*x*(3-2*x);
 const SOL=[[0,16,64],[2.5,30,38],[5.3,50,27],[8,60,36],[10.3,66,56],[11.3,68,69],[12.3,70,86],[13,70,92]];
 function solEn(f){for(let i=1;i<SOL.length;i++){if(f<=SOL[i][0]){const a=SOL[i-1],b=SOL[i],x=suave(cl((f-a[0])/(b[0]-a[0])));return[lerp(a[1],b[1],x),lerp(a[2],b[2],x)]}}return SOL[SOL.length-1].slice(1)}
-let ultimo={},activo=-2,frag=-1,andando=false,camPrev=null,fSuave=null,bucle=0,tPrev=0;
+let ultimo={},activo=-2,frag=-1,cuadros=null,recorrido=0,quieta=99,camPrev=null,fSuave=null,bucle=0,tPrev=0;
 const fijo=(el,k,v)=>{if(ultimo[k]!==v){ultimo[k]=v;el.style[k.split('|')[0]]=v}};
+function pasos(q,n){if(!cuadros||ultimo['p'+q]===n)return;const prev=ultimo['p'+q];ultimo['p'+q]=n;cuadros[q][n].style.opacity=1;if(prev!=null&&prev!==n)cuadros[q][prev].style.opacity=0}
 const VIAJE=.55,LLEGA=.5; // cada tramo: camina el 55 %, el texto aparece al 50 % (casi llegando)
 const suave5=x=>x*x*x*(x*(x*6-15)+10);
 function objetivo(){return Math.min(cl((scrollY-topDia)/largo)*NF,NF-.0001)}
@@ -837,7 +845,7 @@ function pinta(forzar){
   const fs=red?(fr<LLEGA?Math.max(0,k-.01):k+.6):f; // en movimiento reducido el cielo salta entre paradas
   construyeCerca(k);
   // estaciones: se muestran un poco antes de entrar, para que el dibujo ya esté listo
-  estaciones.forEach((S,j)=>{if(!S)return;const sx=j*SW*u-cam,ve=sx<W*2&&sx>-W-1000*u;
+  estaciones.forEach((S,j)=>{if(!S)return;const sx=j*SW*u-cam,ve=sx<W*1.35&&sx>-W*.6-SW*u;
     if(ve!==S.vis){S.vis=ve;S.E.style.display=S.L.style.display=ve?'':'none'}
     if(ve){const t=`translate3d(${sx.toFixed(1)}px,0,0)`;if(S.t!==t){S.t=t;S.E.style.transform=S.L.style.transform=t}}
     const on=j<k||(j===k&&fr>=LLEGA);if(on!==S.on){S.on=on;S.E.classList.toggle('on',on);S.L.classList.toggle('on',on)}});
@@ -857,14 +865,18 @@ function pinta(forzar){
   const bajo=cl((syp-11)/50);fijo(sombra,'transform|so',`scaleX(${(.12+.88*bajo).toFixed(3)})`);fijo(sombra,'opacity|soo',(1-rampa(fs,12,12.6)).toFixed(2));
   // la perrita se adelanta desde S3; en N7 entran a casa
   const ade=k>2||(k===2&&fr>=LLEGA);if(ultimo.ade!==ade){ultimo.ade=ade;perrita.classList.toggle('adelante',ade)}
-  const casa=k===NF-1&&fr>=LLEGA;if(ultimo.casa!==casa){ultimo.casa=casa;ella.classList.toggle('entra',casa);perrita.classList.toggle('entra',casa);perrita.style.opacity=casa?0:''}
+  const casa=k===NF-1&&fr>=LLEGA;if(ultimo.casa!==casa){ultimo.casa=casa;[ella,perrita,otra].forEach(e=>e.classList.toggle('entra',casa))}
   // fragmento visible y momento
   const nf=fr>=LLEGA?k:(fr<.05&&k>0?k-1:-1);
   if(nf!==frag){if(frag>=0)frags.children[frag].classList.remove('vis');if(nf>=0)frags.children[nf].classList.add('vis');frag=nf}
   const mo=k<6?0:k<13?1:2;if(mo!==activo){activo=mo;momentos.forEach((li,i)=>i===mo?li.setAttribute('aria-current','step'):li.removeAttribute('aria-current'));escena.classList.toggle('de-noche',mo===2)}
   // camina solo mientras la cámara se mueve
-  const anda=!red&&!forzar&&camPrev!==null&&Math.abs(cam-camPrev)>.25;camPrev=cam;
-  if(anda!==andando){andando=anda;ella.classList.toggle('anda',anda);perrita.classList.toggle('anda',anda)}
+  // los pasos siguen a la distancia recorrida (no a un reloj): no hay parpadeo al parar y seguir
+  const mov=camPrev===null?0:Math.abs(cam-camPrev);camPrev=cam;
+  if(!red&&!forzar&&mov>.2){recorrido+=mov;quieta=0}else quieta++;
+  const anda=quieta<6;
+  pasos('ella',anda?[0,1,2,1][Math.floor(recorrido/(22*u))%4]:1);
+  pasos('concha',anda?Math.floor(recorrido/(14*u))%2:0);pasos('mia',anda?Math.floor(recorrido/(14*u)+1)%2:0);
 }
 /* el día sigue al dedo con un poco de inercia: cada cuadro se acerca al punto real */
 function cuadro(t){
@@ -874,7 +886,7 @@ function cuadro(t){
   if(Math.abs(obj-fSuave)<.0004)fSuave=obj;
   pinta();
   bucle=fSuave!==obj?requestAnimationFrame(cuadro):0;
-  if(!bucle){tPrev=0;if(andando){andando=false;ella.classList.remove('anda');perrita.classList.remove('anda')}}
+  if(!bucle){tPrev=0;quieta=99;pasos('ella',1);pasos('concha',0);pasos('mia',0)}
 }
 addEventListener('scroll',()=>{if(quieto.matches){pinta();return}if(!bucle)bucle=requestAnimationFrame(cuadro)},{passive:true});
 addEventListener('resize',()=>{if(diaArmado)medir()});
