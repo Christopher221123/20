@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Para ti, Salomé</title>
+<style>
+  :root {
+    --rosa: #f7c6d0;
+    --rosa-fuerte: #e77f9a;
+    --crema: #fff7f2;
+    --texto: #5a3a44;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Georgia", serif;
+    background: linear-gradient(160deg, var(--crema), #fde3ea);
+    color: var(--texto);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  .corazon {
+    position: fixed;
+    bottom: -40px;
+    font-size: 22px;
+    opacity: 0.6;
+    animation: subir linear forwards;
+    pointer-events: none;
+  }
+  @keyframes subir {
+    to { transform: translateY(-110vh) rotate(25deg); opacity: 0; }
+  }
+  main {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+    gap: 1.5rem;
+    position: relative;
+    z-index: 1;
+    animation: aparecer 1.6s ease both;
+  }
+  @keyframes aparecer {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  h1 { font-size: clamp(2rem, 6vw, 3.4rem); font-weight: normal; }
+  p.sub { font-size: 1.1rem; max-width: 36ch; line-height: 1.6; }
+  .contador {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .caja {
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 18px;
+    padding: 1rem 1.2rem;
+    min-width: 88px;
+    box-shadow: 0 8px 24px rgba(231, 127, 154, 0.2);
+  }
+  .caja span {
+    display: block;
+    font-size: 2.2rem;
+    color: var(--rosa-fuerte);
+    font-variant-numeric: tabular-nums;
+  }
+  .caja small { font-size: 0.85rem; letter-spacing: 0.08em; text-transform: uppercase; }
+  .latido { animation: latido 1.4s ease-in-out infinite; font-size: 2.4rem; }
+  @keyframes latido {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+  }
+  #linea { display: none; }
+</style>
+</head>
+<body>
+
+<main id="cuenta">
+  <div class="latido">💗</div>
+  <h1>Algo bonito está por llegar</h1>
+  <p class="sub">Esta página se abre el día de tu cumpleaños. Mientras tanto, estamos preparando cada detalle, con todo el cariño del mundo.</p>
+  <div class="contador" id="contador">
+    <div class="caja"><span id="dias">--</span><small>días</small></div>
+    <div class="caja"><span id="horas">--</span><small>horas</small></div>
+    <div class="caja"><span id="minutos">--</span><small>minutos</small></div>
+    <div class="caja"><span id="segundos">--</span><small>segundos</small></div>
+  </div>
+</main>
+
+<section id="linea">
+  <!-- La línea de tiempo se carga desde timeline.js cuando llegue el día. -->
+</section>
+
+<script src="timeline.js"></script>
+<script>
+  // Desbloqueo: 24 de noviembre de 2026 a las 00:00, hora de Ecuador (UTC-05:00).
+  const DESBLOQUEO = new Date("2026-11-24T00:00:00-05:00").getTime();
+
+  const el = {
+    dias: document.getElementById("dias"),
+    horas: document.getElementById("horas"),
+    minutos: document.getElementById("minutos"),
+    segundos: document.getElementById("segundos"),
+  };
+
+  function actualizar() {
+    const diff = DESBLOQUEO - Date.now();
+    if (diff <= 0) {
+      document.getElementById("cuenta").style.display = "none";
+      document.getElementById("linea").style.display = "block";
+      clearInterval(intervalo);
+      return;
+    }
+    const s = Math.floor(diff / 1000);
+    el.dias.textContent = Math.floor(s / 86400);
+    el.horas.textContent = String(Math.floor((s % 86400) / 3600)).padStart(2, "0");
+    el.minutos.textContent = String(Math.floor((s % 3600) / 60)).padStart(2, "0");
+    el.segundos.textContent = String(s % 60).padStart(2, "0");
+  }
+
+  // Corazones que suben de fondo
+  setInterval(() => {
+    const c = document.createElement("span");
+    c.className = "corazon";
+    c.textContent = ["💗", "🌸", "✨"][Math.floor(Math.random() * 3)];
+    c.style.left = Math.random() * 100 + "vw";
+    c.style.animationDuration = 6 + Math.random() * 6 + "s";
+    document.body.appendChild(c);
+    setTimeout(() => c.remove(), 12000);
+  }, 900);
+
+  const intervalo = setInterval(actualizar, 1000);
+  actualizar();
+</script>
+</body>
+</html>
