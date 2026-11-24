@@ -225,13 +225,16 @@ button{font:inherit;color:inherit}
 </script>
 <script>
 {
-/* ---------- ajustes de prueba ----------
-   ?abierto=1 (o #abierto): activa el botón. NO es seguridad: el repo es público.
-   ?faltan=SEGUNDOS: cambia la cuenta simulada (por defecto 2 horas). */
+/* ---------- apertura ----------
+   Se abre el martes 24/11/2026 a las 19:00 en punto, hora de Ecuador (UTC-5) = 00:00 UTC del 25/11.
+   Se calcula en UTC, así que no depende de la zona horaria del aparato, pero sí de que su reloj esté bien.
+   NO es seguridad: el repo es público y el texto está en el código.
+   Pruebas: ?abierto=1 (o #abierto) abre ya; ?faltan=SEGUNDOS (o #faltan-N) simula la cuenta. */
+const APERTURA=Date.UTC(2026,10,25,0,0,0);
 const q=new URLSearchParams(location.search), h=location.hash;
-const ABIERTO=q.get('abierto')==='1'||/abierto/.test(h);
-const faltan=Number(q.get('faltan')||(h.match(/faltan-(\d+)/)||[])[1]||7200);
-const META=Date.now()+faltan*1000;
+const faltan=q.get('faltan')||(h.match(/faltan-(\d+)/)||[])[1];
+const META=faltan?Date.now()+Number(faltan)*1000:APERTURA;
+let ABIERTO=q.get('abierto')==='1'||/abierto/.test(h)||Date.now()>=META;
 const quieto=matchMedia('(prefers-reduced-motion: reduce)');
 const NS='http://www.w3.org/2000/svg';
 const css=getComputedStyle(document.documentElement);
@@ -298,15 +301,21 @@ function tick(){
     const pl=(n,a,b)=>n+' '+(n===1?a:b);
     falta.textContent=r?'Faltan '+[conDias&&pl(d,'día','días'),pl(hh,'hora','horas'),pl(mm,'minuto','minutos')].filter(Boolean).join(', '):'La cuenta está en cero.';}
   if(r>0)setTimeout(tick,(resta%1000||1000)+8);
+  else if(!ABIERTO&&typeof activar==='function')activar(); // a las 19:00 el botón se enciende solo
 }
 tick();
 
 /* botón */
 const btn=document.getElementById('desbloquear'),aviso=document.getElementById('aviso');
-const bs=lienzo('0 0 240 60');bs.setAttribute('preserveAspectRatio','none');
-crayon(bs,'rectangle',[4,4,232,52],ABIERTO?{fill:MORADO,fillStyle:'solid',seed:5}:{seed:5,stroke:SUAVE,strokeLineDash:[6,7]},!ABIERTO?false:true);
-btn.prepend(bs);
-if(ABIERTO){btn.removeAttribute('aria-disabled');btn.querySelector('.b2').remove();}
+function dibujaBoton(){
+  btn.querySelector('svg')?.remove();
+  const bs=lienzo('0 0 240 60');bs.setAttribute('preserveAspectRatio','none');
+  crayon(bs,'rectangle',[4,4,232,52],ABIERTO?{fill:MORADO,fillStyle:'solid',seed:5}:{seed:5,stroke:SUAVE,strokeLineDash:[6,7]},ABIERTO);
+  btn.prepend(bs);
+  if(ABIERTO){btn.removeAttribute('aria-disabled');btn.querySelector('.b2')?.remove()}
+}
+function activar(){ABIERTO=true;dibujaBoton()}
+dibujaBoton();
 
 /* ===================== Parte 2 · Feliz cumpleaños ===================== */
 const portada=document.getElementById('portada'),titulo=document.getElementById('titulo');
@@ -480,7 +489,7 @@ btn.addEventListener('click',()=>{
   abrir(false);
 });
 /* se prepara el dibujo mientras ella mira el contador, para que la apertura no espere */
-if(ABIERTO)(window.requestIdleCallback||setTimeout)(()=>{armaPortada();(window.requestIdleCallback||setTimeout)(armaDia)});
+(window.requestIdleCallback||setTimeout)(()=>{armaPortada();(window.requestIdleCallback||setTimeout)(()=>{armaDia();armaCarta()})});
 /* ?fase=portada (con abierto): salta directo a la apertura, solo para pruebas */
 if(ABIERTO&&(q.get('fase')==='portada'||/portada/.test(h)))abrir(true);
 /* ?fase=dia&f=7.5 (con abierto): salta al día en ese punto, solo para pruebas */

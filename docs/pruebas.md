@@ -25,6 +25,13 @@
 - Fluidez (Chromium sin tarjeta gráfica, CPU 4 veces más lenta, solo comparativa; toda la apertura, 12 s): tablet 58 fps de media (21 cuadros de más de 25 ms en 719), celular 60 fps, computador 45 fps. Se mejoró poniendo el confeti detrás de la gente (antes, tablet 50 fps). **No verificado en una tablet real.**
 - Prueba directa: `?abierto=1&fase=portada` (o `#abierto-portada`) salta a la apertura.
 
+## Apertura a las 19:00 (24/11)
+- El contador cuenta hacia el martes 24/11/2026 a las 19:00 en punto, hora de Ecuador (00:00 UTC del 25/11). Se calcula en UTC: no depende de la zona horaria del aparato, sí de que su reloj esté bien.
+- A las 19:00 el botón "Desbloquear" se enciende solo (sin recargar) y ella lo toca para abrir. Si alguien entra después de las 19:00, el botón ya está encendido.
+- El dibujo de la apertura, el día y la carta se preparan mientras se ve el contador, para que la apertura no espere.
+- Comprobado con el reloj simulado: a las 18:59:57 el botón sigue apagado; a las 19:00 se enciende, el contador queda en 00:00:00 y la apertura funciona; a las 20:30 el botón ya está encendido al cargar. 0 errores.
+- **No es seguridad:** el repo es público, el texto está en el código y `?abierto=1` sigue abriendo para pruebas. Quien cambie el reloj de su aparato también puede abrir antes.
+
 ## Parte 4 · La carta (24/11) · pendiente de aprobación
 - Después de la noche (N7) sube una hoja de papel sobre el mismo cielo de noche: margen rosado, renglones suaves, un trozo de cinta arriba y el borde dibujado a mano. Las 4 estrofas van escritas a mano (Caveat), cada verso en su renglón; si un verso no cabe (celular), sigue con sangría francesa. Sin firma, sin fecha, sin "fin".
 - Un dibujo pequeño por estrofa, en el margen como garabato: 1 camino que da la vuelta al mar con una luz al final (la luz late dos veces); 2 barco que se aleja y vuelve, y la ventana se enciende cuando regresa; 3 ella caminando de frente con notas que suben detrás (solo imagen, sin sonido); 4 jardín de noche cuya puerta se abre.
