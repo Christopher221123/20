@@ -11,7 +11,7 @@ def run(nombre, vp, rm):
         pg.on('console', lambda m: errs.append(m.text) if m.type == 'error' else None)
         pg.on('pageerror', lambda e: errs.append(str(e)))
         pg.goto(base + '?abierto=1'); pg.wait_for_timeout(400)
-        pg.click('#btn-desbloquear'); pg.wait_for_timeout(2400)
+        pg.click('#btn-desbloquear'); pg.wait_for_timeout(3200)
         if pg.evaluate("document.body.dataset.estado") != 'abierta': fallos.append('no se abrió')
         pg.screenshot(path=f'{out}/{nombre}-2.png')
         top = pg.evaluate("document.getElementById('s-dia').getBoundingClientRect().top+scrollY")

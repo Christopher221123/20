@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#2a1446">
+<meta name="theme-color" content="#2b1033">
 <title>Para ti</title>
 <style>
 :root{
-  --noche:#2a1446; --noche2:#341a55; --linea:#5a3d80; --tenue:#bba6d6;
+  --noche:#2b1033; --noche2:#3a1745; --linea:#5e3170; --tenue:#c9a8d2;
   --rosa:#eba3c3; --rosa2:#d47aa3; --dorado:#f0e2b8; --blanco:#f7f1f5; --luz:#f3e1a8;
   --papel:#f6eedc; --tinta:#2a1838; --ambar:var(--dorado); --crema:var(--blanco); --morado:#c9adf0;
   --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
@@ -29,20 +29,21 @@ svg{display:block}
 
 /* ---------- 1 · contador ---------- */
 #s-contador{position:fixed;inset:0;display:grid;place-items:center;background:var(--noche);z-index:1;transition:opacity .8s}
-body:not([data-estado="cerrada"]) #s-contador{opacity:0;pointer-events:none}
+body[data-estado="abriendo"] #s-contador{pointer-events:none}
+body:not([data-estado="abierta"]) #s-dia,body:not([data-estado="abierta"]) #s-carta{display:none}
 body[data-estado="abierta"] #s-contador{display:none}
-#s-contador{background:radial-gradient(120% 80% at 50% 40%,#3a1d5e 0%,var(--noche) 70%)}
+#s-contador{background:radial-gradient(120% 80% at 50% 40%,#3f1749 0%,var(--noche) 70%)}
 .tablero{display:flex;flex-direction:column;align-items:center;gap:clamp(34px,7vh,60px)}
 .fichas{display:flex;gap:clamp(10px,3vw,22px)}
 .unidad{display:flex;flex-direction:column;align-items:center;gap:32px}
 .unidad small{font:400 .74rem var(--sans);letter-spacing:.04em;color:var(--tenue)}
 .ficha{--w:clamp(62px,18vw,140px);position:relative;width:var(--w);height:calc(var(--w)*1.32);perspective:500px;isolation:isolate;font-variant-numeric:tabular-nums lining-nums}
-.ficha::before,.ficha::after{content:"";position:absolute;left:5%;right:5%;top:10px;bottom:-10px;border-radius:12px;background:#3f2366;z-index:-1;box-shadow:0 -1px 0 #6a4796 inset,0 6px 14px -6px #12062a}
-.ficha::after{left:10%;right:10%;top:20px;bottom:-20px;background:#331c55;z-index:-2;box-shadow:0 6px 14px -6px #12062a}
+.ficha::before,.ficha::after{content:"";position:absolute;left:5%;right:5%;top:10px;bottom:-10px;border-radius:12px;background:#44194f;z-index:-1;box-shadow:0 -1px 0 #6e3b80 inset,0 6px 14px -6px #12051a}
+.ficha::after{left:10%;right:10%;top:20px;bottom:-20px;background:#371440;z-index:-2;box-shadow:0 6px 14px -6px #12051a}
 .hoja{position:absolute;left:0;right:0;height:50%;overflow:hidden;backface-visibility:hidden}
 .hoja span{position:absolute;left:0;right:0;height:200%;display:grid;place-items:center;font:300 calc(var(--w)*.6)/1 var(--serif);color:var(--dorado);letter-spacing:-.02em}
-.sup{top:0;border-radius:12px 12px 0 0;background:linear-gradient(#563383,#4b2b74);transform-origin:50% 100%;box-shadow:0 1px 0 #6d4a9a inset}
-.inf{bottom:0;border-radius:0 0 12px 12px;background:linear-gradient(#45286c,#3f2463);transform-origin:50% 0;border-top:1px solid #2a1446}
+.sup{top:0;border-radius:12px 12px 0 0;background:linear-gradient(#5c2a6b,#50235f);transform-origin:50% 100%;box-shadow:0 1px 0 #7a4590 inset}
+.inf{bottom:0;border-radius:0 0 12px 12px;background:linear-gradient(#4a2059,#421c50);transform-origin:50% 0;border-top:1px solid #2b1033}
 .sup span{top:0}.inf span{bottom:0}
 .ficha::marker{}
 .flap,.flap2{z-index:2;visibility:hidden}
@@ -52,7 +53,7 @@ body[data-estado="abierta"] #s-contador{display:none}
 .gira .flap2{animation:cae2 .28s .28s ease-out forwards}
 @keyframes cae1{from{transform:rotateX(0)}to{transform:rotateX(-90deg)}}
 @keyframes cae2{from{transform:rotateX(90deg)}to{transform:rotateX(0)}}
-.ficha .eje{position:absolute;left:-3px;right:-3px;top:50%;height:2px;margin-top:-1px;background:#2a1446;z-index:3}
+.ficha .eje{position:absolute;left:-3px;right:-3px;top:50%;height:2px;margin-top:-1px;background:#2b1033;z-index:3}
 .abrir{display:flex;flex-direction:column;align-items:center;gap:8px}
 .btn{min-height:48px;padding:0 30px;border-radius:999px;border:1px solid var(--dorado);background:transparent;color:var(--dorado);font-size:1.05rem;letter-spacing:.02em;cursor:pointer;transition:background .4s,color .4s}
 .btn:not([aria-disabled="true"]):hover{background:var(--dorado);color:var(--noche)}
@@ -60,32 +61,65 @@ body[data-estado="abierta"] #s-contador{display:none}
 .aun{margin:0;font-style:italic;font-size:.95rem;color:var(--tenue)}
 
 /* ---------- 2 · feliz cumpleaños ---------- */
-#s-feliz{position:relative;min-height:100dvh;background:var(--noche);color:var(--blanco);display:grid;place-items:center;overflow:hidden;
-  clip-path:circle(0% at 50% 50%);transition:clip-path 1.7s cubic-bezier(.7,0,.2,1)}
+#s-feliz{position:relative;min-height:100dvh;background:radial-gradient(90% 70% at 50% 46%,#4a1a55 0%,var(--noche) 72%);color:var(--blanco);display:grid;place-items:center;overflow:hidden;
+  clip-path:circle(0% at 50% 50%)}
 body[data-estado="cerrada"] #s-feliz{visibility:hidden}
-body[data-estado="cerrada"] #s-dia,body[data-estado="cerrada"] #s-carta{display:none}
-body:not([data-estado="cerrada"]) #s-feliz{clip-path:circle(150% at 50% 50%)}
+body:not([data-estado="cerrada"]) #s-feliz{clip-path:circle(150% at 50% 50%);transition:clip-path 1.6s cubic-bezier(.65,0,.25,1) .85s}
 body[data-estado="abriendo"] #s-feliz{position:fixed;inset:0;z-index:2}
-#s-feliz svg{position:absolute;inset:0;width:100%;height:100%}
-.gente use{opacity:0;transform-box:fill-box;transform-origin:50% 100%;transform:scale(.4)}
-body:not([data-estado="cerrada"]) .gente use{opacity:1;transform:scale(1);transition:opacity .6s,transform .9s cubic-bezier(.3,1.4,.5,1);transition-delay:var(--d)}
-.saludo{animation:saluda 2.6s ease-in-out infinite;animation-delay:var(--o)}
-@keyframes saluda{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
-.mensaje{position:relative;text-align:center;padding:0 24px;max-width:min(94vw,60rem)}
-.mensaje p{max-width:34em;margin-left:auto!important;margin-right:auto!important}
-.mensaje h1{margin:0;font-weight:400;font-style:italic;font-size:clamp(2.6rem,12vw,5.4rem);line-height:1;letter-spacing:-.01em;color:var(--dorado);outline:none}
-.mensaje h1 .pal{display:inline-block;white-space:nowrap}
-.mensaje h1 .pal span{display:inline-block;opacity:0;transform:translateY(.25em)}
-body:not([data-estado="cerrada"]) .mensaje h1 .pal span{opacity:1;transform:none;transition:opacity .8s,transform 1s cubic-bezier(.2,.8,.2,1);transition-delay:calc(1.1s + var(--i)*.05s)}
-.mensaje .rule{width:72px;height:1px;margin:22px auto;background:var(--rosa)}
-.mensaje p{margin:.2em 0;font-size:clamp(1.1rem,4.2vw,1.35rem);line-height:1.55;opacity:0}
-body:not([data-estado="cerrada"]) .mensaje p{opacity:1;transition:opacity 1.2s 2s}
-.bajar{position:absolute;bottom:calc(18px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);width:48px;height:48px;border:0;background:none;color:var(--rosa);cursor:pointer}
+#s-feliz>svg{position:absolute;inset:0;width:100%;height:100%}
+
+/* la apertura: las fichas caen, nace una chispa y se abre la luz */
+body[data-estado="abriendo"] .unidad{animation:sale .75s cubic-bezier(.55,0,.8,.2) both;animation-delay:calc(var(--k)*.09s)}
+@keyframes sale{to{transform:translateY(70px) rotateX(-80deg);opacity:0}}
+body[data-estado="abriendo"] .abrir{opacity:0;transition:opacity .3s}
+.chispa{position:fixed;left:50%;top:50%;width:14px;height:14px;margin:-7px;border-radius:50%;background:var(--dorado);z-index:3;opacity:0;pointer-events:none;
+  box-shadow:0 0 0 6px #f0e2b833,0 0 0 16px #f0e2b81a}
+body[data-estado="abriendo"] .chispa{animation:chispa 1.7s cubic-bezier(.5,0,.3,1) .35s both}
+@keyframes chispa{0%{opacity:0;transform:scale(0)}30%{opacity:1;transform:scale(1)}48%{transform:scale(.8)}62%{opacity:1;transform:scale(1.4)}100%{opacity:0;transform:scale(9)}}
+
+/* rayos y anillos que salen del centro */
+.rayos line{stroke:var(--dorado);stroke-width:1.2;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;opacity:.55}
+.vivo .rayos line{animation:rayo 1.5s cubic-bezier(.3,0,.2,1) forwards;animation-delay:calc(1.05s + var(--i)*.025s)}
+@keyframes rayo{to{stroke-dashoffset:0}}
+.vivo .rayos{animation:atenua 2s ease 2.8s forwards}
+@keyframes atenua{to{opacity:.35}}
+.anillo{fill:none;stroke:var(--rosa);stroke-width:1.2;opacity:0;transform-box:fill-box;transform-origin:center}
+.vivo .anillo{animation:anillo 2.4s cubic-bezier(.2,.6,.3,1) forwards;animation-delay:calc(1.1s + var(--i)*.35s)}
+@keyframes anillo{0%{opacity:.9;transform:scale(.05)}100%{opacity:0;transform:scale(1)}}
+
+/* la gente sube desde abajo y luego hace la ola */
+.gente use{opacity:0;transform-box:fill-box;transform-origin:50% 100%;transform:translateY(26px) scale(.6)}
+.vivo .gente use{opacity:1;transform:none;transition:opacity .5s,transform .9s cubic-bezier(.3,1.5,.5,1);transition-delay:var(--d)}
+.ola{animation:ola 3.6s cubic-bezier(.4,0,.2,1) infinite;animation-delay:var(--o)}
+@keyframes ola{0%,14%,100%{transform:translateY(0)}6%{transform:translateY(-10px)}}
+
+/* confeti de líneas */
+.confeti i{position:absolute;top:-24px;left:var(--x);width:2px;height:12px;border-radius:2px;background:var(--c);opacity:0}
+.confeti i:nth-child(3n){width:7px;height:7px;border-radius:50%;background:none;border:1.5px solid var(--c)}
+.vivo .confeti i{animation:confeti var(--t) linear infinite;animation-delay:var(--d)}
+@keyframes confeti{0%{opacity:0;transform:translate(0,0) rotate(0)}8%{opacity:1}100%{opacity:.9;transform:translate(var(--dx),calc(100dvh + 50px)) rotate(var(--r))}}
+.confeti{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+
+/* el mensaje: Feliz cumpleaños escrito a mano */
+.mensaje{position:relative;text-align:center;padding:0 20px;width:100%;max-width:60rem}
+.oculto{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.firma{display:block;width:min(94vw,820px);height:auto;margin:0 auto;overflow:visible}
+.firma text{font:italic 400 96px var(--serif);letter-spacing:-1px;fill:url(#gFirma);fill-opacity:0;stroke:var(--dorado);stroke-width:1.1;stroke-dasharray:900;stroke-dashoffset:900}
+.vivo .firma text{animation:escribe 2.4s cubic-bezier(.45,0,.2,1) forwards,rellena 1.1s ease forwards;animation-delay:calc(1.5s + var(--i)*.55s),calc(3.1s + var(--i)*.35s)}
+@keyframes escribe{to{stroke-dashoffset:0}}
+@keyframes rellena{to{fill-opacity:1;stroke-opacity:.35}}
+.mensaje .rule{width:84px;height:1px;margin:10px auto 22px;background:var(--rosa);transform:scaleX(0)}
+.vivo .mensaje .rule{transform:none;transition:transform 1.1s cubic-bezier(.2,.8,.2,1) 3.7s}
+.mensaje p{max-width:34em;margin:.2em auto;font-size:clamp(1.1rem,4.2vw,1.4rem);line-height:1.55;opacity:0;transform:translateY(8px)}
+.vivo .mensaje p{opacity:1;transform:none;transition:opacity 1.2s,transform 1.2s cubic-bezier(.2,.8,.2,1);transition-delay:4s}
+.vivo .mensaje p+p{transition-delay:4.5s}
+.bajar{position:absolute;bottom:calc(18px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);width:48px;height:48px;border:0;background:none;color:var(--rosa);cursor:pointer;opacity:0}
+.vivo .bajar{opacity:1;transition:opacity 1s 5.2s}
 .bajar svg{position:static;width:48px;height:48px;animation:baja 2.4s ease-in-out infinite}
 @keyframes baja{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
 
 /* ---------- 3 · el día ---------- */
-#s-dia{--bg:#3b1f60;--ink:#f7f1f5;--acc:#f0e2b8;--cafe:#dcae80;--svgh:min(110vw,calc(100dvh - 110px));
+#s-dia{--bg:#45194f;--ink:#f7f1f5;--acc:#f0e2b8;--cafe:#dcae80;--svgh:min(110vw,calc(100dvh - 110px));
   position:relative;height:720vh;background:var(--bg);color:var(--ink)}
 .pin{position:sticky;top:0;height:100dvh;min-height:480px;overflow:hidden;background:var(--bg)}
 #s-dia .escena{position:absolute;left:0;right:0;bottom:calc(78px + env(safe-area-inset-bottom));height:var(--svgh)}
@@ -168,7 +202,10 @@ body:not([data-estado="cerrada"]) .mensaje p{opacity:1;transition:opacity 1.2s 2
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   *,*::before,*::after{transition-duration:.15s!important;transition-delay:0s!important}
-  .gira .flap,.gira .flap2,.saludo,.pa,.pb,.rebote,.bajar svg,#guir.on .bu,#textos p,.guino .ring,#concha.salta .rebote{animation:none!important}
+  .confeti,.chispa,.anillo{display:none!important}
+  .firma text,.vivo .firma text{animation:none!important;stroke-dashoffset:0;fill-opacity:1;stroke-opacity:.35}
+  .vivo .rayos line{animation:none!important;stroke-dashoffset:0;opacity:.3}
+  .gira .flap,.gira .flap2,.ola,.unidad,.pa,.pb,.rebote,.bajar svg,#guir.on .bu,#textos p,.guino .ring,#concha.salta .rebote{animation:none!important}
 }
 
 /* computador: escena a la derecha, textos a la izquierda */
@@ -177,16 +214,16 @@ body:not([data-estado="cerrada"]) .mensaje p{opacity:1;transition:opacity 1.2s 2
   #s-dia .escena{left:auto;right:4vw;width:calc(var(--svgh) * 400 / 440);-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
   #textos{top:12vh;left:5vw;right:auto;width:min(32vw,460px);height:62vh;padding:0}
   .dia-ctrl{left:50%;transform:translateX(-50%);width:min(760px,90vw)}
-  .mensaje h1{font-size:6rem}
 }
 </style>
 </head>
 <body data-estado="cerrada">
 
 <!-- 1 · CONTADOR -->
+<div class="chispa" aria-hidden="true"></div>
 <section id="s-contador" aria-label="Cuenta regresiva">
   <div class="tablero">
-    <div class="fichas" role="timer" id="fichas" aria-label="Faltan"><div class="unidad"><div class="ficha" id="f-d" aria-hidden="true"><div class="hoja sup"><span>00</span></div><div class="hoja inf"><span>00</span></div><div class="hoja sup flap"><span>00</span></div><div class="hoja inf flap2"><span>00</span></div><i class="eje"></i></div><small>días</small></div><div class="unidad"><div class="ficha" id="f-h" aria-hidden="true"><div class="hoja sup"><span>00</span></div><div class="hoja inf"><span>00</span></div><div class="hoja sup flap"><span>00</span></div><div class="hoja inf flap2"><span>00</span></div><i class="eje"></i></div><small>horas</small></div><div class="unidad"><div class="ficha" id="f-m" aria-hidden="true"><div class="hoja sup"><span>00</span></div><div class="hoja inf"><span>00</span></div><div class="hoja sup flap"><span>00</span></div><div class="hoja inf flap2"><span>00</span></div><i class="eje"></i></div><small>minutos</small></div><div class="unidad"><div class="ficha" id="f-s" aria-hidden="true"><div class="hoja sup"><span>00</span></div><div class="hoja inf"><span>00</span></div><div class="hoja sup flap"><span>00</span></div><div class="hoja inf flap2"><span>00</span></div><i class="eje"></i></div><small>segundos</small></div></div>
+    <div class="fichas" role="timer" id="fichas" aria-label="Faltan"><div class="unidad" style="--k:0"><div class="ficha" id="f-d" aria-hidden="true"><div class="hoja sup"><span>00</span></div><div class="hoja inf"><span>00</span></div><div class="hoja sup flap"><span>00</span></div><div class="hoja inf flap2"><span>00</span></div><i class="eje"></i></div><small>días</small></div><div class="unidad" style="--k:1"><div class="ficha" id="f-h" aria-hidden="true"><div class="hoja sup"><span>00</span></div><div class="hoja inf"><span>00</span></div><div class="hoja sup flap"><span>00</span></div><div class="hoja inf flap2"><span>00</span></div><i class="eje"></i></div><small>horas</small></div><div class="unidad" style="--k:2"><div class="ficha" id="f-m" aria-hidden="true"><div class="hoja sup"><span>00</span></div><div class="hoja inf"><span>00</span></div><div class="hoja sup flap"><span>00</span></div><div class="hoja inf flap2"><span>00</span></div><i class="eje"></i></div><small>minutos</small></div><div class="unidad" style="--k:3"><div class="ficha" id="f-s" aria-hidden="true"><div class="hoja sup"><span>00</span></div><div class="hoja inf"><span>00</span></div><div class="hoja sup flap"><span>00</span></div><div class="hoja inf flap2"><span>00</span></div><i class="eje"></i></div><small>segundos</small></div></div>
     <div class="abrir">
       <button class="btn" id="btn-desbloquear" type="button" aria-disabled="true" aria-describedby="aun">Desbloquear</button>
       <p class="aun" id="aun">aún no</p>
@@ -199,16 +236,24 @@ body:not([data-estado="cerrada"]) .mensaje p{opacity:1;transition:opacity 1.2s 2
 <section id="s-feliz" aria-label="Feliz cumpleaños">
   <svg id="svg-feliz" viewBox="0 0 400 440" aria-hidden="true">
     <defs>
-      <symbol id="persona" viewBox="-8 -30 16 32" overflow="visible">
-        <circle class="ln" cx="0" cy="-22" r="4.6" style="fill:var(--piel);stroke:var(--ropa)"/>
-        <path class="ln" d="M-6 0Q-7-14 0-15Q7-14 6 0" style="stroke:var(--ropa)"/>
-        <path class="ln" d="M6-12L10-19" style="stroke:var(--ropa)"/>
+      <symbol id="persona" viewBox="-10 -32 20 34" overflow="visible">
+        <circle class="ln" cx="0" cy="-21" r="4.8" style="fill:var(--piel);stroke:var(--ropa)"/>
+        <path class="ln" d="M-6 0Q-7-13 0-14Q7-13 6 0" style="stroke:var(--ropa)"/>
+        <path class="ln" d="M-5-11L-10-21M5-11L10-21" style="stroke:var(--ropa)"/>
       </symbol>
     </defs>
-    <g class="gente" id="gente" style="color:var(--blanco)"></g>
+    <g class="rayos" id="rayos"></g>
+    <g id="anillos"></g>
+    <g class="gente" id="gente"></g>
   </svg>
+  <div class="confeti" id="confeti" aria-hidden="true"></div>
   <div class="mensaje">
-    <h1 id="h-feliz">Feliz cumpleaños</h1>
+    <h1 id="h-feliz" class="oculto" tabindex="-1">Feliz cumpleaños</h1>
+    <svg class="firma" viewBox="0 0 760 150" aria-hidden="true">
+      <defs><linearGradient id="gFirma" x1="0" x2="1"><stop offset="0" stop-color="#f6ecd0"/><stop offset=".55" stop-color="#f0e2b8"/><stop offset="1" stop-color="#eba3c3"/></linearGradient></defs>
+      <text id="fz1" x="40" y="112" style="--i:0">Feliz</text>
+      <text id="fz2" x="282" y="112" style="--i:1">cumpleaños</text>
+    </svg>
     <div class="rule"></div>
     <p>Esto se canta bajito, y es tuyo.</p>
     <p>Hoy el cielo se pone más bonito por ti.</p>
@@ -453,36 +498,52 @@ contador(); setInterval(()=>{if(!document.hidden&&B.dataset.estado==='cerrada')c
 const btn=$('#btn-desbloquear');
 if(abierta){btn.setAttribute('aria-disabled','false');$('#aun').hidden=true}
 function abrir(){
-  B.dataset.estado='abriendo'; $('#contenido').inert=false;
-  setTimeout(()=>{B.dataset.estado='abierta';scrollTo(0,0);$('#h-feliz').focus({preventScroll:true})},reduce.matches?50:1800);
+  B.dataset.estado='abriendo'; $('#contenido').inert=false; ponerGente(); sf.classList.add('vivo');
+  setTimeout(()=>{B.dataset.estado='abierta';scrollTo(0,0);$('#h-feliz').focus({preventScroll:true})},reduce.matches?50:2600);
 }
 btn.addEventListener('click',()=>{if(btn.getAttribute('aria-disabled')!=='true')abrir()});
 
-/* ---------- 2 · feliz cumpleaños: personas que salen del centro ---------- */
-const h1=$('#h-feliz'); h1.setAttribute('tabindex','-1'); h1.setAttribute('aria-label',h1.textContent);
-{let i=0;h1.innerHTML=h1.textContent.split(' ').map(w=>'<span class="pal" aria-hidden="true">'+[...w].map(c=>`<span style="--i:${i++}">${c}</span>`).join('')+'</span>').join(' ');}
-const pieles=['#8b5a3c','#a8704a','#6b4229','#c18a5c'],ropas=['#eba3c3','#f0e2b8','#c9adf0','#d47aa3','#f7f1f5'];
+/* ---------- 2 · feliz cumpleaños: luz que se abre, rayos, gente y confeti ---------- */
+const pieles=['#8b5a3c','#a8704a','#6b4229','#c18a5c'],ropas=['#eba3c3','#f0e2b8','#d9b0e6','#d47aa3','#f7f1f5'];
 const gente=$('#gente'), sf=$('#s-feliz'), msg=$('.mensaje');
+function ponerFirma(){
+  const a=$('#fz1'),b=$('#fz2'),w1=a.getComputedTextLength(),w2=b.getComputedTextLength(),gap=26,x=(760-(w1+gap+w2))/2;
+  if(!w1)return; a.setAttribute('x',x.toFixed(1)); b.setAttribute('x',(x+w1+gap).toFixed(1));
+  a.ownerSVGElement.setAttribute('viewBox',`${(x-14).toFixed(1)} 14 ${(w1+gap+w2+28).toFixed(1)} 130`);
+}
 function ponerGente(){
+  ponerFirma();
   const W=sf.clientWidth||innerWidth, H=sf.clientHeight||innerHeight, r=msg.getBoundingClientRect(), r0=sf.getBoundingClientRect();
-  $('#svg-feliz').setAttribute('viewBox',`0 0 ${W} ${H}`); gente.textContent='';
-  const fw=W<700?22:30, fh=fw*2, paso=Math.max(fw*1.45,(W-24)/13.5), cx=W/2, cy=(r.top-r0.top)+r.height/2;
-  const bandas=[[fh*.9,(r.top-r0.top)-24],[(r.bottom-r0.top)+24+fh,H-70]];
+  $('#svg-feliz').setAttribute('viewBox',`0 0 ${W} ${H}`); gente.textContent=''; $('#rayos').textContent=''; $('#anillos').textContent='';
+  const cx=W/2, cy=(r.top-r0.top)+r.height*.38, R=Math.hypot(W,H)*.62;
+  // rayos de luz
+  for(let i=0;i<28;i++){const a=i/28*2*Math.PI+.06, r1=Math.min(W,H)*.2;
+    mk('line',{x1:cx+Math.cos(a)*r1,y1:cy+Math.sin(a)*r1,x2:cx+Math.cos(a)*R,y2:cy+Math.sin(a)*R,pathLength:1,style:`--i:${i%7}`},$('#rayos'));}
+  // anillos que se expanden
+  for(let i=0;i<3;i++)mk('circle',{class:'anillo',cx,cy,r:R*.8,style:`--i:${i}`},$('#anillos'));
+  // la gente, en dos filas arriba y dos abajo del mensaje
+  const fw=W<700?22:30, fh=fw*1.7, paso=Math.max(fw*1.45,(W-24)/13.5);
+  const bandas=[[fh*.9,(r.top-r0.top)-20],[(r.bottom-r0.top)+20+fh,H-80]];
   let k=0;
-  bandas.forEach(([y0,y1])=>{
-    const arriba=y0<(r.top-r0.top);for(let f=0;f<2;f++){const y=arriba?y1-f*fh*1.1:y0+f*fh*1.1;if(y<fh*.9||y>H-60)continue;
+  bandas.forEach(([y0,y1],bi)=>{
+    for(let f=0;f<2;f++){const y=bi===0?y1-f*fh*1.15:y0+f*fh*1.15; if(y<fh*.9||y>H-70)continue;
       const n=Math.floor((W-24)/paso), off=(W-(n-1)*paso)/2+(f%2?paso/3:-paso/6);
       for(let i=0;i<n;i++){
         const x=off+i*paso+((i*7+f*3)%5-2)*1.5; if(x<fw/2||x>W-fw/2)continue;
-        const g=mk('g',{class:'saludo'},gente); g.style.setProperty('--o',(k*.13%2.6).toFixed(2)+'s');
+        const g=mk('g',{class:'ola'},gente); g.style.setProperty('--o',(5.6+x/W*1.3).toFixed(2)+'s');
         const u=mk('use',{href:'#persona',x:x-fw/2,y:y-fh,width:fw,height:fh},g);
         const d=Math.hypot((x-cx)/W,(y-cy)/H)*2;
-        u.style.cssText=`--piel:${pieles[k%4]};--ropa:${ropas[(k*3)%5]};--d:${(.3+d*.9).toFixed(2)}s`; k++;
+        u.style.cssText=`--piel:${pieles[k%4]};--ropa:${ropas[(k*3)%5]};--d:${(2.1+d*1.1).toFixed(2)}s`; k++;
       }
     }
   });
+  // confeti
+  const cf=$('#confeti'); if(!cf.children.length){const cs=['#eba3c3','#f0e2b8','#d9b0e6','#f7f1f5','#d47aa3'];
+    for(let i=0;i<34;i++){const e=document.createElement('i');const q=(i*37)%100;
+      e.style.cssText=`--x:${q}%;--c:${cs[i%5]};--t:${(6+(i*13)%5).toFixed(1)}s;--d:${(2.6+((i*7)%30)/10).toFixed(1)}s;--dx:${((i*29)%60)-30}px;--r:${((i*53)%540)-270}deg`;
+      cf.appendChild(e);}}
 }
-ponerGente(); addEventListener('resize',()=>{clearTimeout(ponerGente.t);ponerGente.t=setTimeout(ponerGente,150)});
+addEventListener('resize',()=>{clearTimeout(ponerGente.t);ponerGente.t=setTimeout(ponerGente,150)});
 $('#ir-dia').addEventListener('click',()=>$('#s-dia').scrollIntoView({behavior:reduce.matches?'auto':'smooth'}));
 
 /* ---------- 3 · el día: avanza al deslizar hacia abajo ---------- */
@@ -494,7 +555,7 @@ const zonas=$$('.obj[data-z]').map(e=>{const z=e.dataset.z.split(',').map(Number
 // punto del recorrido (0 a 1) en que aparece cada fragmento
 const AP={S1:.03,S2:.08,S3:.13,S4:.19,S5:.25,S6:.31,C1:.4,C2:.44,C3:.48,C4:.52,C5:.56,C6:.6,C7:.65,N1:.72,N2:.76,N3:.8,N4:.84,N5:.88,N6:.91,N7:.95};
 // cielo siempre morado: cambia el tono; acento dorado pálido, rosado y lila
-const KF=[[0,'#3b1f60','#f0e2b8'],[.3,'#47296e','#f0e2b8'],[.42,'#4b2462','#eba3c3'],[.64,'#3e1d58','#eba3c3'],[.74,'#26123f','#c9adf0'],[1,'#1f0f35','#c9adf0']];
+const KF=[[0,'#45194f','#f0e2b8'],[.3,'#52205d','#f0e2b8'],[.42,'#571f55','#eba3c3'],[.64,'#4a1a4c','#eba3c3'],[.74,'#2a0e31','#d9b0e6'],[1,'#220b28','#d9b0e6']];
 const hex=h=>[1,3,5].map(i=>parseInt(h.slice(i,i+2),16)), toHex=a=>'#'+a.map(v=>Math.round(v).toString(16).padStart(2,'0')).join('');
 const mix=(a,b,x)=>{const A=hex(a),Bc=hex(b);return toHex(A.map((v,i)=>v+(Bc[i]-v)*x))};
 function colores(t){
@@ -562,7 +623,7 @@ $('#volver').addEventListener('click',()=>irDia(0));
 document.addEventListener('visibilitychange',()=>B.classList.toggle('pausa',document.hidden));
 
 /* arranque (parámetros solo para pruebas; requieren ?abierto=1) */
-if(abierta&&P.get('ir')){B.dataset.estado='abierta';$('#contenido').inert=false;
+if(abierta&&P.get('ir')){B.dataset.estado='abierta';$('#contenido').inert=false;ponerGente();sf.classList.add('vivo');
   setTimeout(()=>{const ir=P.get('ir');if(ir==='dia')irDia(clamp(parseFloat(P.get('t'))||0));else{const s=document.getElementById('s-'+ir);s&&s.scrollIntoView({behavior:'auto'})}porScroll()},60)}
 porScroll(); if(T<0)setT(0);
 })();
