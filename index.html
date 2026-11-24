@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#1a0f24">
+<meta name="theme-color" content="#2a1446">
 <title>Para ti</title>
 <style>
 :root{
-  --noche:#1a0f24; --linea:#4a3466; --tenue:#a996bb;
+  --noche:#2a1446; --noche2:#341a55; --linea:#5a3d80; --tenue:#bba6d6;
   --rosa:#eba3c3; --rosa2:#d47aa3; --dorado:#f0e2b8; --blanco:#f7f1f5; --luz:#f3e1a8;
   --papel:#f6eedc; --tinta:#2a1838; --ambar:var(--dorado); --crema:var(--blanco); --morado:#c9adf0;
   --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
@@ -31,19 +31,29 @@ svg{display:block}
 #s-contador{position:fixed;inset:0;display:grid;place-items:center;background:var(--noche);z-index:1;transition:opacity .8s}
 body:not([data-estado="cerrada"]) #s-contador{opacity:0;pointer-events:none}
 body[data-estado="abierta"] #s-contador{display:none}
-.reloj{position:relative;width:min(86vw,440px);aspect-ratio:1;display:grid;place-items:center;color:var(--dorado)}
-.reloj .gira circle:last-child{fill:var(--rosa)}
-.reloj svg{position:absolute;inset:0;width:100%;height:100%}
-.reloj .anillo{animation:traza 3.2s cubic-bezier(.6,.05,.3,1) .2s both}
-@keyframes traza{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
-.reloj .gira{transform-origin:200px 200px;animation:gira 60s linear infinite}
-@keyframes gira{to{transform:rotate(360deg)}}
-.cifras{position:relative;display:flex;align-items:flex-start;color:var(--crema);font-variant-numeric:tabular-nums lining-nums}
-.cifras div{display:flex;flex-direction:column;align-items:center;padding:0 clamp(8px,2.6vw,16px)}
-.cifras div+div{border-left:1px solid var(--linea)}
-.cifras b{font-weight:300;font-size:clamp(2rem,9vw,3.2rem);line-height:1;letter-spacing:-.02em}
-.cifras small{margin-top:8px;font:400 .72rem var(--sans);letter-spacing:.04em;color:var(--tenue)}
-.abrir{position:absolute;bottom:calc(-30px - 8vh);left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:6px}
+#s-contador{background:radial-gradient(120% 80% at 50% 40%,#3a1d5e 0%,var(--noche) 70%)}
+.tablero{display:flex;flex-direction:column;align-items:center;gap:clamp(34px,7vh,60px)}
+.fichas{display:flex;gap:clamp(10px,3vw,22px)}
+.unidad{display:flex;flex-direction:column;align-items:center;gap:32px}
+.unidad small{font:400 .74rem var(--sans);letter-spacing:.04em;color:var(--tenue)}
+.ficha{--w:clamp(62px,18vw,140px);position:relative;width:var(--w);height:calc(var(--w)*1.32);perspective:500px;isolation:isolate;font-variant-numeric:tabular-nums lining-nums}
+.ficha::before,.ficha::after{content:"";position:absolute;left:5%;right:5%;top:10px;bottom:-10px;border-radius:12px;background:#3f2366;z-index:-1;box-shadow:0 -1px 0 #6a4796 inset,0 6px 14px -6px #12062a}
+.ficha::after{left:10%;right:10%;top:20px;bottom:-20px;background:#331c55;z-index:-2;box-shadow:0 6px 14px -6px #12062a}
+.hoja{position:absolute;left:0;right:0;height:50%;overflow:hidden;backface-visibility:hidden}
+.hoja span{position:absolute;left:0;right:0;height:200%;display:grid;place-items:center;font:300 calc(var(--w)*.6)/1 var(--serif);color:var(--dorado);letter-spacing:-.02em}
+.sup{top:0;border-radius:12px 12px 0 0;background:linear-gradient(#563383,#4b2b74);transform-origin:50% 100%;box-shadow:0 1px 0 #6d4a9a inset}
+.inf{bottom:0;border-radius:0 0 12px 12px;background:linear-gradient(#45286c,#3f2463);transform-origin:50% 0;border-top:1px solid #2a1446}
+.sup span{top:0}.inf span{bottom:0}
+.ficha::marker{}
+.flap,.flap2{z-index:2;visibility:hidden}
+.flap2{transform:rotateX(90deg)}
+.gira .flap,.gira .flap2{visibility:visible}
+.gira .flap{animation:cae1 .28s ease-in forwards}
+.gira .flap2{animation:cae2 .28s .28s ease-out forwards}
+@keyframes cae1{from{transform:rotateX(0)}to{transform:rotateX(-90deg)}}
+@keyframes cae2{from{transform:rotateX(90deg)}to{transform:rotateX(0)}}
+.ficha .eje{position:absolute;left:-3px;right:-3px;top:50%;height:2px;margin-top:-1px;background:#2a1446;z-index:3}
+.abrir{display:flex;flex-direction:column;align-items:center;gap:8px}
 .btn{min-height:48px;padding:0 30px;border-radius:999px;border:1px solid var(--dorado);background:transparent;color:var(--dorado);font-size:1.05rem;letter-spacing:.02em;cursor:pointer;transition:background .4s,color .4s}
 .btn:not([aria-disabled="true"]):hover{background:var(--dorado);color:var(--noche)}
 .btn[aria-disabled="true"]{border-color:var(--linea);color:var(--tenue);cursor:default}
@@ -75,7 +85,7 @@ body:not([data-estado="cerrada"]) .mensaje p{opacity:1;transition:opacity 1.2s 2
 @keyframes baja{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
 
 /* ---------- 3 · el día ---------- */
-#s-dia{--bg:#2c1838;--ink:#f7f1f5;--acc:#f0e2b8;--cafe:#dcae80;--svgh:min(110vw,calc(100dvh - 110px));
+#s-dia{--bg:#3b1f60;--ink:#f7f1f5;--acc:#f0e2b8;--cafe:#dcae80;--svgh:min(110vw,calc(100dvh - 110px));
   position:relative;height:720vh;background:var(--bg);color:var(--ink)}
 .pin{position:sticky;top:0;height:100dvh;min-height:480px;overflow:hidden;background:var(--bg)}
 #s-dia .escena{position:absolute;left:0;right:0;bottom:calc(78px + env(safe-area-inset-bottom));height:var(--svgh)}
@@ -158,8 +168,7 @@ body:not([data-estado="cerrada"]) .mensaje p{opacity:1;transition:opacity 1.2s 2
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   *,*::before,*::after{transition-duration:.15s!important;transition-delay:0s!important}
-  .reloj .gira,.saludo,.pa,.pb,.rebote,.bajar svg,#guir.on .bu,#textos p,.guino .ring,#concha.salta .rebote{animation:none!important}
-  .reloj .anillo{animation:none;stroke-dashoffset:0}
+  .gira .flap,.gira .flap2,.saludo,.pa,.pb,.rebote,.bajar svg,#guir.on .bu,#textos p,.guino .ring,#concha.salta .rebote{animation:none!important}
 }
 
 /* computador: escena a la derecha, textos a la izquierda */
@@ -176,16 +185,8 @@ body:not([data-estado="cerrada"]) .mensaje p{opacity:1;transition:opacity 1.2s 2
 
 <!-- 1 · CONTADOR -->
 <section id="s-contador" aria-label="Cuenta regresiva">
-  <div class="reloj">
-    <svg viewBox="0 0 400 400" aria-hidden="true">
-      <circle class="ln anillo" cx="200" cy="200" r="176" pathLength="1" stroke-dasharray="1"/>
-      <g class="gira"><circle class="ln f" cx="200" cy="200" r="190" stroke-dasharray="1 9"/><circle cx="200" cy="10" r="3.2" fill="currentColor"/></g>
-      <path class="ln f" d="M200 58v18M200 324v18M58 200h18M324 200h18"/>
-    </svg>
-    <div class="cifras" role="timer">
-      <div><b id="c-d">0</b><small>días</small></div><div><b id="c-h">0</b><small>horas</small></div>
-      <div><b id="c-m">0</b><small>minutos</small></div><div><b id="c-s">0</b><small>segundos</small></div>
-    </div>
+  <div class="tablero">
+    <div class="fichas" role="timer" id="fichas" aria-label="Faltan"><div class="unidad"><div class="ficha" id="f-d" aria-hidden="true"><div class="hoja sup"><span>00</span></div><div class="hoja inf"><span>00</span></div><div class="hoja sup flap"><span>00</span></div><div class="hoja inf flap2"><span>00</span></div><i class="eje"></i></div><small>días</small></div><div class="unidad"><div class="ficha" id="f-h" aria-hidden="true"><div class="hoja sup"><span>00</span></div><div class="hoja inf"><span>00</span></div><div class="hoja sup flap"><span>00</span></div><div class="hoja inf flap2"><span>00</span></div><i class="eje"></i></div><small>horas</small></div><div class="unidad"><div class="ficha" id="f-m" aria-hidden="true"><div class="hoja sup"><span>00</span></div><div class="hoja inf"><span>00</span></div><div class="hoja sup flap"><span>00</span></div><div class="hoja inf flap2"><span>00</span></div><i class="eje"></i></div><small>minutos</small></div><div class="unidad"><div class="ficha" id="f-s" aria-hidden="true"><div class="hoja sup"><span>00</span></div><div class="hoja inf"><span>00</span></div><div class="hoja sup flap"><span>00</span></div><div class="hoja inf flap2"><span>00</span></div><i class="eje"></i></div><small>segundos</small></div></div>
     <div class="abrir">
       <button class="btn" id="btn-desbloquear" type="button" aria-disabled="true" aria-describedby="aun">Desbloquear</button>
       <p class="aun" id="aun">aún no</p>
@@ -429,12 +430,24 @@ const F=[
 const idx=id=>F.findIndex(f=>f.id===id);
 
 /* ---------- 1 · contador ---------- */
-const META=Date.parse('2026-11-24T00:00:00-05:00');
+// SIMULACIÓN para revisar el diseño: faltan 2 horas desde que se abre la página.
+// La fecha real (y el desbloqueo definitivo) se deciden en el Prompt 6.
+const META=Date.now()+2*3600*1000;
 const dos=n=>String(n).padStart(2,'0');
+const valor={};
+function ficha(k,v){
+  if(valor[k]===v)return; const f=$('#f-'+k), sp=f.querySelectorAll('span'), viejo=valor[k]??v; valor[k]=v;
+  if(reduce.matches||viejo===v){sp.forEach(x=>x.textContent=v);return}
+  // 0 sup fija (nuevo), 1 inf fija (viejo hasta que cae la hoja), 2 hoja que cae (viejo), 3 hoja que llega (nuevo)
+  sp[0].textContent=v; sp[1].textContent=viejo; sp[2].textContent=viejo; sp[3].textContent=v;
+  f.classList.remove('gira'); void f.offsetWidth; f.classList.add('gira');
+  clearTimeout(f._t); f._t=setTimeout(()=>{sp[1].textContent=v;f.classList.remove('gira')},620);
+}
 function contador(){
   let s=Math.max(0,Math.floor((META-Date.now())/1000));
   const d=Math.floor(s/86400); s%=86400; const h=Math.floor(s/3600); s%=3600; const m=Math.floor(s/60); s%=60;
-  $('#c-d').textContent=d;$('#c-h').textContent=dos(h);$('#c-m').textContent=dos(m);$('#c-s').textContent=dos(s);
+  ficha('d',dos(d));ficha('h',dos(h));ficha('m',dos(m));ficha('s',dos(s));
+  $('#fichas').setAttribute('aria-label',`Faltan ${d} días, ${h} horas, ${m} minutos`);
 }
 contador(); setInterval(()=>{if(!document.hidden&&B.dataset.estado==='cerrada')contador()},1000);
 const btn=$('#btn-desbloquear');
@@ -481,7 +494,7 @@ const zonas=$$('.obj[data-z]').map(e=>{const z=e.dataset.z.split(',').map(Number
 // punto del recorrido (0 a 1) en que aparece cada fragmento
 const AP={S1:.03,S2:.08,S3:.13,S4:.19,S5:.25,S6:.31,C1:.4,C2:.44,C3:.48,C4:.52,C5:.56,C6:.6,C7:.65,N1:.72,N2:.76,N3:.8,N4:.84,N5:.88,N6:.91,N7:.95};
 // cielo siempre morado: cambia el tono; acento dorado pálido, rosado y lila
-const KF=[[0,'#2c1838','#f0e2b8'],[.3,'#36224c','#f0e2b8'],[.42,'#3e1f48','#eba3c3'],[.64,'#341a3e','#eba3c3'],[.74,'#170d21','#c9adf0'],[1,'#120a1a','#c9adf0']];
+const KF=[[0,'#3b1f60','#f0e2b8'],[.3,'#47296e','#f0e2b8'],[.42,'#4b2462','#eba3c3'],[.64,'#3e1d58','#eba3c3'],[.74,'#26123f','#c9adf0'],[1,'#1f0f35','#c9adf0']];
 const hex=h=>[1,3,5].map(i=>parseInt(h.slice(i,i+2),16)), toHex=a=>'#'+a.map(v=>Math.round(v).toString(16).padStart(2,'0')).join('');
 const mix=(a,b,x)=>{const A=hex(a),Bc=hex(b);return toHex(A.map((v,i)=>v+(Bc[i]-v)*x))};
 function colores(t){
