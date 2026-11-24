@@ -1,5 +1,11 @@
 # Pruebas (Fase 5 · Prompt 5)
 
+## Versión 4 · crayón y fluidez (24/11, a pedido del autor)
+- Trazo de crayón: rough.js 4.6.6 (licencia MIT, incluido dentro de `index.html`, sin conexión externa) vuelve a dibujar cada línea a mano, dos pasadas, la segunda con grano. Trazo más fino (1,15).
+- Fluidez: la apertura ya no usa `clip-path` ni anima dentro del SVG; disco de luz, rayos, anillos, gente y confeti son capas HTML que se mueven solo con transform y opacity. En el día, el sol y los dos personajes van en capas propias que se desplazan sin repintar el paisaje; los colores se actualizan por pasos.
+- Medición (Chromium sin tarjeta gráfica, CPU 4 veces más lenta; solo comparativa): apertura 39 → 45 cuadros por segundo. En una tablet real con tarjeta gráfica debería ir mejor; **no verificado en el aparato**.
+- Peso: 77 KB (con rough.js). Nodos SVG: ~350.
+
 ## Versión 3 · morado y deslizar (24/11, a pedido del autor)
 - Paleta: fondo morado oscuro (#1a0f24), rosado (#eba3c3) y dorado pálido casi blanco (#f0e2b8). La carta es papel dorado pálido (#f6eedc) con tinta morada.
 - Se quitó el deslizador. El día avanza al bajar la página (la escena queda fija mientras pasa); cada fragmento aparece en su punto y se oculta si se vuelve atrás. Abajo queda solo una barra de avance con Solecito, Cielito y Negrita.
