@@ -85,7 +85,7 @@ button{font:inherit;color:inherit}
 .contador.sale .etq,.contador.sale .boton,.contador.sale .aviso{transition:opacity var(--d-corta) var(--sale);opacity:0}
 @keyframes caeFicha{0%{transform:none}22%{transform:translateY(-3%) rotate(var(--rot,-3deg))}100%{transform:translateY(110svh) rotate(calc(var(--rot,-3deg)*7));opacity:.9}}
 
-.portada{position:relative;min-height:100svh;overflow:hidden;display:grid;grid-template-rows:minmax(0,1fr) auto;--cx:50%;--cy:36%}
+.portada{position:relative;min-height:100svh;overflow:hidden;display:grid;grid-template-rows:minmax(0,1fr) auto;--cx:50%;--cy:36%;--gh:min(34svh,62vw,400px)}
 .portada[hidden]{display:none}
 .capa{position:absolute;pointer-events:none}
 .luz{inset:0;background:radial-gradient(circle at var(--cx) var(--cy),var(--dorado-palido) 0,color-mix(in srgb,var(--rosado-claro) 75%,transparent) min(22vmin,170px),color-mix(in srgb,var(--rosado-claro) 28%,transparent) min(48vmin,380px),transparent min(80vmin,640px));opacity:0;transform:scale(.15);transform-origin:var(--cx) var(--cy)}
@@ -105,7 +105,7 @@ button{font:inherit;color:inherit}
 .frases{margin:0;font-style:italic;font-size:clamp(17px,2.6vw,22px);line-height:1.5;color:var(--tinta-suave);max-width:34ch}
 .frases span{display:block;opacity:0;transform:translateY(6px)}
 
-.gente{position:relative;z-index:3;justify-self:center;width:min(100%,1180px);height:var(--gh);--gh:min(34svh,62vw,400px)}
+.gente{position:relative;z-index:3;justify-self:center;width:min(100%,1180px);height:var(--gh)}
 .pers{position:absolute;bottom:var(--b,0);left:var(--x);height:calc(var(--gh)*var(--h));aspect-ratio:120/200;translate:-50% 0;transform:translateY(115%)}
 .pers.atras{z-index:1}.pers.frente{z-index:2}
 .salta,.salta svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
@@ -156,6 +156,7 @@ button{font:inherit;color:inherit}
   .hoja.cae{display:none}
   .boton:not([aria-disabled=true]) .halo{animation:none;opacity:.6}
 }
+/*@@DIA_CSS@@*/
 </style>
 </head>
 <body>
@@ -188,6 +189,23 @@ button{font:inherit;color:inherit}
     </div>
     <div class="gente" aria-hidden="true"></div>
     <div class="capa confeti" aria-hidden="true"></div>
+    <div class="baja" aria-hidden="true"></div>
+  </section>
+  <section class="dia" id="dia" hidden inert aria-label="El día">
+    <div class="escena">
+      <div class="c cielo" aria-hidden="true"><i class="c-amanecer"></i><i class="c-mediodia"></i><i class="c-atardecer"></i><i class="c-noche"></i></div>
+      <div class="c" aria-hidden="true"><div class="c estrellas"></div><div class="astro luna" style="left:76%;top:12%"></div><div class="astro sol"></div><div class="brillo"></div><div class="rojo"></div></div>
+      <div class="c paisaje" aria-hidden="true"></div>
+      <div class="c mundo" aria-hidden="true"></div>
+      <div class="sombra" aria-hidden="true"></div>
+      <div class="perrita" aria-hidden="true"></div>
+      <div class="ella" aria-hidden="true"></div>
+      <div class="c velo velo-tarde" aria-hidden="true"></div>
+      <div class="c velo velo-noche" aria-hidden="true"></div>
+      <div class="c luces" aria-hidden="true"></div>
+      <div class="frags"></div>
+      <ol class="momentos" aria-label="Momento del día"><li>Solecito</li><li>Cielito</li><li>Negrita</li></ol>
+    </div>
   </section>
 </main>
 
@@ -305,6 +323,7 @@ function armaPortada(){
   ch.append(rough.svg(ch).path('M0 -26 Q4 -4 26 0 Q4 4 0 26 Q-4 4 -26 0 Q-4 -4 0 -26Z',{fill:C.dpal,fillStyle:'solid',stroke:C.dorado,strokeWidth:1.4,roughness:.7,seed:9}));
   portada.querySelector('.chispa').append(ch);
   gente();confeti();
+  const bj=lienzo('0 0 34 34');D(bj,'path',['M6 12 L17 24 L28 12'],{strokeWidth:2.4,stroke:tok('--tinta-suave'),seed:3});portada.querySelector('.baja').append(bj);
 }
 
 /* ---------- la gente ---------- */
@@ -414,6 +433,7 @@ function abrir(saltar){
   armaPortada();
   const cont=document.getElementById('contador');
   portada.hidden=false;portada.inert=false;luzEnSuCentro();
+  dia.hidden=false;dia.inert=false;armaDia();medir();
   if(saltar){cont.hidden=true;}
   else{
     cont.classList.add('sale');
@@ -424,6 +444,7 @@ function abrir(saltar){
     if(!quieto.matches){setTimeout(()=>portada.classList.add('fiesta'),3500);setTimeout(()=>portada.classList.add('ola'),3700)}});
   setTimeout(()=>titulo.focus({preventScroll:true}),quieto.matches?200:1400);
 }
+/*@@DIA_JS@@*/
 btn.addEventListener('click',()=>{
   if(btn.getAttribute('aria-disabled')==='true'||armada&&!portada.hidden)return;
   abrir(false);
@@ -432,6 +453,8 @@ btn.addEventListener('click',()=>{
 if(ABIERTO)(window.requestIdleCallback||setTimeout)(armaPortada);
 /* ?fase=portada (con abierto): salta directo a la apertura, solo para pruebas */
 if(ABIERTO&&(q.get('fase')==='portada'||/portada/.test(h)))abrir(true);
+/* ?fase=dia&f=7.5 (con abierto): salta al día en ese punto, solo para pruebas */
+if(ABIERTO&&q.get('fase')==='dia'){abrir(true);requestAnimationFrame(()=>{medir();scrollTo(0,topDia+(+q.get('f')||0)/NF*largo);pinta()})}
 }
 </script>
 </body>

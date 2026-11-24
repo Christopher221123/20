@@ -24,6 +24,17 @@
 - Fluidez (Chromium sin tarjeta gráfica, CPU 4 veces más lenta, solo comparativa; toda la apertura, 12 s): tablet 58 fps de media (21 cuadros de más de 25 ms en 719), celular 60 fps, computador 45 fps. Se mejoró poniendo el confeti detrás de la gente (antes, tablet 50 fps). **No verificado en una tablet real.**
 - Prueba directa: `?abierto=1&fase=portada` (o `#abierto-portada`) salta a la apertura.
 
+## Parte 3 · El día (24/11) · pendiente de aprobación
+- Sin deslizador: la sección mide 20 × 85 % de pantalla + 1 pantalla; la escena queda fija (`position: sticky`) y el día avanza al bajar. Cada fragmento es un tramo: en el primer 30 % ella camina hacia la estación (la cámara se mueve) y en el resto se queda; al llegar, el objeto se anima solo y el texto aparece escrito en el cielo. Al volver atrás, el texto se oculta y el objeto regresa.
+- Momentos: Solecito (S1–S6, amanecer → mediodía), Cielito (C1–C7, el cielo se pone rojo al llegar a C1; el sol toca el horizonte en C6 y se esconde en C7 dejando un brillo), Negrita (N1–N7, noche con luna y estrellas). Abajo, tres palabras marcan el momento actual.
+- Referencias implícitas: puerta entreabierta con luz (S1), puesto con toldo con olla y canasta (S3), iglesia pequeña con su luz (C7 y en el cerro de N4), luces de colores entre las del barrio (N4), la otra perrita asoma tras la mesa (C2). Ninguna se nombra.
+- Ella (morena, vestido morado, arete dorado) camina cuadro a cuadro (tres dibujos que se alternan por opacidad) solo mientras avanza; la perrita se adelanta desde S3; en N7 ambas entran a casa.
+- Textos: los 20 fragmentos se toman automáticamente de `docs/texto-final.md` al armar la página (`tools/build.py`), así que son literales. Están todos en el documento como texto real (el lector de pantalla los lee en orden).
+- Rendimiento: en cada cuadro solo se escriben transform y opacity (cielo en 4 capas que se funden, sol, luna, velos de tarde y noche, 3 bandas de paisaje con paralaje, estaciones cercanas). No se cambian variables CSS por cuadro (`--wh` solo al cambiar el tamaño). Las estaciones se dibujan poco antes de necesitarse y las lejanas quedan con `display:none`.
+- Resultados: capturas de las 20 paradas en tablet y de varias en celular y computador, con y sin movimiento reducido: 0 errores. Fluidez recorriendo todo el día en 24 s (CPU 4 veces más lenta, sin tarjeta gráfica, solo comparativa): tablet 56 fps de media, celular 59 fps, ningún cuadro de más de 50 ms. **No verificado en una tablet real.** Peso: 155,6 KB. Hasta ~2250 nodos SVG cuando todas las estaciones ya se dibujaron (más que antes; no se repintan).
+- Movimiento reducido: la cámara y el cielo saltan entre paradas, ella no camina, los objetos quedan directo en su estado final.
+- Prueba directa: `?abierto=1&fase=dia&f=7.5` salta a ese punto del día.
+
 ## Historial de la versión anterior (rama `respaldo/version-1`)
 
 

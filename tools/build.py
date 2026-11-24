@@ -12,6 +12,17 @@ rep = {
   '@@ROUGH@@': open('src/rough.min.js', encoding='utf-8').read().strip(),
   '@@GRANO@@': grano.replace('<','%3C').replace('>','%3E'),
 }
+import re, json
+txt = open('docs/texto-final.md', encoding='utf-8').read()
+frag = []
+for sec, m in [('Solecito', 's'), ('Cielito', 'c'), ('Negrita', 'n')]:
+    blk = txt.split(f'## {sec} · fragmentos')[1].split('\n## ')[0]
+    for ln in blk.splitlines():
+        mm = re.match(r'^(\d+)\. (.*?\)): (.*)$', ln)
+        if mm: frag.append({'m': m, 't': mm.group(3)})
+assert len(frag) == 20, len(frag)
+rep['/*@@DIA_CSS@@*/'] = open('src/dia.css', encoding='utf-8').read()
+rep['/*@@DIA_JS@@*/'] = open('src/dia.js', encoding='utf-8').read().replace('@@FRAG@@', json.dumps(frag, ensure_ascii=False))
 for k, v in rep.items():
     assert k in s, k
     s = s.replace(k, v)
