@@ -5,215 +5,281 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Para ti, Salomé</title>
 <style>
-  :root {
-    --rosa: #f7c6d0;
-    --rosa-fuerte: #e77f9a;
-    --crema: #fff7f2;
-    --texto: #5a3a44;
-  }
+  @property --c1 { syntax: '<color>'; inherits: true; initial-value: #ff7aa8; }
+  @property --c2 { syntax: '<color>'; inherits: true; initial-value: #7a5cff; }
+  :root { --c1: #ff7aa8; --c2: #7a5cff; --txt: #fff3f7; }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
+  html, body { height: 100%; }
   body {
-    font-family: "Georgia", serif;
-    background: linear-gradient(160deg, var(--crema), #fde3ea);
-    color: var(--texto);
-    min-height: 100vh;
-    overflow-x: hidden;
+    font-family: "Georgia", "Times New Roman", serif;
+    color: var(--txt);
+    background:
+      radial-gradient(900px 650px at 15% 15%, color-mix(in srgb, var(--c1) 45%, transparent), transparent 65%),
+      radial-gradient(900px 700px at 90% 90%, color-mix(in srgb, var(--c2) 50%, transparent), transparent 65%),
+      #150b1a;
+    transition: --c1 1.2s ease, --c2 1.2s ease;
+    overflow: hidden;
   }
-  .corazon {
-    position: fixed;
-    bottom: -40px;
-    font-size: 22px;
-    opacity: 0.6;
-    animation: subir linear forwards;
-    pointer-events: none;
-    z-index: 0;
-  }
-  @keyframes subir {
-    to { transform: translateY(-110vh) rotate(25deg); opacity: 0; }
-  }
-  main {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 2rem;
-    gap: 1.5rem;
-    position: relative;
-    z-index: 1;
-    animation: aparecer 1.6s ease both;
-  }
-  @keyframes aparecer {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  h1 { font-size: clamp(2rem, 6vw, 3.4rem); font-weight: normal; }
-  p.sub { font-size: 1.1rem; max-width: 36ch; line-height: 1.6; }
-  .contador {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-  .caja {
-    background: rgba(255, 255, 255, 0.7);
-    border-radius: 18px;
-    padding: 1rem 1.2rem;
-    min-width: 88px;
-    box-shadow: 0 8px 24px rgba(231, 127, 154, 0.2);
-  }
-  .caja span {
-    display: block;
-    font-size: 2.2rem;
-    color: var(--rosa-fuerte);
-    font-variant-numeric: tabular-nums;
-  }
-  .caja small { font-size: 0.85rem; letter-spacing: 0.08em; text-transform: uppercase; }
-  .latido { animation: latido 1.4s ease-in-out infinite; font-size: 2.4rem; }
-  @keyframes latido {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.2); }
-  }
+  #fx { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+  .pantalla { position: fixed; inset: 0; z-index: 1; transition: opacity 1.2s ease, transform 1.2s ease; }
+  .oculta { opacity: 0; pointer-events: none; transform: scale(1.04); }
 
-  /* Línea de tiempo (se muestra al desbloquear) */
-  #linea { display: none; position: relative; z-index: 1; padding: 4rem 1.5rem 6rem; }
-  #linea h2 { text-align: center; font-weight: normal; font-size: clamp(1.8rem, 5vw, 2.6rem); margin-bottom: 3rem; }
-  .eje {
-    position: relative;
-    max-width: 680px;
-    margin: 0 auto;
-    padding-left: 2.2rem;
+  /* ---------- CONTADOR ---------- */
+  #cuenta {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 1.6rem; text-align: center; padding: 1.5rem;
   }
-  .eje::before {
-    content: "";
-    position: absolute;
-    left: 0.6rem;
-    top: 0;
-    bottom: 0;
-    width: 3px;
-    background: linear-gradient(var(--rosa), var(--rosa-fuerte));
-    border-radius: 2px;
+  #cuenta .etq { letter-spacing: .35em; text-transform: uppercase; font-size: .8rem; opacity: .75; }
+  #cuenta h1 {
+    font-weight: normal; font-size: clamp(2.2rem, 7vw, 4.6rem); line-height: 1.1;
+    background: linear-gradient(90deg, #fff, var(--c1), #fff, var(--c2));
+    background-size: 300% 100%; -webkit-background-clip: text; background-clip: text;
+    color: transparent; animation: brillo 6s linear infinite;
   }
-  .hito {
-    position: relative;
-    margin-bottom: 2.6rem;
-    opacity: 0;
-    transform: translateX(-24px);
-    transition: opacity 0.9s ease, transform 0.9s ease;
+  @keyframes brillo { to { background-position: 300% 0; } }
+  #cuenta p.sub { max-width: 38ch; line-height: 1.7; opacity: .85; font-size: 1.05rem; }
+  .anillos { display: flex; gap: clamp(.6rem, 3vw, 1.8rem); flex-wrap: wrap; justify-content: center; }
+  .anillo { position: relative; width: clamp(84px, 20vw, 132px); aspect-ratio: 1; }
+  .anillo svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+  .anillo circle { fill: none; stroke-width: 5; }
+  .anillo .base { stroke: rgba(255,255,255,.12); }
+  .anillo .prog { stroke: url(#grad); stroke-linecap: round; stroke-dasharray: 314; stroke-dashoffset: 314;
+                  transition: stroke-dashoffset .9s cubic-bezier(.3,.8,.3,1); filter: drop-shadow(0 0 6px var(--c1)); }
+  .anillo .num { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .anillo .num b { font-weight: normal; font-size: clamp(1.5rem, 5vw, 2.4rem); font-variant-numeric: tabular-nums; }
+  .anillo .num small { font-size: .65rem; letter-spacing: .18em; text-transform: uppercase; opacity: .7; }
+  .anillo .num b.tick { animation: tick .45s ease; }
+  @keyframes tick { 0% { transform: translateY(-10px); opacity: 0; } 100% { transform: none; opacity: 1; } }
+  .latido { font-size: 2.6rem; animation: latido 1.4s ease-in-out infinite; filter: drop-shadow(0 0 18px var(--c1)); }
+  @keyframes latido { 0%,100% { transform: scale(1);} 20% { transform: scale(1.25);} 40% { transform: scale(1);} 60% { transform: scale(1.18);} }
+
+  /* ---------- ESCENA ---------- */
+  #linea { display: flex; flex-direction: column; }
+  .top { display: flex; justify-content: space-between; align-items: center; padding: 1.1rem 1.6rem; font-size: .8rem; letter-spacing: .25em; text-transform: uppercase; opacity: .85; }
+  .chip { background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.18); padding: .45rem .9rem; border-radius: 999px; backdrop-filter: blur(8px); letter-spacing: .08em; text-transform: none; font-size: .85rem; }
+  .detalle { flex: 1; display: grid; grid-template-columns: 1.1fr 1fr; gap: 2rem; align-items: center; padding: 0 clamp(1.2rem, 6vw, 5rem); min-height: 0; position: relative; }
+  .fecha { position: relative; }
+  .fecha .dia { font-size: clamp(5rem, 17vw, 12rem); line-height: .9; font-weight: normal;
+                background: linear-gradient(160deg, #fff 10%, var(--c1) 55%, var(--c2));
+                -webkit-background-clip: text; background-clip: text; color: transparent;
+                filter: drop-shadow(0 6px 30px color-mix(in srgb, var(--c1) 55%, transparent)); }
+  .fecha .mes { font-size: clamp(1rem, 2.6vw, 1.6rem); letter-spacing: .4em; text-transform: uppercase; opacity: .9; margin-top: .6rem; }
+  .fecha .emo { position: absolute; right: 0; top: -.5rem; font-size: clamp(3rem, 8vw, 6rem); filter: drop-shadow(0 0 24px var(--c1)); animation: flota 4s ease-in-out infinite; }
+  @keyframes flota { 50% { transform: translateY(-14px) rotate(6deg); } }
+  .tarjeta { background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.18); border-radius: 26px; padding: clamp(1.2rem, 3vw, 2.2rem);
+             backdrop-filter: blur(14px); box-shadow: 0 20px 60px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.25); }
+  .tarjeta h2 { font-weight: normal; font-size: clamp(1.5rem, 3.6vw, 2.4rem); margin-bottom: .8rem; }
+  .tarjeta p { line-height: 1.75; font-size: clamp(1rem, 1.8vw, 1.15rem); }
+  .tarjeta p span { display: inline-block; opacity: 0; animation: palabra .6s ease forwards; animation-delay: calc(var(--d) * 35ms + 250ms); }
+  @keyframes palabra { from { opacity: 0; transform: translateY(10px) scale(.96); filter: blur(4px); } to { opacity: 1; transform: none; filter: none; } }
+  .entra .dia { animation: dia .9s cubic-bezier(.2,.9,.2,1); }
+  .entra .mes { animation: deslizar .8s ease; }
+  .entra .emo { animation: pop .9s cubic-bezier(.2,1.4,.3,1), flota 4s ease-in-out .9s infinite; }
+  .entra .tarjeta { animation: tarjeta .8s cubic-bezier(.2,.9,.2,1); }
+  @keyframes dia { from { opacity: 0; transform: translateX(-60px) scale(.8) rotate(-4deg); filter: blur(12px); } }
+  @keyframes deslizar { from { opacity: 0; letter-spacing: 1em; } }
+  @keyframes pop { from { opacity: 0; transform: scale(0) rotate(-40deg); } }
+  @keyframes tarjeta { from { opacity: 0; transform: translateY(40px) rotateX(18deg); } }
+
+  /* ---------- PISTA HORIZONTAL ---------- */
+  .pista { position: relative; height: 190px; overflow-x: auto; overflow-y: hidden; cursor: grab; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+  .pista::-webkit-scrollbar { display: none; }
+  .pista.arrastra { cursor: grabbing; }
+  .carril { position: relative; display: flex; align-items: center; height: 100%; width: max-content; padding: 0 50vw; gap: 0; }
+  .carril::before { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 3px; transform: translateY(-50%);
+                    background: linear-gradient(90deg, transparent, var(--c1) 12%, var(--c2) 88%, transparent); box-shadow: 0 0 18px var(--c1); border-radius: 3px; }
+  .nodo { position: relative; flex: 0 0 auto; width: 150px; height: 100%; background: none; border: 0; color: inherit; font: inherit; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .nodo .punto { width: 54px; height: 54px; border-radius: 50%; display: grid; place-items: center; font-size: 1.5rem;
+                 background: rgba(255,255,255,.1); border: 2px solid rgba(255,255,255,.35); backdrop-filter: blur(6px);
+                 transition: transform .45s cubic-bezier(.2,1.5,.3,1), background .4s, box-shadow .4s, border-color .4s; z-index: 1; }
+  .nodo .f { position: absolute; font-size: .78rem; letter-spacing: .12em; text-transform: uppercase; opacity: .75; transition: opacity .3s, transform .4s; white-space: nowrap; }
+  .nodo.arriba .f { top: 14%; } .nodo.abajo .f { bottom: 14%; }
+  .nodo:hover .punto, .nodo:focus-visible .punto { transform: scale(1.35) rotate(8deg); }
+  .nodo.activo .punto { transform: scale(1.6); background: radial-gradient(circle at 30% 30%, #fff, var(--c1)); border-color: #fff;
+                        box-shadow: 0 0 0 8px color-mix(in srgb, var(--c1) 30%, transparent), 0 0 40px var(--c1); animation: pulso 1.8s ease-in-out infinite; }
+  @keyframes pulso { 50% { box-shadow: 0 0 0 16px color-mix(in srgb, var(--c1) 12%, transparent), 0 0 60px var(--c2); } }
+  .nodo.activo .f { opacity: 1; transform: scale(1.15); }
+  .nodo.pasado .punto { background: color-mix(in srgb, var(--c1) 35%, transparent); }
+  .progreso { height: 3px; background: rgba(255,255,255,.1); }
+  .progreso i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--c1), var(--c2)); transition: width .8s ease; box-shadow: 0 0 12px var(--c1); }
+  .cinta { overflow: hidden; white-space: nowrap; padding: .7rem 0; font-size: .85rem; letter-spacing: .2em; text-transform: uppercase; opacity: .6; }
+  .cinta div { display: inline-block; animation: cinta 40s linear infinite; }
+  @keyframes cinta { to { transform: translateX(-50%); } }
+  .flash { position: fixed; inset: 0; background: #fff; z-index: 5; opacity: 0; pointer-events: none; }
+  .flash.on { animation: flash 1.6s ease; }
+  @keyframes flash { 0% { opacity: 0; } 15% { opacity: .95; } 100% { opacity: 0; } }
+
+  @media (max-width: 760px) {
+    .detalle { grid-template-columns: 1fr; gap: .8rem; align-content: center; }
+    .fecha .dia { font-size: clamp(4rem, 22vw, 7rem); }
+    .pista { height: 150px; }
+    .nodo { width: 120px; }
+    .top .chip { font-size: .72rem; }
   }
-  .hito.visible { opacity: 1; transform: translateX(0); }
-  .hito::before {
-    content: "💗";
-    position: absolute;
-    left: -2.1rem;
-    top: 0.1rem;
-    font-size: 1.1rem;
-  }
-  .hito time {
-    display: block;
-    font-size: 0.85rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--rosa-fuerte);
-  }
-  .hito h3 { font-weight: normal; font-size: 1.35rem; margin: 0.2rem 0 0.4rem; }
-  .hito p { line-height: 1.6; }
-  .cierre {
-    text-align: center;
-    margin-top: 4rem;
-    font-size: 1.2rem;
-    line-height: 1.7;
-  }
+  @media (prefers-reduced-motion: reduce) { * { animation-duration: .01ms !important; } }
 </style>
 </head>
 <body>
+<canvas id="fx"></canvas>
+<div class="flash" id="flash"></div>
 
-<main id="cuenta">
+<!-- CONTADOR -->
+<main class="pantalla" id="cuenta">
   <div class="latido">💗</div>
-  <h1>Algo bonito está por llegar</h1>
-  <p class="sub">Esta página se abre el día de tu cumpleaños. Mientras tanto, estamos preparando cada detalle, con todo el cariño del mundo.</p>
-  <div class="contador" id="contador">
-    <div class="caja"><span id="dias">--</span><small>días</small></div>
-    <div class="caja"><span id="horas">--</span><small>horas</small></div>
-    <div class="caja"><span id="minutos">--</span><small>minutos</small></div>
-    <div class="caja"><span id="segundos">--</span><small>segundos</small></div>
+  <div class="etq">Una sorpresa para Salomé</div>
+  <h1>Falta muy poco</h1>
+  <p class="sub">Esta página despierta el día de tu cumpleaños. Cada segundo que pasa, el regalo está más cerca.</p>
+  <div class="anillos" id="anillos">
+    <svg width="0" height="0"><defs><linearGradient id="grad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff7aa8"/><stop offset="1" stop-color="#7a5cff"/></linearGradient></defs></svg>
   </div>
 </main>
 
-<section id="linea">
-  <h2>Nuestra historia</h2>
-  <div class="eje" id="eje"></div>
-  <p class="cierre">Cada etapa que hemos vivido es un recuerdo que guardo con cariño. Y lo que viene, también lo quiero vivir contigo.</p>
+<!-- LÍNEA DE TIEMPO -->
+<section class="pantalla oculta" id="linea">
+  <div class="top"><span>Nuestra historia</span><span class="chip" id="juntos"></span></div>
+  <div class="detalle" id="detalle">
+    <div class="fecha"><span class="emo" id="emo"></span><div class="dia" id="dia"></div><div class="mes" id="mes"></div></div>
+    <div class="tarjeta"><h2 id="tit"></h2><p id="txt"></p></div>
+  </div>
+  <div class="pista" id="pista"><div class="carril" id="carril"></div></div>
+  <div class="progreso"><i id="barra"></i></div>
+  <div class="cinta"><div id="cinta"></div></div>
 </section>
 
 <script src="timeline.js"></script>
 <script>
-  // Desbloqueo: 24 de noviembre de 2026 a las 00:00, hora de Ecuador (UTC-05:00).
+(() => {
+  const $ = (id) => document.getElementById(id);
   const DESBLOQUEO = new Date("2026-11-24T00:00:00-05:00").getTime();
+  const INICIO = new Date("2024-07-02T00:00:00-05:00").getTime();
+  const MESES = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
+  const hex = (h) => [1,3,5].map((i) => parseInt(h.slice(i, i + 2), 16));
 
-  const el = {
-    dias: document.getElementById("dias"),
-    horas: document.getElementById("horas"),
-    minutos: document.getElementById("minutos"),
-    segundos: document.getElementById("segundos"),
-  };
-
-  function formatearFecha(iso) {
-    if (!iso.includes("-")) return iso; // solo año o etiqueta general
-    const [y, m, d] = iso.split("-").map(Number);
-    const meses = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
-    return `${d} de ${meses[m - 1]} de ${y}`;
-  }
-
-  function renderizarLinea() {
-    const eje = document.getElementById("eje");
-    (typeof HITOS !== "undefined" ? HITOS : []).forEach((h) => {
-      const div = document.createElement("div");
-      div.className = "hito";
-      div.innerHTML = `<time>${formatearFecha(h.fecha)}</time><h3></h3><p></p>`;
-      div.querySelector("h3").textContent = h.titulo;
-      div.querySelector("p").textContent = h.texto;
-      eje.appendChild(div);
-    });
-    const obs = new IntersectionObserver((entradas) => {
-      entradas.forEach((e) => {
-        if (e.isIntersecting) { e.target.classList.add("visible"); obs.unobserve(e.target); }
-      });
-    }, { threshold: 0.2 });
-    eje.querySelectorAll(".hito").forEach((n) => obs.observe(n));
-  }
-
-  function actualizar() {
-    const diff = DESBLOQUEO - Date.now();
-    if (diff <= 0) {
-      document.getElementById("cuenta").style.display = "none";
-      document.getElementById("linea").style.display = "block";
-      renderizarLinea();
-      clearInterval(intervalo);
-      return;
+  /* ---------- Canvas: estrellas, partículas y ráfagas ---------- */
+  const cv = $("fx"), ctx = cv.getContext("2d");
+  let W, H, DPR = Math.min(devicePixelRatio || 1, 2);
+  function medir() { W = innerWidth; H = innerHeight; cv.width = W * DPR; cv.height = H * DPR; ctx.setTransform(DPR, 0, 0, DPR, 0, 0); }
+  addEventListener("resize", medir); medir();
+  let col1 = hex("#ff7aa8"), col2 = hex("#7a5cff");
+  const estrellas = Array.from({ length: 90 }, () => ({ x: Math.random(), y: Math.random(), r: Math.random() * 1.6 + .3, t: Math.random() * 6.28, v: .3 + Math.random() }));
+  const parts = [];
+  function rafaga(x, y, n = 40, fuerza = 1) {
+    const sim = ["💗", "✨", "🌸", "💖", "⭐"];
+    for (let i = 0; i < n; i++) {
+      const a = Math.random() * 6.283, v = (2 + Math.random() * 5) * fuerza;
+      parts.push({ x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v - 2, vida: 1, g: .08, s: 10 + Math.random() * 14,
+                   e: Math.random() < .45 ? sim[(Math.random() * sim.length) | 0] : null, c: Math.random() < .5 ? col1 : col2 });
     }
+  }
+  function flotan() { // corazones suaves de fondo
+    if (Math.random() < .06) parts.push({ x: Math.random() * W, y: H + 20, vx: (Math.random() - .5) * .6, vy: -(.6 + Math.random() * 1.2), vida: 1, g: 0, s: 12 + Math.random() * 12, e: ["💗", "🌸", "✨"][(Math.random() * 3) | 0], lenta: true });
+  }
+  function dibujar(t) {
+    ctx.clearRect(0, 0, W, H);
+    for (const s of estrellas) {
+      const a = .25 + .5 * Math.abs(Math.sin(t / 1200 * s.v + s.t));
+      ctx.fillStyle = `rgba(255,255,255,${a})`; ctx.beginPath(); ctx.arc(s.x * W, s.y * H, s.r, 0, 6.283); ctx.fill();
+    }
+    flotan();
+    for (let i = parts.length - 1; i >= 0; i--) {
+      const p = parts[i];
+      p.x += p.vx; p.y += p.vy; p.vy += p.g; p.vida -= p.lenta ? .003 : .014;
+      if (p.vida <= 0 || p.y < -30) { parts.splice(i, 1); continue; }
+      ctx.globalAlpha = Math.max(0, p.lenta ? Math.min(.65, p.vida) : p.vida);
+      if (p.e) { ctx.font = p.s + "px serif"; ctx.fillText(p.e, p.x, p.y); }
+      else { ctx.fillStyle = `rgb(${p.c.join(",")})`; ctx.beginPath(); ctx.arc(p.x, p.y, p.s / 5, 0, 6.283); ctx.fill(); }
+      ctx.globalAlpha = 1;
+    }
+    requestAnimationFrame(dibujar);
+  }
+  requestAnimationFrame(dibujar);
+
+  /* ---------- Contador con anillos ---------- */
+  const unidades = [["dias", "días", 30], ["horas", "horas", 24], ["minutos", "minutos", 60], ["segundos", "segundos", 60]];
+  const refs = {};
+  unidades.forEach(([k, et]) => {
+    const d = document.createElement("div"); d.className = "anillo";
+    d.innerHTML = `<svg viewBox="0 0 120 120"><circle class="base" cx="60" cy="60" r="50"/><circle class="prog" cx="60" cy="60" r="50"/></svg><div class="num"><b>--</b><small>${et}</small></div>`;
+    $("anillos").appendChild(d); refs[k] = { b: d.querySelector("b"), p: d.querySelector(".prog") };
+  });
+  function poner(k, val, max) {
+    const r = refs[k], txt = String(val).padStart(2, "0");
+    if (r.b.textContent !== txt) { r.b.textContent = txt; r.b.classList.remove("tick"); void r.b.offsetWidth; r.b.classList.add("tick"); }
+    r.p.style.strokeDashoffset = 314 * (1 - Math.min(val, max) / max);
+  }
+  let abierta = false;
+  function cuenta() {
+    const diff = DESBLOQUEO - Date.now();
+    if (diff <= 0) { if (!abierta) abrir(true); return; }
     const s = Math.floor(diff / 1000);
-    el.dias.textContent = Math.floor(s / 86400);
-    el.horas.textContent = String(Math.floor((s % 86400) / 3600)).padStart(2, "0");
-    el.minutos.textContent = String(Math.floor((s % 3600) / 60)).padStart(2, "0");
-    el.segundos.textContent = String(s % 60).padStart(2, "0");
+    poner("dias", Math.floor(s / 86400), 30); poner("horas", Math.floor((s % 86400) / 3600), 24);
+    poner("minutos", Math.floor((s % 3600) / 60), 60); poner("segundos", s % 60, 60);
   }
 
-  // Corazones que suben de fondo
-  setInterval(() => {
-    const c = document.createElement("span");
-    c.className = "corazon";
-    c.textContent = ["💗", "🌸", "✨"][Math.floor(Math.random() * 3)];
-    c.style.left = Math.random() * 100 + "vw";
-    c.style.animationDuration = 6 + Math.random() * 6 + "s";
-    document.body.appendChild(c);
-    setTimeout(() => c.remove(), 12000);
-  }, 900);
+  /* ---------- Línea de tiempo ---------- */
+  const detalle = $("detalle"), pista = $("pista"), carril = $("carril");
+  let activo = -1, auto = null, interactuo = false;
+  const nodos = [];
+  function construir() {
+    HITOS.forEach((h, i) => {
+      const [y, m, d] = h.fecha.split("-").map(Number);
+      const b = document.createElement("button");
+      b.className = "nodo " + (i % 2 ? "abajo" : "arriba");
+      b.innerHTML = `<span class="f">${d} ${MESES[m - 1].slice(0, 3)} ${y}</span><span class="punto">${h.emoji}</span>`;
+      b.addEventListener("mouseenter", () => { interactuo = true; activar(i, false); });
+      b.addEventListener("focus", () => { interactuo = true; activar(i, false); });
+      b.addEventListener("click", () => { interactuo = true; activar(i, true); });
+      carril.appendChild(b); nodos.push(b);
+    });
+    $("cinta").textContent = ("Helados · Girasoles · Atardeceres · Películas · Bailar · Cartas hechas a mano · Viajes juntos · ").repeat(8);
+  }
+  function activar(i, centrar) {
+    if (i === activo) { if (centrar) centrarNodo(i); return; }
+    const h = HITOS[i], [y, m, d] = h.fecha.split("-").map(Number);
+    activo = i;
+    document.documentElement.style.setProperty("--c1", h.c1); document.documentElement.style.setProperty("--c2", h.c2);
+    col1 = hex(h.c1); col2 = hex(h.c2);
+    $("dia").textContent = String(d).padStart(2, "0"); $("mes").textContent = MESES[m - 1] + " " + y;
+    $("emo").textContent = h.emoji; $("tit").textContent = h.titulo;
+    $("txt").innerHTML = h.texto.split(" ").map((w, k) => `<span style="--d:${k}">${w}&nbsp;</span>`).join("");
+    detalle.classList.remove("entra"); void detalle.offsetWidth; detalle.classList.add("entra");
+    nodos.forEach((n, k) => { n.classList.toggle("activo", k === i); n.classList.toggle("pasado", k < i); });
+    $("barra").style.width = ((i + 1) / HITOS.length * 100) + "%";
+    const r = nodos[i].getBoundingClientRect(); rafaga(r.left + r.width / 2, r.top + r.height / 2, 34);
+    if (centrar) centrarNodo(i);
+  }
+  function centrarNodo(i) {
+    const n = nodos[i]; pista.scrollTo({ left: n.offsetLeft + n.offsetWidth / 2 - pista.clientWidth / 2, behavior: "smooth" });
+  }
+  // Rueda del ratón => scroll horizontal; arrastre con el dedo/ratón; teclado
+  pista.addEventListener("wheel", (e) => { if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) { pista.scrollLeft += e.deltaY; e.preventDefault(); } }, { passive: false });
+  let down = false, sx = 0, sl = 0;
+  pista.addEventListener("pointerdown", (e) => { if (e.pointerType === "mouse") { down = true; sx = e.clientX; sl = pista.scrollLeft; pista.classList.add("arrastra"); } });
+  addEventListener("pointerup", () => { down = false; pista.classList.remove("arrastra"); });
+  addEventListener("pointermove", (e) => { if (down) pista.scrollLeft = sl - (e.clientX - sx); });
+  addEventListener("keydown", (e) => {
+    if (!abierta) return;
+    if (e.key === "ArrowRight") { interactuo = true; activar(Math.min(activo + 1, HITOS.length - 1), true); }
+    if (e.key === "ArrowLeft") { interactuo = true; activar(Math.max(activo - 1, 0), true); }
+  });
+  function contarDias() {
+    const total = Math.floor((Math.max(Date.now(), DESBLOQUEO) - INICIO) / 86400000), t0 = performance.now();
+    (function paso(t) { const p = Math.min(1, (t - t0) / 2200), v = Math.round(total * (1 - Math.pow(1 - p, 3)));
+      $("juntos").textContent = "💞 " + v + " días desde el 2 de julio de 2024"; if (p < 1) requestAnimationFrame(paso); })(t0);
+  }
+  function abrir(conEfecto) {
+    abierta = true;
+    if (conEfecto) { $("flash").classList.add("on"); for (let k = 0; k < 8; k++) setTimeout(() => rafaga(Math.random() * W, Math.random() * H * .7, 60, 1.4), k * 220); }
+    setTimeout(() => {
+      $("cuenta").classList.add("oculta"); $("linea").classList.remove("oculta");
+      construir(); activar(0, true); contarDias();
+      auto = setInterval(() => { if (interactuo) return clearInterval(auto); if (activo < HITOS.length - 1) activar(activo + 1, true); else clearInterval(auto); }, 7000);
+    }, conEfecto ? 900 : 0);
+  }
 
-  const intervalo = setInterval(actualizar, 1000);
-  actualizar();
+  cuenta(); setInterval(cuenta, 500);
+  if (Date.now() < DESBLOQUEO) setTimeout(() => rafaga(W / 2, H / 2, 20, .6), 600);
+})();
 </script>
 </body>
 </html>
