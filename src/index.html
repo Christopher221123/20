@@ -157,6 +157,7 @@ button{font:inherit;color:inherit}
   .boton:not([aria-disabled=true]) .halo{animation:none;opacity:.6}
 }
 /*@@DIA_CSS@@*/
+/*@@CARTA_CSS@@*/
 </style>
 </head>
 <body>
@@ -208,7 +209,14 @@ button{font:inherit;color:inherit}
       <ol class="momentos" aria-label="Momento del día"><li>Solecito</li><li>Cielito</li><li>Negrita</li></ol>
     </div>
   </section>
+  <section class="carta" id="carta" hidden inert aria-labelledby="t-carta">
+    <div class="cielo-c" aria-hidden="true"></div>
+    <h2 class="sr" id="t-carta">Carta</h2>
+    <article class="hoja-c"><span class="cinta" aria-hidden="true"></span></article>
+    <button class="volver" type="button">volver al inicio del día</button>
+  </section>
 </main>
+<div class="cortina" aria-hidden="true"></div>
 
 <script>
 /*! rough.js 4.6.6 · MIT License · (c) Preet Shihn */
@@ -438,7 +446,7 @@ function abrir(saltar){
   const cont=document.getElementById('contador');
   portada.hidden=false;portada.inert=false;luzEnSuCentro();
   /* el día se prepara aparte y se muestra cuando la apertura ya terminó, para no quitarle fluidez */
-  const muestraDia=()=>{armaDia();dia.hidden=false;dia.inert=false;medir()};
+  const muestraDia=()=>{armaDia();armaCarta();dia.hidden=false;dia.inert=false;carta.hidden=false;carta.inert=false;medir()};
   if(saltar){cont.hidden=true;muestraDia()}
   else{
     setTimeout(muestraDia,quieto.matches?300:5600);
@@ -451,6 +459,7 @@ function abrir(saltar){
   setTimeout(()=>titulo.focus({preventScroll:true}),quieto.matches?200:1400);
 }
 /*@@DIA_JS@@*/
+/*@@CARTA_JS@@*/
 btn.addEventListener('click',()=>{
   if(btn.getAttribute('aria-disabled')==='true'||armada&&!portada.hidden)return;
   abrir(false);
@@ -460,6 +469,8 @@ if(ABIERTO)(window.requestIdleCallback||setTimeout)(()=>{armaPortada();(window.r
 /* ?fase=portada (con abierto): salta directo a la apertura, solo para pruebas */
 if(ABIERTO&&(q.get('fase')==='portada'||/portada/.test(h)))abrir(true);
 /* ?fase=dia&f=7.5 (con abierto): salta al día en ese punto, solo para pruebas */
+/* ?fase=carta (con abierto): salta a la carta, solo para pruebas */
+if(ABIERTO&&q.get('fase')==='carta'){abrir(true);requestAnimationFrame(()=>carta.scrollIntoView())}
 if(ABIERTO&&q.get('fase')==='dia'){abrir(true);requestAnimationFrame(()=>{medir();scrollTo(0,topDia+(+q.get('f')||0)/NF*largo);pinta()})}
 }
 </script>

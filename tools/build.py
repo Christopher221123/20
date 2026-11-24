@@ -23,6 +23,14 @@ for sec, m in [('Solecito', 's'), ('Cielito', 'c'), ('Negrita', 'n')]:
 assert len(frag) == 20, len(frag)
 rep['/*@@DIA_CSS@@*/'] = open('src/dia.css', encoding='utf-8').read()
 rep['/*@@DIA_JS@@*/'] = open('src/dia.js', encoding='utf-8').read().replace('@@FRAG@@', json.dumps(frag, ensure_ascii=False))
+blk = txt.split('## Escrito final')[1].split('\nMapa de referencias')[0]
+estrofas = []; cur = None
+for ln in blk.splitlines()[1:]:
+    if re.match(r'^\d+\. ', ln): cur = []; estrofas.append(cur); continue
+    if cur is not None and ln.strip(): cur.append(ln.strip())
+assert len(estrofas) == 4 and sum(map(len, estrofas)) == 16, estrofas
+rep['/*@@CARTA_CSS@@*/'] = open('src/carta.css', encoding='utf-8').read()
+rep['/*@@CARTA_JS@@*/'] = open('src/carta.js', encoding='utf-8').read().replace('@@CARTA@@', json.dumps(estrofas, ensure_ascii=False))
 for k, v in rep.items():
     assert k in s, k
     s = s.replace(k, v)

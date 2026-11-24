@@ -24,6 +24,13 @@
 - Fluidez (Chromium sin tarjeta gráfica, CPU 4 veces más lenta, solo comparativa; toda la apertura, 12 s): tablet 58 fps de media (21 cuadros de más de 25 ms en 719), celular 60 fps, computador 45 fps. Se mejoró poniendo el confeti detrás de la gente (antes, tablet 50 fps). **No verificado en una tablet real.**
 - Prueba directa: `?abierto=1&fase=portada` (o `#abierto-portada`) salta a la apertura.
 
+## Parte 4 · La carta (24/11) · pendiente de aprobación
+- Después de la noche (N7) sube una hoja de papel sobre el mismo cielo de noche: margen rosado, renglones suaves, un trozo de cinta arriba y el borde dibujado a mano. Las 4 estrofas van escritas a mano (Caveat), cada verso en su renglón; si un verso no cabe (celular), sigue con sangría francesa. Sin firma, sin fecha, sin "fin".
+- Un dibujo pequeño por estrofa, en el margen como garabato: 1 camino que da la vuelta al mar con una luz al final (la luz late dos veces); 2 barco que se aleja y vuelve, y la ventana se enciende cuando regresa; 3 ella caminando de frente con notas que suben detrás (solo imagen, sin sonido); 4 jardín de noche cuya puerta se abre.
+- Cada estrofa aparece al llegar a ella (los versos uno tras otro) y se queda. Abajo, "volver al inicio del día": la pantalla se cubre un instante, salta al comienzo del día y se descubre (no recorre todo el día de golpe).
+- Textos: las estrofas se toman de `docs/texto-final.md` al armar la página; `check.py` comprueba los 20 fragmentos, las 16 líneas y las 2 frases de la portada.
+- Resultados: 390×844, 820×1180 y 1440×900, con y sin movimiento reducido: 0 errores, las 4 estrofas aparecen, ningún verso se sale de la pantalla, "volver" deja la página exactamente al inicio del día. Peso total: 168,3 KB. Fluidez del día sin cambios (58–59 fps con CPU 4×). Movimiento reducido: todo aparece directo, dibujos quietos y la puerta ya abierta.
+
 ## Parte 3 · El día (24/11) · pendiente de aprobación
 - Sin deslizador: la sección mide 20 × 85 % de pantalla + 1 pantalla; la escena queda fija (`position: sticky`) y el día avanza al bajar. Cada fragmento es un tramo: en el primer 30 % ella camina hacia la estación (la cámara se mueve) y en el resto se queda; al llegar, el objeto se anima solo y el texto aparece escrito en el cielo. Al volver atrás, el texto se oculta y el objeto regresa.
 - Momentos: Solecito (S1–S6, amanecer → mediodía), Cielito (C1–C7, el cielo se pone rojo al llegar a C1; el sol toca el horizonte en C6 y se esconde en C7 dejando un brillo), Negrita (N1–N7, noche con luna y estrellas). Abajo, tres palabras marcan el momento actual.
