@@ -390,11 +390,11 @@ var rough=function(){"use strict";function t(t,e,s){if(t&&t.length){const[n,o]=e
 <script>
 {
 /* ---------- apertura ----------
-   Se abre el martes 24/11/2026 a las 19:00 en punto, hora de Ecuador (UTC-5) = 00:00 UTC del 25/11.
+   Se abre el martes 24/11/2026 a las 17:42, hora de Ecuador (UTC-5) = 22:42 UTC.
    Se calcula en UTC, así que no depende de la zona horaria del aparato, pero sí de que su reloj esté bien.
    NO es seguridad: el repo es público y el texto está en el código.
    Pruebas: ?abierto=1 (o #abierto) abre ya; ?faltan=SEGUNDOS (o #faltan-N) simula la cuenta. */
-const APERTURA=Date.UTC(2026,10,25,0,0,0);
+const APERTURA=Date.UTC(2026,10,24,22,42,0);
 const q=new URLSearchParams(location.search), h=location.hash;
 const faltan=q.get('faltan')||(h.match(/faltan-(\d+)/)||[])[1];
 const META=faltan?Date.now()+Number(faltan)*1000:APERTURA;
@@ -465,7 +465,7 @@ function tick(){
     const pl=(n,a,b)=>n+' '+(n===1?a:b);
     falta.textContent=r?'Faltan '+[conDias&&pl(d,'día','días'),pl(hh,'hora','horas'),pl(mm,'minuto','minutos')].filter(Boolean).join(', '):'La cuenta está en cero.';}
   if(r>0)setTimeout(tick,(resta%1000||1000)+8);
-  else if(!ABIERTO&&typeof activar==='function')activar(); // a las 19:00 el botón se enciende solo
+  else if(!ABIERTO&&typeof activar==='function')activar(); // a la hora de apertura el botón se enciende solo
 }
 tick();
 
