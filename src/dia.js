@@ -44,7 +44,7 @@ const EST=[
    D(sv,'rectangle',[205,672,74,148],F_(K.oscuro,{seed:14}));
    D(sv,'polygon',[[[205,672],[258,684],[258,808],[205,820]]],F_(K.madera,{seed:15}));
    pieza(L,252,668,140,160,'',(s)=>{D(s,'polygon',[[[8,6],[26,4],[26,150],[8,150]]],F_(K.luz,{...SIN,roughness:.4}));D(s,'ellipse',[40,152,90,14],F_(K.luzC,{...SIN,roughness:.4}))});
-   {const r=pieza(L,350,330,330,330,'rayo-ventana');r.style.background=`repeating-linear-gradient(135deg,transparent 0,${K.luzC}bb 26px,transparent 52px)`;r.style.maskImage=r.style.webkitMaskImage='linear-gradient(225deg,transparent 10%,#000 70%)';}
+   pieza(L,352,580,86,78,'rayo-ventana',vidrioLuz);brilla(L,300,520,190,200,'rayo-ventana',K.luzC);
    D(sv,'line',[480,820,480,700],{stroke:K.tallo,seed:17});D(sv,'circle',[480,694,22],F_(K.toldo,{seed:18}));},
  /* S2 flor que se gira (girasol) */
  (sv,E)=>{D(sv,'path',['M380 820 Q372 700 380 575'],{stroke:K.tallo,strokeWidth:4,seed:21});
@@ -252,53 +252,62 @@ const lerp=(a,b,x)=>a+(b-a)*x,cl=x=>Math.max(0,Math.min(1,x)),rampa=(f,a,b)=>cl(
 const suave=x=>x*x*(3-2*x);
 const SOL=[[0,16,64],[2.5,30,38],[5.3,50,27],[8,60,36],[10.3,66,56],[11.3,68,69],[12.3,70,86],[13,70,92]];
 function solEn(f){for(let i=1;i<SOL.length;i++){if(f<=SOL[i][0]){const a=SOL[i-1],b=SOL[i],x=suave(cl((f-a[0])/(b[0]-a[0])));return[lerp(a[1],b[1],x),lerp(a[2],b[2],x)]}}return SOL[SOL.length-1].slice(1)}
-let ultimo={},activo=-2,andaT=0,frag=-1;
+let ultimo={},activo=-2,frag=-1,andando=false,camPrev=null,fSuave=null,bucle=0,tPrev=0;
 const fijo=(el,k,v)=>{if(ultimo[k]!==v){ultimo[k]=v;el.style[k.split('|')[0]]=v}};
+const VIAJE=.55,LLEGA=.5; // cada tramo: camina el 55 %, el texto aparece al 50 % (casi llegando)
+const suave5=x=>x*x*x*(x*(x*6-15)+10);
+function objetivo(){return Math.min(cl((scrollY-topDia)/largo)*NF,NF-.0001)}
 function pinta(forzar){
   if(!diaArmado||dia.hidden)return;
-  const pr=cl((scrollY-topDia)/largo);let f=Math.min(pr*NF,NF-.0001);
-  let k=Math.floor(f),fr=f-k;
   const red=quieto.matches;
-  // cámara: camina hacia la estación durante el primer 30 % de cada tramo
+  const f=fSuave==null||red?objetivo():fSuave;
+  const k=Math.floor(f),fr=f-k;
+  // cámara: se mueve continua y suave hacia la estación de cada tramo
   const c0=k?camEn(k-1):camEn(0)-260*u,c1=camEn(k);
-  const viaje=fr<.3,x=suave(fr/.3);
-  const cam=red?(viaje?c0:c1):(viaje?lerp(c0,c1,x):c1);
-  const fs=red?(viaje?Math.max(0,k-.01):k+.5):f; // en movimiento reducido el cielo salta entre paradas
+  const viaje=fr<VIAJE;
+  const cam=red?(fr<LLEGA?c0:c1):(viaje?lerp(c0,c1,suave5(fr/VIAJE)):c1);
+  const fs=red?(fr<LLEGA?Math.max(0,k-.01):k+.6):f; // en movimiento reducido el cielo salta entre paradas
   construyeCerca(k);
-  // estaciones visibles
-  estaciones.forEach((S,j)=>{if(!S)return;const sx=j*SW*u-cam,ve=sx<W+300*u&&sx>-1000*u;
+  // estaciones: se muestran un poco antes de entrar, para que el dibujo ya esté listo
+  estaciones.forEach((S,j)=>{if(!S)return;const sx=j*SW*u-cam,ve=sx<W*2&&sx>-W-1000*u;
     if(ve!==S.vis){S.vis=ve;S.E.style.display=S.L.style.display=ve?'':'none'}
-    if(ve){const t=`translate3d(${sx.toFixed(1)}px,0,0)`;S.E.style.transform=S.L.style.transform=t}
-    const on=j<k||(j===k&&fr>=.3);if(on!==S.on){S.on=on;S.E.classList.toggle('on',on);S.L.classList.toggle('on',on)}});
+    if(ve){const t=`translate3d(${sx.toFixed(1)}px,0,0)`;if(S.t!==t){S.t=t;S.E.style.transform=S.L.style.transform=t}}
+    const on=j<k||(j===k&&fr>=LLEGA);if(on!==S.on){S.on=on;S.E.classList.toggle('on',on);S.L.classList.toggle('on',on)}});
   bandas.forEach((B,i)=>{const bw=B.ancho*u;const t=-(((cam+400*u)*B.par)%bw+bw)%bw;fijo(B.b,'transform|b'+i,`translate3d(${t.toFixed(1)}px,0,0)`)});
   // cielo
   fijo(capas.mediodia,'opacity|m',rampa(fs,.3,4).toFixed(3));
-  fijo(capas.atardecer,'opacity|a',rampa(fs,6,6.3).toFixed(3));
-  fijo(capas.noche,'opacity|n',rampa(fs,13,13.3).toFixed(3));
+  fijo(capas.atardecer,'opacity|a',rampa(fs,6,6.5).toFixed(3));
+  fijo(capas.noche,'opacity|n',rampa(fs,13.05,13.5).toFixed(3));
   const [sxp,syp]=solEn(fs);
   fijo(sol,'transform|s',`translate3d(${(sxp/100*W-.055*H).toFixed(1)}px,${(syp/100*H-.055*H).toFixed(1)}px,0)`);
-  const ro=rampa(fs,10.9,11.6)*(1-rampa(fs,12.9,13.3));
-  fijo(rojo,'opacity|r',ro.toFixed(3));fijo(rojo,'transform|rt',`scale(${(.3+.7*rampa(fs,10.9,12)).toFixed(3)})`);
+  fijo(rojo,'opacity|r',(rampa(fs,10.9,11.6)*(1-rampa(fs,12.9,13.4))).toFixed(3));fijo(rojo,'transform|rt',`scale(${(.3+.7*rampa(fs,10.9,12)).toFixed(3)})`);
   fijo(brillo,'transform|bt',`translate3d(${(70/100*W).toFixed(0)}px,${(.72*H).toFixed(0)}px,0)`);
-  fijo(brillo,'opacity|bo',(rampa(fs,11.7,12.4)*(1-rampa(fs,13,13.4))).toFixed(3));
-  const no=rampa(fs,13,13.6);fijo(luna,'opacity|lo',no.toFixed(3));fijo(estrellas,'opacity|eo',no.toFixed(3));
-  fijo(veloT,'opacity|vt',(.13*rampa(fs,6,6.3)*(1-rampa(fs,13,13.3))).toFixed(3));
-  fijo(veloN,'opacity|vn',(.6*rampa(fs,13,13.3)).toFixed(3));
-  // sombra: casi nada al mediodía; de noche no hay
+  fijo(brillo,'opacity|bo',(rampa(fs,11.7,12.4)*(1-rampa(fs,13.05,13.5))).toFixed(3));
+  const no=rampa(fs,13.05,13.7);fijo(luna,'opacity|lo',no.toFixed(3));fijo(estrellas,'opacity|eo',no.toFixed(3));
+  fijo(veloT,'opacity|vt',(.13*rampa(fs,6,6.5)*(1-rampa(fs,13.05,13.5))).toFixed(3));
+  fijo(veloN,'opacity|vn',(.6*rampa(fs,13.05,13.5)).toFixed(3));
   const bajo=cl((syp-11)/50);fijo(sombra,'transform|so',`scaleX(${(.12+.88*bajo).toFixed(3)})`);fijo(sombra,'opacity|soo',(1-rampa(fs,12,12.6)).toFixed(2));
-  // perrita se adelanta desde S3; ella entra a casa en N7
-  const ade=k>2||(k===2&&fr>=.3);perrita.classList.toggle('adelante',ade);
-  const casa=k===NF-1&&fr>=.3;ella.classList.toggle('entra',casa);perrita.classList.toggle('entra',casa);if(casa){perrita.style.opacity=0}else perrita.style.opacity='';
+  // la perrita se adelanta desde S3; en N7 entran a casa
+  const ade=k>2||(k===2&&fr>=LLEGA);if(ultimo.ade!==ade){ultimo.ade=ade;perrita.classList.toggle('adelante',ade)}
+  const casa=k===NF-1&&fr>=LLEGA;if(ultimo.casa!==casa){ultimo.casa=casa;ella.classList.toggle('entra',casa);perrita.classList.toggle('entra',casa);perrita.style.opacity=casa?0:''}
   // fragmento visible y momento
-  const nf=fr>=.3?k:-1;
+  const nf=fr>=LLEGA?k:(fr<.05&&k>0?k-1:-1);
   if(nf!==frag){if(frag>=0)frags.children[frag].classList.remove('vis');if(nf>=0)frags.children[nf].classList.add('vis');frag=nf}
   const mo=k<6?0:k<13?1:2;if(mo!==activo){activo=mo;momentos.forEach((li,i)=>i===mo?li.setAttribute('aria-current','step'):li.removeAttribute('aria-current'));escena.classList.toggle('de-noche',mo===2)}
-  // camina solo mientras viaja
-  const anda=viaje&&!red&&!forzar&&scrollY>topDia-H;
-  ella.classList.toggle('anda',anda);perrita.classList.toggle('anda',anda);
-  clearTimeout(andaT);if(anda)andaT=setTimeout(()=>{ella.classList.remove('anda');perrita.classList.remove('anda')},180);
+  // camina solo mientras la cámara se mueve
+  const anda=!red&&!forzar&&camPrev!==null&&Math.abs(cam-camPrev)>.25;camPrev=cam;
+  if(anda!==andando){andando=anda;ella.classList.toggle('anda',anda);perrita.classList.toggle('anda',anda)}
 }
-let pedido=false;
-addEventListener('scroll',()=>{if(!pedido){pedido=true;requestAnimationFrame(()=>{pedido=false;pinta()})}},{passive:true});
+/* el día sigue al dedo con un poco de inercia: cada cuadro se acerca al punto real */
+function cuadro(t){
+  const dt=Math.min(64,t-(tPrev||t));tPrev=t;
+  const obj=objetivo();if(fSuave==null)fSuave=obj;
+  fSuave+=(obj-fSuave)*(1-Math.exp(-dt/110));
+  if(Math.abs(obj-fSuave)<.0004)fSuave=obj;
+  pinta();
+  bucle=fSuave!==obj?requestAnimationFrame(cuadro):0;
+  if(!bucle){tPrev=0;if(andando){andando=false;ella.classList.remove('anda');perrita.classList.remove('anda')}}
+}
+addEventListener('scroll',()=>{if(quieto.matches){pinta();return}if(!bucle)bucle=requestAnimationFrame(cuadro)},{passive:true});
 addEventListener('resize',()=>{if(diaArmado)medir()});
 quieto.addEventListener('change',()=>pinta(true));

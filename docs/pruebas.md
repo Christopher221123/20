@@ -34,6 +34,7 @@
 - Resultados: capturas de las 20 paradas en tablet y de varias en celular y computador, con y sin movimiento reducido: 0 errores. Fluidez recorriendo todo el día en 24 s (CPU 4 veces más lenta, sin tarjeta gráfica, solo comparativa): tablet 56 fps de media, celular 59 fps, ningún cuadro de más de 50 ms. **No verificado en una tablet real.** Peso: 155,6 KB. Hasta ~2250 nodos SVG cuando todas las estaciones ya se dibujaron (más que antes; no se repintan).
 - Movimiento reducido: la cámara y el cielo saltan entre paradas, ella no camina, los objetos quedan directo en su estado final.
 - Prueba directa: `?abierto=1&fase=dia&f=7.5` salta a ese punto del día.
+- Ajuste tras la revisión en la tablet (24/11): la luz de la ventana (S1) ya no son franjas sobre el techo, es un brillo suave en el vidrio. Fluidez: la cámara se mueve continua durante el 55 % de cada tramo (antes 30 %, con una parada brusca), con curva suave, y el día sigue al dedo con inercia (cada cuadro se acerca al punto real, ~110 ms). Ella camina solo mientras la cámara se mueve. Las estaciones se muestran una pantalla antes de entrar, para que su dibujo ya esté listo. No se reescriben estilos que no cambiaron. Medición (CPU 4×, sin tarjeta gráfica): tablet 58 fps, celular 59 fps. **Falta confirmarlo en la tablet real.**
 
 ## Historial de la versión anterior (rama `respaldo/version-1`)
 
