@@ -5,7 +5,7 @@ Orden obligatorio: cada fase lee lo que dejó la anterior.
 
 | Fase | Prompt | Qué hace | Salida |
 |------|--------|----------|--------|
-| F0 | (hecho) | Proteger la página pública: fecha de desbloqueo movida al 31/12/2026 (provisional) | `index.html` |
+| F0 | (hecho) | Proteger la página pública. La fecha provisional 31/12/2026 queda reemplazada por desbloqueo manual (ver `docs/requisitos.md`, RF2) | `index.html` |
 | F1 | (hecho) | Documentos base | `docs/*.md` |
 | F2 | Prompt 1 | Requisitos: entrevista completa al autor | `docs/requisitos.md` |
 | F3 | Prompt 2 | Investigación simbólica verificada | `docs/mapa-simbolico.md` |

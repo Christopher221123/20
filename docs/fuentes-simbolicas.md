@@ -4,7 +4,6 @@ Mitos
 - **Orfeo y Eurídice:** mirar atrás para comprobar y perder. Idea posible: la declaración inversa, no voltear a comprobarla, confiar.
 - **Filemón y Baucis:** una pareja que envejece junta; el amor cotidiano que vuelve sagrada una casa humilde.
 - **Eros y Psique:** el amor que pide ser visto con luz; Psique también es "alma" (lectura de ciencia y fe).
-- **Helios / el girasol (Clitia):** quien sigue la luz; resuena con "solecito".
 - **El Banquete de Platón (discurso de Aristófanes):** la mitad perdida.
 
 Pensamiento y psicología
