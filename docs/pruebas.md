@@ -1,5 +1,12 @@
 # Pruebas (Fase 5 · Prompt 5)
 
+## Versión 3 · morado y deslizar (24/11, a pedido del autor)
+- Paleta: fondo morado oscuro (#1a0f24), rosado (#eba3c3) y dorado pálido casi blanco (#f0e2b8). La carta es papel dorado pálido (#f6eedc) con tinta morada.
+- Se quitó el deslizador. El día avanza al bajar la página (la escena queda fija mientras pasa); cada fragmento aparece en su punto y se oculta si se vuelve atrás. Abajo queda solo una barra de avance con Solecito, Cielito y Negrita.
+- Los objetos ya no se tocan: se animan solos al llegar su fragmento.
+- Pruebas: recorrido deslizando con la rueda en celular, tablet con movimiento reducido y computador: 20 fragmentos, 4 estrofas, 0 errores; 258 a 274 nodos SVG.
+- Plan por partes: 1 contador, 2 felicitación, 3 el día, 4 la carta; se corrige una por una.
+
 ## Versión 2 · rediseño minimalista de líneas (24/11, a pedido del autor)
 Cuatro secciones: 1) contador central (única vista hasta desbloquear); 2) "Feliz cumpleaños" que se abre desde el centro hacia afuera, con las personas alrededor del mensaje en una sola composición; 3) el día con el deslizador, los textos escritos dentro del cielo de la escena (sin caja aparte); 4) la carta con las 4 estrofas.
 - Dibujo: solo líneas SVG (trazo 1,5), rellenos mínimos para las luces. El efecto de dibujarse usa `stroke-dashoffset` con `pathLength="1"` (desviación consciente de "solo transform y opacity"; es barato). La apertura usa `clip-path` en círculo.
