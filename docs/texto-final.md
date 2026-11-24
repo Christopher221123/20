@@ -25,35 +25,32 @@ Hoy el cielo se pone más bonito por ti.
 Nota: el autor pidió una frase de la letra; no se reproduce la letra.
 
 ## Solecito · fragmentos
-1. Ventana con luz entrando (al arrastrar el día): Hay mañanas en que no hace falta despertador. La luz se asoma y tú ya estás mirando hacia allá.
-2. Flor que se gira (al tocarla): Como quien sabe de dónde viene lo bueno.
-3. Camino con la perrita que se adelanta (al tocarla): No hay prisa. El día se deja caminar.
-4. Cajón cerrado (al tocarlo, se abre): Lo que sabes hacer, lo haces hoy. No lo dejas para cuando haya más tiempo.
-5. Manos que reparten lo que había en el cajón (al arrastrar): Lo que tienes en las manos sirve más gastado en alguien que guardado en un cajón.
-6. Sol alto, sin sombra (mediodía): Así empieza tu día: sin guardar nada para después.
-
+1. Ventana con luz entrando (al arrastrar el día): Todas las mañanas, cuando la luz entra por la ventana, le tomo una foto al cielo. Y siempre termino diciendo lo mismo: gracias por hacerlo tan bonito, mi solecito.
+2. Flor que se gira (al tocarla): Te vi sentadita en una banca, con tus mechones turquesas. Te saludé y me fui. Ese primer día casi no hablamos. Pero desde entonces algo en mí se quedó mirando hacia ti.
+3. Camino con la perrita que se adelanta (al tocarla): No hay prisa. Tu perrita se adelanta y tú caminas detrás, saludando a todo el que pasa. Así empiezan tus días: con la puerta abierta para cualquiera.
+4. Cajón cerrado (al tocarlo, se abre): Lo que tienes no lo guardas en un cajón. Los lunes lo llevas al Mercado Modelo y lo sirves en platos, para gente que casi nadie mira. Otros días es el Hogar Santa Marianita.
+5. Manos que reparten lo que había en el cajón (al arrastrar): Y los niños te buscan. En la catequesis les hablas como si fueran lo más importante del mundo, porque para ti lo son. Tus manos nunca vuelven vacías: vuelven cansadas, que no es lo mismo.
+6. Sol alto, sin sombra (mediodía): Jesús dijo: «Siempre que ustedes lo hicieron con uno de estos mis hermanos más pequeños, conmigo lo hicieron» (Mt 25,40). Lo leo y te veo a ti, a pleno mediodía, sin guardar nada para después.
 ## Cielito · fragmentos
-1. Cielo que se enrojece (al arrastrar el día): Cuando el cielo se pone rojo, en las casas se enciende la luz de la cocina.
-2. Mesa con un plato de más (al tocarla): Llegas, y alguien dejó un plato de más en la mesa, como se hace con quien llega.
-3. Taza, cobija y pan sobre la mesa (cada cosa que tocas): Querer así es cosa de todos los días. Es fijarse si el otro comió, si tiene frío, si le pesó el día.
-4. Libreta que se cierra sola (al tocarla): Quien se fija tanto aprende también a no llevar la cuenta.
-5. Marcas en la pared que se van borrando (al pasar el dedo): Una vez le preguntaron a Jesús cuántas veces había que perdonar, y no dio un número: «hasta setenta veces siete» (Mt 18,22).
-6. El sol toca el cielo y nace el rojo (al arrastrar): Ese rojo no es del cielo solo ni del sol solo. Nace cuando se encuentran, y ninguno sigue siendo el mismo. Sin el sol, el cielo es solo aire.
-7. El sol se esconde tras el horizonte, queda un brillo detrás (al arrastrar): Cuando el sol se mete y todo se oscurece, no hay que asustarse. No se fue. Sigue ahí, del otro lado, esperando que pase la noche para volver. Nunca deja solo a nadie, aunque uno deje de verlo.
+1. Cielo que se enrojece (al arrastrar el día): Cuando el cielo se pone rojo, vuelvo a sacar el celular. Otra foto, otro gracias: hoy también hiciste bonito el cielo, mi cielito. A esa hora bajo a Ingahurco, y en tu casa ya está encendida la luz de la cocina.
+2. Mesa con un plato de más (al tocarla): Llego, y hay un plato de más en la mesa, como se hace con los de casa. Hasta una perrita asoma a ver quién llegó.
+3. Taza, cobija y pan sobre la mesa (cada cosa que tocas): Así te voy conociendo, en lo chiquito: te fijas si alguien comió, si tiene frío, si le pesó el día. Te preocupas por todo, aunque nadie lo note. Yo sí lo noto.
+4. Libreta que se cierra sola (al tocarla): Y no llevas la cuenta de nada de eso. Lo que das, lo das, y cierras la libreta.
+5. Marcas en la pared que se van borrando (al pasar el dedo): A veces cargas tantas cosas que parecen rayitas en la pared. Cuando me las cuentas, una por una se van borrando.
+6. El sol toca el cielo y nace el rojo (al arrastrar): Jung escribió que el encuentro de dos personas es como el contacto de dos sustancias: si hay reacción, las dos se transforman. Tú sabes de eso más que yo, científica. Este rojo es eso: ni el cielo ni el sol siguen siendo los mismos.
+7. El sol se esconde tras el horizonte, queda un brillo detrás (al arrastrar): Y cuando el sol se mete, no se va. Sigue ahí, del otro lado, alumbrando aunque no lo veamos. Así te conozco: aunque no te vea, sé que estás.
 
 Notas: se quitó "Tú ya lo sabes, aunque nadie te lo haya dicho así" por explicar de más. Jung = paráfrasis propia, marcada (la cita en inglés está en mapa-simbolico.md). Fromm = amar como ocuparse, sin citar.
-
 ## Negrita · fragmentos
-1. Cae la noche y se encienden las ventanas (al arrastrar el día): Cae la noche y cada casa se queda con su ventana encendida.
-2. Dos ventanas frente a frente (tocas una y la otra responde con un guiño de luz): Cada una está sola, y aun así se saludan: una luz le guiña a la otra al otro lado de la calle.
-3. Las dos luces se acercan sin tocarse (al arrastrar): Así debería ser querer bien. Cada quien con su propia noche, cuidándose sin apagarse ni apagar a nadie.
-4. Cielo de noche con las luces del barrio (al pasar el dedo): De noche se nota mejor quién cuida a quién.
-5. Casita oscura sin ventana al borde del camino (al tocarla se enciende una luz): Y también se nota quién se queda afuera, los más pequeños, los que no tienen ventana.
-6. La luz de esa casita crece y alumbra el camino (queda encendida): De ellos dijo Jesús: «Siempre que ustedes lo hicieron con uno de estos mis hermanos más pequeños, conmigo lo hicieron» (Mt 25,40).
-7. Lámpara junto a la cama (al tocarla, se queda encendida): Por eso, antes de dormir, dejas la luz encendida un rato más.
+1. Cae la noche y se encienden las ventanas (al arrastrar el día): Cae la noche, mi negrita, y se encienden las ventanas. Es la hora en que uno le cuenta el día a quien quiere.
+2. Dos ventanas frente a frente (tocas una y la otra responde con un guiño de luz): Yo te cuento todo lo que he vivido, hasta lo que me cuesta decir. Y tú no me juzgas: me escuchas, y tu luz me responde.
+3. Las dos luces se acercan sin tocarse (al arrastrar): Gracias por tu paciencia. Por esperar a que encuentre las palabras, y por acercarte sin apurarme.
+4. Cielo de noche con las luces del barrio (al pasar el dedo): Y tú también me cuentas todo lo que tienes en la mente. Como cada fin de año, cuando salimos a recorrer el centro de Ambato, a ver a las viudas y a despedir el año juntos, hablando sin parar.
+5. Casita oscura sin ventana al borde del camino (al tocarla se enciende una luz): Hay noches en que dudas, en que tu lugar en la iglesia se siente a oscuras. Ahí también hay una luz esperándote.
+6. La luz de esa casita crece y alumbra el camino (queda encendida): Jesús lo prometió: «Sepan que yo estoy con ustedes todos los días hasta el fin de los tiempos» (Mt 28,20). Todos los días: la mañana, la tarde y la noche.
+7. Lámpara junto a la cama (al tocarla, se queda encendida): Por eso confío en ti como confío en que mañana vuelve el sol. Dejo la luz encendida un rato más, y duermo tranquilo.
 
 Notas: Rilke = las ventanas de los fragmentos 2 y 3, sin citarlo.
-
 ## Escrito final · estrofa por estrofa, después de Negrita
 1. Camino que da la vuelta al mar, con una luz encendida al final (al arrastrar):
 Hay un camino largo que da la vuelta al mar
