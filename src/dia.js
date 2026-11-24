@@ -29,7 +29,7 @@ function ventana(sv,x,y,w,h,vidrio=K.vidrio,seed=3){
   D(sv,'rectangle',[x,y,w,h],F_(vidrio,{seed}));D(sv,'line',[x+w/2,y,x+w/2,y+h],{seed:seed+1,strokeWidth:1.3});D(sv,'line',[x,y+h/2,x+w,y+h/2],{seed:seed+2,strokeWidth:1.3});
 }
 const vidrioLuz=(sv,w,h)=>{D(sv,'rectangle',[2,2,w-4,h-4],F_(K.luz,{seed:7}));D(sv,'line',[w/2,2,w/2,h-2],{seed:8,strokeWidth:1.3});D(sv,'line',[2,h/2,w-2,h/2],{seed:9,strokeWidth:1.3})};
-function pared(sv,x=60,w=580){D(sv,'rectangle',[x,470,w,350],F_(K.muro2,{seed:2}),true);D(sv,'rectangle',[x+20,490,w-40,330],F_(K.fondo,{seed:4,stroke:K.madera,strokeWidth:1}))}
+function pared(sv,x=60,w=580){D(sv,'polygon',[[[x-22,474],[x+w/2,392],[x+w+22,474]]],F_(K.techo,{seed:1}),true);D(sv,'rectangle',[x,470,w,350],F_(K.muro2,{seed:2}),true);D(sv,'rectangle',[x+20,490,w-40,330],F_(K.fondo,{seed:4,stroke:K.madera,strokeWidth:1}))}
 function perroCara(sv,cx,cy,c1,c2,s=1){
   D(sv,'ellipse',[cx-22*s,cy+12*s,22*s,40*s],F_(c2,{seed:31}));D(sv,'ellipse',[cx+22*s,cy+12*s,22*s,40*s],F_(c2,{seed:32}));
   D(sv,'circle',[cx,cy,52*s],F_(c1,{seed:33}));
@@ -68,10 +68,10 @@ const EST=[
    pieza(E,306,600,150,70,'dentro',(s)=>{D(s,'ellipse',[40,48,56,30],F_(K.pan,{seed:107}));D(s,'line',[90,64,98,14],{stroke:K.tallo,seed:108});D(s,'circle',[98,14,20],F_(K.petalo,{seed:109}));D(s,'rectangle',[112,30,30,36],F_(K.libreta,{seed:110}))});
    pieza(E,298,652,164,68,'cajon',(s)=>{D(s,'rectangle',[2,2,160,64],F_(K.madera2,{seed:111}));D(s,'circle',[82,34,12],F_(K.petalo,{seed:112,strokeWidth:1}))});},
  /* S5 manos que reparten */
- (sv,E)=>{[[350,0],[470,1]].forEach(([x,i])=>{const P={h:.55,p:i?4:1,pelo:i?'coletas':'corto',pc:i?'negro':'castano',r:i?1:2,c:i?'vestido':'camisa',e:'',nino:1};
+ (sv,E)=>{[[320,0],[430,1]].forEach(([x,i])=>{const P={h:.55,p:i?4:1,pelo:i?'coletas':'corto',pc:i?'negro':'castano',r:i?1:2,c:i?'vestido':'camisa',e:'',nino:1};
      const p=pieza(E,x-80,520,160,300,'');[figura(P,'cuerpo',90+i),figura(P,'arriba',90+i)].forEach(s=>p.append(s))});
    D(sv,'path',['M120 820 Q140 760 170 820'],F_(K.verde,{seed:120}));D(sv,'path',['M600 820 Q620 770 650 820'],F_(K.verde,{seed:121}));
-   [[296,'pan',0],[400,'flor',380],[512,'naranja',760]].forEach(([x,t,dl],i)=>{const p=pieza(E,x,560,54,54,'reparte',(s)=>{
+   [[268,'pan',0],[362,'flor',380],[470,'naranja',760]].forEach(([x,t,dl],i)=>{const p=pieza(E,x,560,54,54,'reparte',(s)=>{
        if(t==='pan')D(s,'ellipse',[27,30,50,30],F_(K.pan,{seed:130}));
        if(t==='flor'){D(s,'line',[27,54,27,22],{stroke:K.tallo,seed:131});D(s,'circle',[27,18,26],F_(K.toldo,{seed:132}))}
        if(t==='naranja')D(s,'circle',[27,30,38],F_(K.petalo,{seed:133}))});
@@ -89,7 +89,6 @@ const EST=[
  /* C2 mesa con un plato de más · la otra perrita asoma */
  (sv,E,L)=>{pared(sv,60,640);D(sv,'line',[380,490,380,560],{seed:171,strokeWidth:1.2});D(sv,'path',['M350 590 L360 560 L400 560 L410 590Z'],F_(K.petalo,{seed:172}));
    brilla(L,300,520,160,160,'luz-cocina');
-   pieza(E,300,628,120,90,'asoma',(s)=>perroCara(s,60,52,K.mia,K.mia2,.8));
    pieza(E,180,690,420,140,'',(s)=>{D(s,'rectangle',[10,10,360,20],F_(K.mesa,{seed:173}),true);D(s,'line',[30,30,30,130],{seed:174,strokeWidth:2});D(s,'line',[350,30,350,130],{seed:175,strokeWidth:2});
      [80,170].forEach((x,i)=>D(s,'ellipse',[x,8,64,14],F_(K.plato,{seed:176+i,strokeWidth:1.2})))});
    pieza(E,416,684,80,24,'plato-mas',(s)=>D(s,'ellipse',[40,12,66,14],F_(K.plato,{seed:178,strokeWidth:1.2})));},
@@ -133,24 +132,24 @@ const EST=[
    const w=pieza(L,410,610,60,56,'ventana-luz');w.style.setProperty('--dl','700ms');const sv2=lienzo('0 0 60 56');vidrioLuz(sv2,60,56);sv2.classList.add('guino');w.append(sv2);
    brilla(L,370,570,140,136,'ventana-luz guino').style.setProperty('--dl','700ms');},
  /* N3 dos luces que se acercan sin tocarse */
- (sv,E,L)=>{D(sv,'rectangle',[80,770,540,50],F_(K.muro,{seed:301}),true);[120,580].forEach((x,i)=>{D(sv,'line',[x,770,x,640],{seed:302+i,strokeWidth:2})});
+ (sv,E,L)=>{D(sv,'rectangle',[80,770,540,50],F_(K.muro,{seed:301}),true);
    const a=brilla(L,110,520,110,110,'orbe');a.style.setProperty('--hacia','118%');const b=brilla(L,480,520,110,110,'orbe');b.style.setProperty('--hacia','-118%');},
  /* N4 las luces del barrio (unas de colores) */
  (sv,E,L)=>{D(sv,'path',['M220 820 Q300 640 420 650 Q560 570 720 700 L720 820Z'],F_('#c9b3c4',{seed:311}),true);
    D(sv,'rectangle',[520,590,40,50],F_(K.iglesia,{seed:312}));D(sv,'polygon',[[[514,592],[540,560],[566,592]]],F_(K.techo2,{seed:313}));
-   const pts=[];for(let i=0;i<42;i++){const x=270+((i*137)%410),yb=820-60-((i*53)%150);pts.push([x,Math.max(yb,x<330?640-((330-x)*.4):620+(x-330)*.1)+20])}
+   const pts=[];let sem=7;const M=2**31-1,azar=()=>(sem=(sem*16807)%M)/M;for(let i=0;i<42;i++){const x=250+azar()*330,techo=x<420?820-(x-220)*.8:660+(x-420)*.12;pts.push([x,techo+20+azar()*(800-techo-30)])}
    const col=['#e07ba0','#9fcfc2','#f2b84b','#b8a0d2','#e8506f'];
    [0,1,2].forEach(g=>pieza(L,0,560,700,260,'tw',(s)=>pts.forEach(([x,y],i)=>{if(i%3!==g)return;D(s,'circle',[x,y-560,i%7===0?13:9],F_(i%7===0?col[(i/7)%col.length|0]:K.luz,{...SIN,roughness:.3,seed:320+i}))})).style.setProperty('--dl',(g*900)+'ms'));
    pieza(L,532,610,16,16,'',(s)=>D(s,'circle',[8,8,14],F_(K.luz,{...SIN,seed:370})));
    E.classList.add('barrio');L.classList.add('barrio');},
  /* N5 casita oscura sin ventana: se enciende una luz */
- (sv,E,L)=>{D(sv,'rectangle',[470,690,130,130],F_('#a08a94',{seed:381}),true);D(sv,'polygon',[[[456,694],[535,640],[614,694]]],F_('#7d6474',{seed:382}));
-   D(sv,'rectangle',[516,750,34,70],F_(K.oscuro,{seed:383}));
-   brilla(L,486,690,90,90,'foco');pieza(L,524,722,18,22,'foco',(s)=>D(s,'circle',[9,11,16],F_(K.luzC,{seed:384})));
+ (sv,E,L)=>{D(sv,'rectangle',[380,690,130,130],F_('#a08a94',{seed:381}),true);D(sv,'polygon',[[[366,694],[445,640],[524,694]]],F_('#7d6474',{seed:382}));
+   D(sv,'rectangle',[428,750,34,70],F_(K.oscuro,{seed:383}));
+   brilla(L,398,688,94,94,'foco');pieza(L,436,722,18,22,'foco',(s)=>D(s,'circle',[9,11,16],F_(K.luzC,{seed:384})));
    D(sv,'path',['M60 820 Q160 790 260 820'],F_(K.verde2,{seed:385}));},
  /* N6 la luz de esa casita crece y alumbra el camino */
- (sv,E,L)=>{brilla(L,-420,430,520,520,'crece',K.luzC);
-   const p=pieza(L,-160,824,820,70,'camino-luz');p.style.background=`linear-gradient(90deg,${K.luz},${K.luz}88 60%,transparent)`;p.style.borderRadius='50%';
+ (sv,E,L)=>{brilla(L,-425,560,340,340,'crece',K.luzC);
+   const p=pieza(L,-262,828,560,56,'camino-luz');p.style.background=`linear-gradient(90deg,${K.luz},${K.luz}88 60%,transparent)`;p.style.borderRadius='50%';
    D(sv,'path',['M380 820 Q500 780 640 820'],F_(K.verde2,{seed:391}));},
  /* N7 lámpara junto a la cama */
  (sv,E,L)=>{casa(sv,180,500,360,320,{seed:401});D(sv,'rectangle',[240,580,240,160],F_('#3a2340',{seed:403}));
@@ -195,6 +194,7 @@ function armaDia(){
   // ella y la perrita: dibujos cuadro a cuadro (se alternan por opacidad)
   [0,1,2].forEach(fr=>ella.append(ellaSVG(fr)));
   [0,1].forEach(fr=>{perrita.append(perritaSVG(fr,K.concha,K.concha2,620));otra.append(perritaSVG(fr,K.mia,K.mia2,640))});
+  [ella,perrita,otra].forEach(p=>[...p.children].forEach(sv=>{const g=document.createElementNS(NS,'g');g.setAttribute('class','sil');[...sv.childNodes].forEach(n=>g.append(n.cloneNode(true)));sv.append(g)}));
   cuadros={ella:[...ella.children],concha:[...perrita.children],mia:[...otra.children]};
   Object.entries({ella:1,concha:0,mia:0}).forEach(([q,n])=>{cuadros[q].forEach((sv,i)=>sv.style.opacity=i===n?1:0);ultimo['p'+q]=n});
   // fragmentos: texto real, escrito dentro del cielo
@@ -204,11 +204,13 @@ function armaDia(){
 /* ella, de frente: cabello claro a los hombros, blusa morada, jean y zapatillas.
    fr: 0 pie izquierdo adelante, 1 de pie, 2 pie derecho adelante */
 function ellaSVG(fr){
-  const sv=lienzo('0 0 160 300'),PIEL='#d9a57c',PELO='#9a6a42',JEAN='#5f76a8',JEAN2='#4b5f8c';
+  const sv=lienzo('0 0 160 300'),PIEL='#d9a57c',PELO='#3d2820',MECHON='#eadbc6',JEAN='#5f76a8',JEAN2='#4b5f8c';
   const pie=[[[60,282],[96,296]],[[62,296],[98,296]],[[64,296],[100,282]]][fr];
   const brazo=[[[42,176],[120,170]],[[44,174],[116,174]],[[40,170],[118,176]]][fr];
   // cabello por detrás, hasta los hombros
   D(sv,'path',['M38 74 Q34 26 80 22 Q126 26 122 74 L126 118 Q112 126 102 112 L58 112 Q48 126 34 118Z'],F_(PELO,{seed:601}));
+  D(sv,'path',['M36 98 L34 118 Q46 127 56 114 L58 100Z'],F_(MECHON,{seed:621,strokeWidth:1.2}));D(sv,'path',['M124 98 L126 118 Q114 127 104 114 L102 100Z'],F_(MECHON,{seed:622,strokeWidth:1.2}));
+  [[42,100,40,116],[118,100,120,116]].forEach((a,i)=>D(sv,'line',a,{stroke:'#6b4a36',strokeWidth:1,seed:623+i}));
   // piernas (jean) y zapatillas
   [0,1].forEach(l=>{const [fx,fy]=pie[l],cx=l?92:68;
     D(sv,'path',[`M${cx-15} 182 L${cx+15} 182 L${fx+10} ${fy-6} L${fx-8} ${fy-6}Z`],F_(l?JEAN2:JEAN,{seed:602+l}));
@@ -244,7 +246,7 @@ function medir(){
   chx=.30;
   pinta(true);
 }
-const camEn=k=>(k*SW+350)*u-(.66)*W+(chx-.22)*W*.3;
+const camEn=k=>((k===18?17:k)*SW+350)*u-(.66)*W+(chx-.22)*W*.3; // N6 ocurre en la misma casita de N5: la cámara no se mueve
 
 /* ---------- estaciones: se construyen cerca del recorrido ---------- */
 const estaciones=[];
@@ -260,7 +262,7 @@ function construyeCerca(k){for(let j=k-1;j<=k+2;j++)construye(j)}
 /* ---------- el cuadro ---------- */
 const lerp=(a,b,x)=>a+(b-a)*x,cl=x=>Math.max(0,Math.min(1,x)),rampa=(f,a,b)=>cl((f-a)/(b-a));
 const suave=x=>x*x*(3-2*x);
-const SOL=[[0,16,64],[2.5,30,38],[5.3,50,27],[8,60,36],[10.3,66,56],[11.3,68,69],[12.3,70,86],[13,70,92]];
+const SOL=[[0,10,60],[2.5,28,38],[5.5,50,26],[6.5,58,44],[9,64,56],[11.5,68,69],[12.5,70,86],[13.2,70,94]];
 function solEn(f){for(let i=1;i<SOL.length;i++){if(f<=SOL[i][0]){const a=SOL[i-1],b=SOL[i],x=suave(cl((f-a[0])/(b[0]-a[0])));return[lerp(a[1],b[1],x),lerp(a[2],b[2],x)]}}return SOL[SOL.length-1].slice(1)}
 let ultimo={},activo=-2,frag=-1,cuadros=null,recorrido=0,quieta=99,camPrev=null,fSuave=null,bucle=0,tPrev=0;
 const fijo=(el,k,v)=>{if(ultimo[k]!==v){ultimo[k]=v;el.style[k.split('|')[0]]=v}};
@@ -297,6 +299,7 @@ function pinta(forzar){
   const no=rampa(fs,13.05,13.7);fijo(luna,'opacity|lo',no.toFixed(3));fijo(estrellas,'opacity|eo',no.toFixed(3));
   fijo(veloT,'opacity|vt',(.13*rampa(fs,6,6.5)*(1-rampa(fs,13.05,13.5))).toFixed(3));
   fijo(veloN,'opacity|vn',(.6*rampa(fs,13.05,13.5)).toFixed(3));
+  const sil=(.1*rampa(fs,6,6.5)+.45*rampa(fs,13.05,13.5)).toFixed(2);if(ultimo.sil!==sil){ultimo.sil=sil;[ella,perrita,otra].forEach(e=>e.style.setProperty('--sil',sil))}
   const bajo=cl((syp-11)/50);fijo(sombra,'transform|so',`scaleX(${(.12+.88*bajo).toFixed(3)})`);fijo(sombra,'opacity|soo',(1-rampa(fs,12,12.6)).toFixed(2));
   // la perrita se adelanta desde S3; en N7 entran a casa
   const ade=k>2||(k===2&&fr>=LLEGA);if(ultimo.ade!==ade){ultimo.ade=ade;perrita.classList.toggle('adelante',ade)}

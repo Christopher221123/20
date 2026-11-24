@@ -33,9 +33,11 @@
 .perrita.concha{left:calc(var(--chx) + var(--wh,100svh)*.17)}
 .perrita.mia{left:calc(var(--chx) - var(--wh,100svh)*.13);bottom:calc(var(--wh,100svh)*.115)}
 .perrita.concha.adelante{transform:translateX(min(16vw,20svh))}
-.ella>svg,.perrita>svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;opacity:0}
+.ella>svg,.perrita>svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;opacity:0;will-change:opacity}
 .ella>svg:nth-child(2),.perrita>svg:first-child{opacity:1}
 .entra{opacity:0}
+/* ellas van delante de las luces; de tarde y de noche se oscurecen con su propia capa (cambia solo en las transiciones) */
+.sil{opacity:var(--sil,0)}.sil *{fill:#24092c;stroke:#24092c}
 .sombra{position:absolute;left:var(--chx);bottom:calc(var(--wh,100svh)*.125);width:calc(var(--wh,100svh)*.09);height:calc(var(--wh,100svh)*.02);translate:-30% 0;border-radius:50%;background:rgba(74,22,80,.22);transform-origin:20% 50%;will-change:transform,opacity}
 .ella.entra{opacity:0;transition:opacity var(--d-larga) var(--sale)}
 

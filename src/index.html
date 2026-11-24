@@ -88,7 +88,7 @@ button{font:inherit;color:inherit}
 .portada{position:relative;min-height:100svh;overflow:hidden;display:grid;grid-template-rows:minmax(0,1fr) auto;--cx:50%;--cy:36%;--gh:min(34svh,62vw,400px)}
 .portada[hidden]{display:none}
 .capa{position:absolute;pointer-events:none}
-.luz{inset:0;background:radial-gradient(circle at var(--cx) var(--cy),var(--dorado-palido) 0,color-mix(in srgb,var(--rosado-claro) 75%,transparent) min(22vmin,170px),color-mix(in srgb,var(--rosado-claro) 28%,transparent) min(48vmin,380px),transparent min(80vmin,640px));opacity:0;transform:scale(.15);transform-origin:var(--cx) var(--cy)}
+.luz{left:var(--cx);top:var(--cy);width:min(170vmin,1300px);aspect-ratio:1;translate:-50% -50%;background:radial-gradient(closest-side,var(--dorado-palido) 0,color-mix(in srgb,var(--rosado-claro) 75%,transparent) 26%,color-mix(in srgb,var(--rosado-claro) 28%,transparent) 58%,transparent 100%);opacity:0;transform:scale(.15)}
 .rayos,.anillo,.chispa{left:var(--cx);top:var(--cy);translate:-50% -50%}
 .rayos{width:min(125vmax,1250px);aspect-ratio:1;opacity:0}
 .anillo{width:min(var(--a),130vmax);aspect-ratio:1;opacity:0}
@@ -100,13 +100,13 @@ button{font:inherit;color:inherit}
 .titulo .ln{display:block;white-space:nowrap}
 .titulo .rell{position:absolute;inset:-.2em -.15em;padding:.2em .15em;opacity:0;-webkit-text-stroke:1.2px var(--tinta);color:transparent;background:linear-gradient(172deg,var(--morado) 20%,var(--rosado-tinta) 95%);-webkit-background-clip:text;background-clip:text}
 .titulo .traz{-webkit-text-stroke:1.3px var(--tinta);color:transparent}
-.l{display:inline-block;overflow:hidden;padding:0 .06em .12em;margin:0 -.06em -.12em;vertical-align:top;transform:translateX(-101%)}
+.l{display:inline-block;overflow:hidden;padding:0 .06em .12em;margin:0 -.06em -.12em;vertical-align:top;transform:translateX(-101%);opacity:0}
 .l>i{display:inline-block;font-style:normal;transform:translateX(101%)}
 .frases{margin:0;font-style:italic;font-size:clamp(17px,2.6vw,22px);line-height:1.5;color:var(--tinta-suave);max-width:34ch}
 .frases span{display:block;opacity:0;transform:translateY(6px)}
 
 .gente{position:relative;z-index:3;justify-self:center;width:min(100%,1180px);height:var(--gh)}
-.pers{position:absolute;bottom:var(--b,0);left:var(--x);height:calc(var(--gh)*var(--h));aspect-ratio:120/200;translate:-50% 0;transform:translateY(115%)}
+.pers{position:absolute;bottom:var(--b,0);left:var(--x);height:calc(var(--gh)*var(--h));aspect-ratio:120/200;translate:-50% 0;transform:translateY(175%)}
 .pers.atras{z-index:1}.pers.frente{z-index:2}
 .salta,.salta svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
 .portada.ola .salta,.portada.ola .salta svg,.portada.fiesta .cf{will-change:transform,opacity}
@@ -132,7 +132,7 @@ button{font:inherit;color:inherit}
 @keyframes abreLuz{to{opacity:1;transform:none}}
 @keyframes rayos{0%{opacity:0;transform:scale(.45) rotate(-10deg)}100%{opacity:1;transform:none}}
 @keyframes anillo{0%{opacity:0;transform:scale(.3)}35%{opacity:.75}100%{opacity:var(--fin,.3);transform:none}}
-@keyframes escribe{to{transform:none}}
+@keyframes escribe{0%{opacity:0}1%,100%{opacity:1}100%{transform:none}}
 @keyframes aparece{to{opacity:1}}
 @keyframes subePers{to{transform:none}}
 @keyframes frase{to{opacity:1;transform:none}}
@@ -194,16 +194,16 @@ button{font:inherit;color:inherit}
   <section class="dia" id="dia" hidden inert aria-label="El día">
     <div class="escena">
       <div class="c cielo" aria-hidden="true"><i class="c-amanecer"></i><i class="c-mediodia"></i><i class="c-atardecer"></i><i class="c-noche"></i></div>
-      <div class="c" aria-hidden="true"><div class="c estrellas"></div><div class="astro luna" style="left:76%;top:12%"></div><div class="astro sol"></div><div class="brillo"></div><div class="rojo"></div></div>
+      <div class="c" aria-hidden="true"><div class="c estrellas"></div><div class="astro luna" style="left:80%;top:44%"></div><div class="astro sol"></div><div class="brillo"></div><div class="rojo"></div></div>
       <div class="c paisaje" aria-hidden="true"></div>
       <div class="c mundo" aria-hidden="true"></div>
+      <div class="c velo velo-tarde" aria-hidden="true"></div>
+      <div class="c velo velo-noche" aria-hidden="true"></div>
+      <div class="c luces" aria-hidden="true"></div>
       <div class="sombra" aria-hidden="true"></div>
       <div class="perrita mia" aria-hidden="true"></div>
       <div class="perrita concha" aria-hidden="true"></div>
       <div class="ella" aria-hidden="true"></div>
-      <div class="c velo velo-tarde" aria-hidden="true"></div>
-      <div class="c velo velo-noche" aria-hidden="true"></div>
-      <div class="c luces" aria-hidden="true"></div>
       <div class="frags"></div>
       <ol class="momentos" aria-label="Momento del día"><li>Solecito</li><li>Cielito</li><li>Negrita</li></ol>
     </div>
@@ -276,8 +276,9 @@ function cambia(u,v){
 }
 
 const falta=document.getElementById('falta');
-let ultimoMin=-1;
+let ultimoMin=-1,detenido=false;
 function tick(){
+  if(detenido)return;
   const resta=Math.max(0,META-Date.now()),r=Math.ceil(resta/1000);
   const d=Math.floor(r/86400),hh=Math.floor(r%86400/3600),mm=Math.floor(r%3600/60),ss=r%60;
   const conDias=d>0;fichas.d.f.hidden=!conDias;
@@ -328,8 +329,9 @@ function armaPortada(){
 }
 
 /* ---------- la gente ---------- */
-const PIEL=['#f0c9a4','#d9a27a','#b97a52','#9a5e3c','#7a4429','#5c3220','#c58e66'];
-const PELO={negro:'#2a1a17',cafe:'#5a3524',castano:'#7b4a2a',gris:'#a39a94',blanco:'#d8d2cc'};
+/* tonos de piel: el de ella (#d9a57c) y matices alrededor */
+const PIEL=['#e6bb94','#d9a57c','#c9946d','#efc9a5','#cf9c74','#bd8862','#e0b08a'];
+const PELO={negro:'#30201a',cafe:'#4a3024',castano:'#5e3d2a',gris:'#a39a94',blanco:'#d8d2cc'};
 const ROPA=[tok('--morado'),tok('--rosado'),tok('--dorado'),tok('--rosado-claro'),tok('--tinta-suave'),'#c98fb0','#b8a0d2',tok('--dorado-palido')];
 /* x en % del ancho; h = altura relativa; fila; piel; pelo; color de pelo; ropa; cuerpo; extra; en celular se oculta si oc */
 const GENTE=[
@@ -337,7 +339,7 @@ const GENTE=[
  {x:16,h:.88,f:'atras',p:5,pelo:'corto',pc:'blanco',r:4,c:'camisa',e:'sombrero',edad:'mayor'},
  {x:27,h:.86,f:'atras',p:1,pelo:'largo',pc:'negro',r:0,c:'vestido',e:'flores',oc:1},
  {x:39,h:.94,f:'atras',p:4,pelo:'rizado',pc:'negro',r:2,c:'camisa',e:''},
- {x:50,h:.98,f:'atras',p:2,pelo:'corto',pc:'cafe',r:6,c:'camisa',e:'hombros'},
+ {x:50,h:.95,f:'atras',p:2,pelo:'corto',pc:'cafe',r:6,c:'camisa',e:''},
  {x:61,h:.84,f:'atras',p:0,pelo:'largo',pc:'castano',r:5,c:'vestido',e:'globo'},
  {x:72,h:.90,f:'atras',p:6,pelo:'corto',pc:'negro',r:0,c:'camisa',e:'fiesta',oc:1},
  {x:83,h:.82,f:'atras',p:5,pelo:'moño',pc:'negro',r:3,c:'vestido',e:'aretes'},
@@ -431,12 +433,15 @@ function luzEnSuCentro(){ // el centro de la luz es el centro del título (se mi
   portada.style.setProperty('--cx',(t.left+t.width/2-p.left)+'px');portada.style.setProperty('--cy',(t.top+t.height/2-p.top)+'px');
 }
 function abrir(saltar){
+  detenido=true; // el contador deja de cambiar mientras sus fichas caen
   armaPortada();
   const cont=document.getElementById('contador');
   portada.hidden=false;portada.inert=false;luzEnSuCentro();
-  dia.hidden=false;dia.inert=false;armaDia();medir();
-  if(saltar){cont.hidden=true;}
+  /* el día se prepara aparte y se muestra cuando la apertura ya terminó, para no quitarle fluidez */
+  const muestraDia=()=>{armaDia();dia.hidden=false;dia.inert=false;medir()};
+  if(saltar){cont.hidden=true;muestraDia()}
   else{
+    setTimeout(muestraDia,quieto.matches?300:5600);
     cont.classList.add('sale');
     cont.querySelectorAll('.pila').forEach((p,k)=>{p.style.setProperty('--dl',(k*85)+'ms');p.style.setProperty('--rot',[-3,2.5,-2,3][k]+'deg')});
     setTimeout(()=>{cont.hidden=true},quieto.matches?160:1000);
@@ -451,7 +456,7 @@ btn.addEventListener('click',()=>{
   abrir(false);
 });
 /* se prepara el dibujo mientras ella mira el contador, para que la apertura no espere */
-if(ABIERTO)(window.requestIdleCallback||setTimeout)(armaPortada);
+if(ABIERTO)(window.requestIdleCallback||setTimeout)(()=>{armaPortada();(window.requestIdleCallback||setTimeout)(armaDia)});
 /* ?fase=portada (con abierto): salta directo a la apertura, solo para pruebas */
 if(ABIERTO&&(q.get('fase')==='portada'||/portada/.test(h)))abrir(true);
 /* ?fase=dia&f=7.5 (con abierto): salta al día en ese punto, solo para pruebas */
